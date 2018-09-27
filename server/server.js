@@ -1,8 +1,8 @@
 const express = require('express');
-const bodyparser = require('body-parser');
+// const bodyparser = require('body-parser');
 
 const app = express();
-const db = require('./../database/database.js');
+// const db = require('./../database/database.js');
 
 const port = 5678;
 

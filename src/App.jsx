@@ -11,5 +11,5 @@ class App extends React.Component {
     return <div>Hello, World!</div>;
   }
 }
-
+const { document } = global;
 ReactDOM.render(<App />, document.getElementById('app'));

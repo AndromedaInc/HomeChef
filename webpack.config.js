@@ -8,7 +8,7 @@ module.exports = {
   entry: `${SRC_DIR}/App.jsx`,
   output: {
     path: DIST_DIR,
-    filename: 'main.js'
+    filename: 'main.js',
   },
   module: {
     rules: [
@@ -16,26 +16,26 @@ module.exports = {
         test: /\.jsx$/, // the $ matches the preceding item zero or one time, so this regex also searches for js files too
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader'
-        }
+          loader: 'babel-loader',
+        },
       },
       {
         test: /\.html$/,
         use: [
           {
-            loader: 'html-loader'
-          }
-        ]
-      }
-    ]
+            loader: 'html-loader',
+          },
+        ],
+      },
+    ],
   },
   resolve: {
-    extensions: ['.js', '.jsx']
+    extensions: ['.js', '.jsx'],
   },
   plugins: [
     new HtmlWebPackPlugin({
       template: `${SRC_DIR}/index.html`,
-      filename: `${DIST_DIR}/index.html`
-    })
-  ]
+      filename: `${DIST_DIR}/index.html`,
+    }),
+  ],
 };

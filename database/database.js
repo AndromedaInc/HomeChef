@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 
 const orm = new Sequelize('HomeChef', 'root', '', {
-  dialect: 'mysql'
+  dialect: 'mysql',
 });
 
 orm
@@ -9,7 +9,7 @@ orm
   .then(() => {
     console.log('Connection has been established successfully.');
   })
-  .catch(err => {
+  .catch((err) => {
     console.error('Unable to connect to the database:', err);
   });
 
