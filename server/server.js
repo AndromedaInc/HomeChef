@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 // const db = require('./../database/database.js');
 
-const port = 5678;
+const port = process.env.PORT || 5678;
 
 app.use(express.static(`${__dirname}/../dist`));
 
