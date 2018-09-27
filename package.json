@@ -4,8 +4,9 @@
   "description": "",
   "scripts": {
     "dev-build": "webpack --mode development --watch",
-    "lint": "eslint 'src/*.jsx' database server",
     "dev-server": "nodemon server/server.js",
+    "lint": "eslint 'src/*.jsx' database server",
+    "postinstall": "webpack --mode production",
     "start": "node server/server.js",
     "test": "npm run lint"
   },
