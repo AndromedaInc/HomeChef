@@ -1,7 +1,10 @@
 import ChefAuth from './auth/ChefAuth';
-import ConsumerAuth from './auth/ConsumerAuth';
+// import ConsumerAuth from './auth/ConsumerAuth';
 import ChefHome from './chefs/ChefHome';
 import ConsumerHome from './consumers/ConsumersHome';
+import importComponent from './codeSplittingHelper';
+
+const ConsumerAuth = importComponent('./auth/ConsumerAuth');
 
 export default [
   { path: '/', component: ConsumerAuth, exact: true },
