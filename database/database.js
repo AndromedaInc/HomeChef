@@ -19,6 +19,4 @@ orm
     console.error('Unable to connect to the database:', err);
   });
 
-// ooh database stuff
-
 exports.connection = orm;
