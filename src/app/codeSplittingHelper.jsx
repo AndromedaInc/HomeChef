@@ -1,9 +1,13 @@
 import React from 'react';
 import Loadable from 'react-loadable';
 
-export default pathToModule => {
+const LoadableComponent = pathToModule => {
+  console.log('pathToModule is', pathToModule);
+  console.log('import is', import(pathToModule));
   return Loadable({
-    loader: () => import(pathToModule),
+    loader: () => import(/* webpackChunkName: "dashboardChunk" */ pathToModule),
     loading: () => <div>Loading...</div>,
   })
 }
+
+export default LoadableComponent
