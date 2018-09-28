@@ -1,4 +1,5 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const path = require('path');
 
 const SRC_DIR = path.join(__dirname, './src');
@@ -33,6 +34,7 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   plugins: [
+    new CleanWebpackPlugin(['dist']),
     new HtmlWebPackPlugin({
       template: `${SRC_DIR}/index.html`,
       filename: `${DIST_DIR}/index.html`,
