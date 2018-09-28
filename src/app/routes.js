@@ -1,15 +1,12 @@
 import ChefAuth from './auth/ChefAuth';
-// import ConsumerAuth from './auth/ConsumerAuth';
+import UserAuth from './auth/UserAuth';
 import ChefHome from './chefs/ChefHome';
-import ConsumerHome from './consumers/ConsumersHome';
-import importComponent from './codeSplittingHelper';
-
-const ConsumerAuth = importComponent('./auth/ConsumerAuth');
+import UserHome from './users/UserHome';
 
 export default [
-  { path: '/', component: ConsumerAuth, exact: true },
-  { path: '/auth/consumer', component: ConsumerAuth, exact: true },
+  { path: '/', component: UserAuth, exact: true },
+  { path: '/auth/user', component: UserAuth, exact: true },
   { path: '/auth/chef', component: ChefAuth, exact: true },
   { path: '/chef', component: ChefHome, exact: true },
-  { path: '/consumer', component: ConsumerHome, exact: true },
+  { path: '/user', component: UserHome, exact: true },
 ];

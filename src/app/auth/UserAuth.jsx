@@ -1,16 +1,16 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
-const ConsumerAuth = () => (
+const UserAuth = () => (
   <Fragment>
-    <div>Consumer Login Here</div>
+    <div>User Login Here</div>
     <Link to="/auth/chef">
       <button type="button">Go to login as a Chef</button>
     </Link>
-    <Link to="/consumer">
+    <Link to="/user">
       <button type="button">Login</button>
     </Link>
   </Fragment>
 );
 
-export default ConsumerAuth;
+export default UserAuth;
