@@ -26,9 +26,9 @@ class MakeReservation extends React.Component {
 
   makeReservation() {
     const { selection } = this.state;
-    const { consumer } = this.props;
+    const { user } = this.props;
     axios.post('/api/consumer/reservation', {
-      id: consumer.id,
+      id: user.id,
       selection,
     })
       .then(() => console.log('reservation saved'))

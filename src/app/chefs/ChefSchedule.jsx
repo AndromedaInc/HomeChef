@@ -50,6 +50,7 @@ class ChefSchedule extends React.Component {
                 return (
                   <div key={item.id}>
                     {item.name} //TODO: make this a link to view/edit menuItem?
+                    {item.price}
                     {item.quantity}
                   </div>
                 );
