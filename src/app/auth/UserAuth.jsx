@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 const UserAuth = () => (
   <Fragment>
     <div>User Login Here</div>
-    <Link to="/auth/chef">
+    <Link to="/chefauth">
       <button type="button">Go to login as a Chef</button>
     </Link>
     <Link to="/user">

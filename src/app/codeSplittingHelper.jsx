@@ -1,13 +1,18 @@
-import React from 'react';
-import Loadable from 'react-loadable';
+import React, { Component } from 'react';
 
-const LoadableComponent = pathToModule => {
-  console.log('pathToModule is', pathToModule);
-  console.log('import is', import(pathToModule));
-  return Loadable({
-    loader: () => import(/* webpackChunkName: "dashboardChunk" */ pathToModule),
-    loading: () => <div>Loading...</div>,
-  })
-}
+export default getImportedComponent => class extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { ImportedComponent: null };
+  }
 
-export default LoadableComponent
+  async componentDidMount() {
+    const { default: ImportedComponent } = await getImportedComponent();
+    this.setState({ ImportedComponent });
+  }
+
+  render() {
+    const { ImportedComponent } = this.state;
+    return ImportedComponent ? <ImportedComponent {...this.props} /> : null;
+  }
+};
