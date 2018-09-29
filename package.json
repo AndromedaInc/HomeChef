@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "dev-build": "webpack --mode development --watch",
-    "dev-server": "nodemon --exec babel-node --presets env server/server.js",
+    "dev-server": "nodemon --inspect --exec babel-node --presets env server/server.js",
     "lint": "eslint 'src/*.jsx' database server",
     "postinstall": "webpack --mode production",
     "start": "node server/server.js",

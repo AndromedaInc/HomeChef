@@ -21,9 +21,9 @@ class AsyncRoute extends Component {
 
   componentDidMount() {
     const { loadingPromise } = this.props;
-    console.log(loadingPromise, this.component);
+    // console.log(loadingPromise, this.component);
     loadingPromise.then((module) => {
-      console.log('module is', module);
+      // console.log('module is', module);
       this.component = module.default;
       this.setState({ loaded: true });
     });
@@ -32,7 +32,7 @@ class AsyncRoute extends Component {
   render() {
     const { props } = this.props;
     const { loaded } = this.state;
-    console.log('Async route is rendering with props: ', props, 'and loadingPromise', this.props.loadingPromise);
+    // console.log('Async route is rendering with props: ', props, 'and loadingPromise', this.props.loadingPromise);
     if (loaded) {
       return <this.component {...props} />;
     }
@@ -40,5 +40,5 @@ class AsyncRoute extends Component {
   }
 }
 
-export default AsyncRoute
-;
+export default AsyncRoute;
+
