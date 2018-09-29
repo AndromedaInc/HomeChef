@@ -1,14 +1,18 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const path = require('path');
 
 const SRC_DIR = path.join(__dirname, './src');
 const DIST_DIR = path.join(__dirname, './dist');
 
 module.exports = {
-  entry: `${SRC_DIR}/index.jsx`,
+  entry: {
+    main: `${SRC_DIR}/index.jsx`,
+  },
   output: {
     path: DIST_DIR,
-    filename: 'main.js',
+    filename: '[name].bundle.js',
+    chunkFilename: '[name].bundle.js',
   },
   module: {
     rules: [
@@ -33,6 +37,7 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   plugins: [
+    new CleanWebpackPlugin(['dist']),
     new HtmlWebPackPlugin({
       template: `${SRC_DIR}/index.html`,
       filename: `${DIST_DIR}/index.html`,
