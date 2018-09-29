@@ -18,8 +18,8 @@ class UserAuth extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      customerUsername: '',
-      customerPassword: ''
+      username: '',
+      userPassword: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -42,21 +42,21 @@ class UserAuth extends React.Component {
           <button type="button">Login as a Chef</button>
         </Link>
         <form onSubmit={this.handleSubmit}>
-          <div className="customer-login">
+          <div className="user-login">
             <h3>Login as a User</h3>
             <div>
               Username: <br />
               <input
-                name="customerUsername"
-                value={this.state.customerUsername}
+                name="username"
+                value={this.state.username}
                 onChange={this.handleChange}
               />
             </div>
             <div>
               Password: <br />
               <input
-                name="customerPassword"
-                value={this.state.customerPassword}
+                name="userPassword"
+                value={this.state.userPassword}
                 type="password"
                 onChange={this.handleChange}
               />

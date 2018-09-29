@@ -26,17 +26,24 @@ class UserHome extends React.Component {
           chefDescription: 'I WANT PAD THAI!!!!!!!!!!!!!',
           chefHours: '12:30-1:30pm, 5:30-6:30pm'
         }
-      ]
+      ],
+      currentChef: '',
+      username: ''
     };
+    this.handleClick = this.handleClick.bind(this);
   }
   componentDidMount() {
     // axios.get('/api/chefs', (req, res) => {});
   }
+  handleClick() {}
   render() {
     return (
       <div>
         <h2>HomeChef</h2>
-        <UsersChefList chefs={this.state.chefs} />
+        <UsersChefList
+          handleClick={this.handleClick}
+          chefs={this.state.chefs}
+        />
       </div>
     );
   }

@@ -8,10 +8,14 @@ class UsersChefList extends React.Component {
   render() {
     return this.props.chefs.map(chef => {
       return (
-        <div>
-          Chef: {chef.chefUsername}, Address: {chef.chefAddress}, Description:{' '}
-          {chef.chefDescription}, Hours: {chef.chefHours}
-        </div>
+        <ul>
+          <li>
+            <div onClick={this.props.handleClick}>
+              Chef: {chef.chefUsername}, Address: {chef.chefAddress},
+              Description: {chef.chefDescription}, Hours: {chef.chefHours}
+            </div>
+          </li>
+        </ul>
       );
     });
   }
