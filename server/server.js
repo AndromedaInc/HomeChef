@@ -6,7 +6,7 @@ const ReactDOMServer = require('react-dom/server');
 const ReactRouter = require('react-router-dom');
 const _ = require('lodash');
 const fs = require('fs');
-const ClientApp = require('../src/app/app').default;
+const App = require('../src/app/app').default;
 
 const { StaticRouter } = ReactRouter;
 const baseTemplate = fs.readFileSync(`${__dirname}/../src/index.html`);
@@ -30,16 +30,17 @@ app.use((req, res) => {
   console.log(req.url);
   const context = {};
   const body = ReactDOMServer.renderToString(
-    React.createElement(StaticRouter, { location: req.url, context }, React.createElement(ClientApp))
+    // eslint-disable max-len
+    React.createElement(StaticRouter, { location: req.url, context }, React.createElement(App)),
   );
 
   if (context.url) {
     res.redirect(301, context.url);
   }
 
-  res.write(template({body}));
+  res.write(template({ body }));
   res.end();
-})
+});
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
