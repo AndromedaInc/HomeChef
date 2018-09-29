@@ -5,9 +5,10 @@ const ReactDOMServer = require('react-dom/server');
 const ReactRouter = require('react-router-dom');
 const _ = require('lodash');
 const fs = require('fs');
-const { buildSchema } = require('graphql');
-const graphqlHTTP = require('express-graphql');
+// const graphqlHTTP = require('express-graphql');
+// const { GraphQLServer } = require('graphql-yoga');
 const bodyParser = require('body-parser');
+// const gqlSchema = require('./schema.js');
 const App = require('../src/app/app').default;
 
 const { StaticRouter } = ReactRouter;
@@ -15,30 +16,23 @@ const baseTemplate = fs.readFileSync(`${__dirname}/../src/index.html`);
 const template = _.template(baseTemplate); // returns a function
 
 const app = express();
-// const db = require('./../database/database.js');
 const port = process.env.PORT || 5678;
 
 app.use('/public', express.static(`${__dirname}/../public`));
 app.use(bodyParser.json());
 
-// GraphQL Schema
-const schema = buildSchema(`
-  type Schedule {
-    hello: String,
-  }
-`);
-
-// GraphQL root provides a resolver function for each API endpoint
-const root = {
-  hello: () => 'Hello world!',
-};
-
 // can play with GraphQL queries in the browser at localhost:5678/graphql
-app.use('/graphql', graphqlHTTP({
-  schema,
-  rootValue: root,
-  graphiql: true,
-}));
+// app.use('/graphql', graphqlHTTP({
+//   schema: gqlSchema.schema,
+//   resolvers: '/resolvers.js',
+//   graphiql: true,
+// }));
+
+// const server = new GraphQLServer({
+//   typeDefs: './server/schema.graphql',
+//   resolvers: './server/resolvers.js',
+// });
+// server.start(() => console.log('Server is running on http://localhost:4000'));
 
 app.get('/api/chef/schedule', (req, res) => {
   console.log(req.params);

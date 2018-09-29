@@ -1,0 +1,19 @@
+type Query {
+  chefSchedule(chefId: ID!): ChefSchedule
+}
+type ChefSchedule {
+  eventId: ID!
+  date: String
+  startTime: String
+  endTime: String
+  menuItems(chefId: ID!): [MenuItem!] 
+}
+type MenuItem {
+  menuItemId: ID!
+  name: String
+  description: String
+  imageUrl: String
+  price: Int
+  quantity: Int
+  reservations: Int
+}

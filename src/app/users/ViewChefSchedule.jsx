@@ -8,6 +8,7 @@ class ViewChefSchedule extends React.Component {
     super(props);
     this.state = {
       schedule: sampleData,
+      user: { id: 1, name: 'Jane Doe' }, // eventually will want to get user from prior component 
     };
   }
 
@@ -17,7 +18,7 @@ class ViewChefSchedule extends React.Component {
 
   // getSchedule() {
   //   const chef = { this.props };
-  //   graphql.get(`/api/chef/schedule?query={chefSchedule(id:${chef.id}) {
+  //   graphql.get(`/gql/chef/schedule?query={chefSchedule(id:${chef.id}) {
   //     eventId
   //     date (sort by date?)
   //     startTime (then by time?)
@@ -36,7 +37,7 @@ class ViewChefSchedule extends React.Component {
   // }
 
   render() {
-    const { schedule } = this.state;
+    const { schedule, user } = this.state;
     return (
       <table>
         <tr>
@@ -73,8 +74,9 @@ class ViewChefSchedule extends React.Component {
               </td>
               <td>
                 <Link to={{
-                  pathname: '/user/reservation',
-                  state: { event },
+                  pathname: '/user/chefschedule/reservation',
+                  state: { event, user },
+                  // props: { user },
                 }}>
                   <button type="button">Make Reservation</button>
                 </Link>

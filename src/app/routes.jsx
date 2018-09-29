@@ -1,10 +1,18 @@
 import React from 'react';
 import UserAuth from './auth/UserAuth';
+<<<<<<< HEAD
 // import ChefAuth from './auth/ChefAuth';
 // import ChefHome from './chefs/ChefHome';
 // import UserHome from './users/UserHome';
 // import ViewChefSchedule from './users/ViewChefSchedule';
 import AsyncRoute from './AsyncRoute';
+=======
+import ChefAuth from './auth/ChefAuth';
+import ChefHome from './chefs/ChefHome';
+import UserHome from './users/UserHome';
+import ViewChefSchedule from './users/ViewChefSchedule';
+import MakeReservation from './users/MakeReservation';
+>>>>>>> Add graphQL schema and resolvers -- not yet working
 
 // import Loadable from 'react-loadable';
 // const UserAuth = () => Loadable({
@@ -48,4 +56,5 @@ export default [
   { path: '/public/chef', component: ChefHome, exact: true },
   { path: '/public/user', component: UserHome, exact: true },
   { path: '/public/user/chefschedule', component: ViewChefSchedule, exact: true },
+  { path: '/public/user/chefschedule/reservation', component: MakeReservation, exact: true },
 ];
