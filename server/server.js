@@ -16,6 +16,8 @@ const baseTemplate = fs.readFileSync(`${__dirname}/../src/index.html`);
 const template = _.template(baseTemplate); // returns a function
 
 const app = express();
+// const db = require('./../database/database.js');
+
 const port = process.env.PORT || 5678;
 
 app.use('/public', express.static(`${__dirname}/../public`));
@@ -39,7 +41,11 @@ app.use((req, res) => {
   const context = {};
   const body = ReactDOMServer.renderToString(
     // eslint-disable max-len
-    React.createElement(StaticRouter, { location: req.url, context }, React.createElement(App)),
+    React.createElement(
+      StaticRouter,
+      { location: req.url, context },
+      React.createElement(App)
+    )
   );
 
   if (context.url) {

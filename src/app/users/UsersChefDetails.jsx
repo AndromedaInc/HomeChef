@@ -1,3 +1,4 @@
+import React from 'react';
 class UsersChefDetails extends React.Component {
   constructor(props) {
     super(props);

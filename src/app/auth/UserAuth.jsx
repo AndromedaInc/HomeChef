@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 
-<<<<<<< HEAD
 const UserAuth = () => (
   <Fragment>
     <div>User Login Here</div>
@@ -13,7 +12,6 @@ const UserAuth = () => (
     </Link>
   </Fragment>
 );
-=======
 class UserAuth extends React.Component {
   constructor(props) {
     super(props);
@@ -38,7 +36,7 @@ class UserAuth extends React.Component {
   render() {
     return (
       <Fragment>
-        <Link to="/auth/chef">
+        <Link to="/chefauth">
           <button type="button">Login as a Chef</button>
         </Link>
         <form onSubmit={this.handleSubmit}>
@@ -70,6 +68,5 @@ class UserAuth extends React.Component {
     );
   }
 }
->>>>>>> refactor for user/chef and add 3 sample chefs
 
 export default UserAuth;
