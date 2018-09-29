@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ChefSchedule from './ChefSchedule';
 
 // const ChefHome = () => <div>Chef Home View Here</div>;
 
@@ -99,6 +100,7 @@ class ChefHome extends Component {
           <button type="submit">Save</button>
           <button type="button" onClick={this.onDelete}>Delete</button>
         </form>
+        <ChefSchedule />
       </div>
     );
   }

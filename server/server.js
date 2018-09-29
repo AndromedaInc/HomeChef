@@ -1,11 +1,13 @@
 require('babel-register');
 const express = require('express');
-// const bodyparser = require('body-parser');
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 const ReactRouter = require('react-router-dom');
 const _ = require('lodash');
 const fs = require('fs');
+const { buildSchema } = require('graphql');
+const graphqlHTTP = require('express-graphql');
+const bodyParser = require('body-parser');
 const App = require('../src/app/app').default;
 
 const { StaticRouter } = ReactRouter;
@@ -13,16 +15,33 @@ const baseTemplate = fs.readFileSync(`${__dirname}/../src/index.html`);
 const template = _.template(baseTemplate); // returns a function
 
 const app = express();
-const db = require('./../database/database.js');
-
+// const db = require('./../database/database.js');
 const port = process.env.PORT || 5678;
 
 app.use('/public', express.static(`${__dirname}/../public`));
+app.use(bodyParser.json());
 
-// Test Database:
-app.post('/test', (req, res) => {
-  db.Chef.create({ name: 'sarah silva', username: 'chefsarah' });
-  console.log('creating chef');
+// GraphQL Schema
+const schema = buildSchema(`
+  type Schedule {
+    hello: String,
+  }
+`);
+
+// GraphQL root provides a resolver function for each API endpoint
+const root = {
+  hello: () => 'Hello world!',
+};
+
+// can play with GraphQL queries in the browser at localhost:5678/graphql
+app.use('/graphql', graphqlHTTP({
+  schema,
+  rootValue: root,
+  graphiql: true,
+}));
+
+app.get('/api/chef/schedule', (req, res) => {
+  console.log(req.params);
   res.end();
 });
 

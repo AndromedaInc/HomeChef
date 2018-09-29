@@ -3,6 +3,7 @@ import UserAuth from './auth/UserAuth';
 // import ChefAuth from './auth/ChefAuth';
 // import ChefHome from './chefs/ChefHome';
 // import UserHome from './users/UserHome';
+// import ViewChefSchedule from './users/ViewChefSchedule';
 import AsyncRoute from './AsyncRoute';
 
 // import Loadable from 'react-loadable';
@@ -46,4 +47,5 @@ export default [
   { path: '/public/chefauth', component: ChefAuth, exact: true },
   { path: '/public/chef', component: ChefHome, exact: true },
   { path: '/public/user', component: UserHome, exact: true },
+  { path: '/public/user/chefschedule', component: ViewChefSchedule, exact: true },
 ];
