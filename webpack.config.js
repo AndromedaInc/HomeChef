@@ -3,7 +3,7 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const path = require('path');
 
 const SRC_DIR = path.join(__dirname, './src');
-const DIST_DIR = path.join(__dirname, './dist');
+const DIST_DIR = path.join(__dirname, './public');
 
 module.exports = {
   entry: {
@@ -37,7 +37,7 @@ module.exports = {
     extensions: ['.js', '.jsx'],
   },
   plugins: [
-    new CleanWebpackPlugin(['dist']),
+    new CleanWebpackPlugin(['public']),
     new HtmlWebPackPlugin({
       template: `${SRC_DIR}/index.html`,
       filename: `${DIST_DIR}/index.html`,
