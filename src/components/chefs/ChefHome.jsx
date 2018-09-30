@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import ChefSchedule from './ChefSchedule';
+import React, { Component } from "react";
+import ChefSchedule from "../../app/chefs/ChefSchedule";
 
 // const ChefHome = () => <div>Chef Home View Here</div>;
 
@@ -8,13 +8,13 @@ class ChefHome extends Component {
     super(props);
 
     this.state = {
-      streetAddress: '',
-      city: '',
-      stateName: '',
+      streetAddress: "",
+      city: "",
+      stateName: "",
       zip: 0,
-      cuisine: '',
-      id: '',
-      edit: false,
+      cuisine: "",
+      id: "",
+      edit: false
     };
 
     this.onChange = this.onChange.bind(this);
@@ -24,14 +24,14 @@ class ChefHome extends Component {
 
   onChange(e) {
     this.setState({
-      [e.target.name]: e.target.value,
+      [e.target.name]: e.target.value
     });
   }
 
   toggleEditAccount() {
     const { edit } = this.state;
     this.setState({
-      edit: !edit,
+      edit: !edit
     });
   }
 
@@ -48,37 +48,68 @@ class ChefHome extends Component {
       stateName,
       zip,
       cuisine,
-      id,
+      id
     } = this.state;
-    const editButton = edit ? 'Save' : 'Edit your account';
+    const editButton = edit ? "Save" : "Edit your account";
 
     return (
       <div>
         <h1>What's Cooking?</h1>
-        <button type="button" value={editButton} onClick={this.toggleEditAccount}>Manage your account</button>
+        <button
+          type="button"
+          value={editButton}
+          onClick={this.toggleEditAccount}
+        >
+          Manage your account
+        </button>
         <form onSubmit={this.handleSubmit}>
           <h3>Address</h3>
           <label htmlFor="address">
             Street Address:
-            <input type="text" name="streetAddress" value={streetAddress} onChange={this.onChange} />
+            <input
+              type="text"
+              name="streetAddress"
+              value={streetAddress}
+              onChange={this.onChange}
+            />
           </label>
           <label htmlFor="city">
             City:
-            <input type="text" name="city" value={city} onChange={this.onChange} />
+            <input
+              type="text"
+              name="city"
+              value={city}
+              onChange={this.onChange}
+            />
           </label>
           <label htmlFor="stateName">
             State:
-            <input type="text" name="stateName" value={stateName} onChange={this.onChange} />
+            <input
+              type="text"
+              name="stateName"
+              value={stateName}
+              onChange={this.onChange}
+            />
           </label>
           <label htmlFor="zip">
             Zip:
-            <input type="text" name="zip" value={zip} onChange={this.onChange} />
+            <input
+              type="text"
+              name="zip"
+              value={zip}
+              onChange={this.onChange}
+            />
           </label>
           <br />
           <h3>Cuisine</h3>
           <label htmlFor="cuisine">
             How do you describe your food?
-            <input type="textarea" name="cuisine" value={cuisine} onChange={this.onChange} />
+            <input
+              type="textarea"
+              name="cuisine"
+              value={cuisine}
+              onChange={this.onChange}
+            />
           </label>
           <br />
           {/* <label htmlFor="distance">
@@ -98,7 +129,9 @@ class ChefHome extends Component {
           <br /> */}
           <input type="hidden" name="id" value={id} onChange={this.onChange} />
           <button type="submit">Save</button>
-          <button type="button" onClick={this.onDelete}>Delete</button>
+          <button type="button" onClick={this.onDelete}>
+            Delete
+          </button>
         </form>
         <ChefSchedule />
       </div>
