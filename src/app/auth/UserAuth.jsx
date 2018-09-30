@@ -1,5 +1,5 @@
-import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Fragment } from "react";
+import { Link } from "react-router-dom";
 
 const UserAuth = () => (
   <Fragment>
@@ -16,8 +16,8 @@ class UserAuth extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      userPassword: ''
+      username: "",
+      userPassword: ""
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -36,7 +36,7 @@ class UserAuth extends React.Component {
   render() {
     return (
       <Fragment>
-        <Link to="/chefauth">
+        <Link to="/public/chefauth">
           <button type="button">Login as a Chef</button>
         </Link>
         <form onSubmit={this.handleSubmit}>
@@ -59,7 +59,7 @@ class UserAuth extends React.Component {
                 onChange={this.handleChange}
               />
             </div>
-            <Link to="/user">
+            <Link to="/public/user">
               <button type="button">Login</button>
             </Link>
           </div>
