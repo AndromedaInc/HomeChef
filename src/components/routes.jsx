@@ -1,11 +1,18 @@
 import React from 'react';
 import UserAuth from './auth/UserAuth';
+<<<<<<< HEAD:src/app/routes.jsx
 // import ChefAuth from './auth/ChefAuth';
 // import ChefHome from './chefs/ChefHome';
 // import UserHome from './users/UserHome';
 // import ViewChefSchedule from './users/ViewChefSchedule';
 // import MakeReservation from './users/MakeReservation';
 import AsyncRoute from './AsyncRoute';
+=======
+import ChefAuth from './auth/ChefAuth';
+import ChefHome from './chefs/ChefHome';
+import UserHome from './users/UserHome';
+import UsersChefDetails from './users/UsersChefDetails';
+>>>>>>> add basic redux structure and dependencies:src/components/routes.jsx
 
 // import Loadable from 'react-loadable';
 // const UserAuth = () => Loadable({
