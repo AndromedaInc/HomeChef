@@ -5,10 +5,9 @@ const ReactDOMServer = require('react-dom/server');
 const ReactRouter = require('react-router-dom');
 const _ = require('lodash');
 const fs = require('fs');
-// const graphqlHTTP = require('express-graphql');
-// const { GraphQLServer } = require('graphql-yoga');
+const graphqlHTTP = require('express-graphql');
 const bodyParser = require('body-parser');
-// const gqlSchema = require('./schema.js');
+const gqlSchema = require('./schema.js');
 const App = require('../src/app/app').default;
 
 const { StaticRouter } = ReactRouter;
@@ -24,17 +23,10 @@ app.use('/public', (req, res, next) => console.log(req) || next(), express.stati
 app.use(bodyParser.json());
 
 // can play with GraphQL queries in the browser at localhost:5678/graphql
-// app.use('/graphql', graphqlHTTP({
-//   schema: gqlSchema.schema,
-//   resolvers: '/resolvers.js',
-//   graphiql: true,
-// }));
-
-// const server = new GraphQLServer({
-//   typeDefs: './server/schema.graphql',
-//   resolvers: './server/resolvers.js',
-// });
-// server.start(() => console.log('Server is running on http://localhost:4000'));
+app.use('/graphql', graphqlHTTP({
+  schema: gqlSchema,
+  graphiql: true,
+}));
 
 app.use((req, res) => {
   console.log('inside catchall', req.url);

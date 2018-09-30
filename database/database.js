@@ -46,7 +46,7 @@ const Chef = orm.define('chef', {
 });
 
 const Event = orm.define('event', {
-  date: Sequelize.DATEONLY,
+  date: Sequelize.STRING,
   startTime: Sequelize.STRING,
   endTime: Sequelize.STRING,
   // foreign key auto created: chefId
@@ -111,7 +111,7 @@ ItemEvent.hasOne(Event);
 
 MenuItem.hasOne(Chef);
 MenuItem.hasMany(Order);
-MenuItem.hasOne(ItemEvent);
+MenuItem.belongsTo(ItemEvent);
 
 Order.hasOne(ItemEvent);
 Order.hasOne(Transaction);
