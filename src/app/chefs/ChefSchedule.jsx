@@ -38,52 +38,57 @@ class ChefSchedule extends React.Component {
     const { schedule } = this.state;
     return (
       <table>
-        <tr>
-          <th>Date</th>
-          <th>Start Time</th>
-          <th>End Time</th>
-        </tr>
-        {schedule.map((event) => {
-          return (
-            <tr key={event.id}>
-              <td>{event.date}</td>
-              <td>{event.startTime}</td>
-              <td>{event.endTime}</td>
-              <td>
-                <tr>
-                  <tr>
-                    <th>Dish</th>
-                    <th>Price</th>
-                    <th>Total Quantity</th>
-                    <th>Reservations</th>
-                  </tr>
-                  {event.menuItems.map((item) => {
-                    return (
-                      <tr key={item.id}>
-                        <td>{item.name}</td>
-                        <td>
-                          <span>$</span>
-                          {item.price}
-                        </td>
-                        <td>{item.quantity}</td>
-                        <td>{item.reservations}</td>
+        <tbody>
+          <tr>
+            <th>Date</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Menu Items</th>
+          </tr>
+          {schedule.map((event) => {
+            return (
+              <tr key={event.id}>
+                <td>{event.date}</td>
+                <td>{event.startTime}</td>
+                <td>{event.endTime}</td>
+                <td>
+                  <table>
+                    <tbody>
+                      <tr>
+                        <th>Dish</th>
+                        <th>Price</th>
+                        <th>Total Quantity</th>
+                        <th>Reservations</th>
                       </tr>
-                    );
-                  })}
-                </tr>
-              </td>
-              <td>
-                <Link to={{
-                  pathname: '/chef/updateschedule',
-                  state: { event },
-                }}>
-                  <button type="button">Edit</button>
-                </Link>
-              </td>
-            </tr>
-          );
-        })
-        }
+                      {event.menuItems.map((item) => {
+                        return (
+                          <tr key={item.id}>
+                            <td>{item.name}</td>
+                            <td>
+                              <span>$</span>
+                              {item.price}
+                            </td>
+                            <td>{item.quantity}</td>
+                            <td>{item.reservations}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </td>
+                <td>
+                  <Link to={{
+                    pathname: '/chef/updateschedule',
+                    state: { event },
+                  }}>
+                    <button type="button">Edit</button>
+                  </Link>
+                </td>
+              </tr>
+            );
+          })
+          }
+        </tbody>
       </table>
     );
   }

@@ -40,51 +40,56 @@ class ViewChefSchedule extends React.Component {
     const { schedule, user } = this.state;
     return (
       <table>
-        <tr>
-          <th>Date</th>
-          <th>Start Time</th>
-          <th>End Time</th>
-        </tr>
-        {schedule.map((event) => {
-          return (
-            <tr key={event.id}>
-              <td>{event.date}</td>
-              <td>{event.startTime}</td>
-              <td>{event.endTime}</td>
-              <td>
-                <tr>
-                  <tr>
-                    <th>Dish</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                  </tr>
-                  {event.menuItems.map((item) => {
-                    return (
-                      <tr key={item.id}>
-                        <td>{item.name}</td>
-                        <td>
-                          <span>$</span>
-                          {item.price}
-                        </td>
-                        <td>{item.quantity - item.reservations}</td>
+        <tbody>
+          <tr>
+            <th>Date</th>
+            <th>Start Time</th>
+            <th>End Time</th>
+            <th>Menu Items</th>
+          </tr>
+          {schedule.map((event) => {
+            return (
+              <tr key={event.id}>
+                <td>{event.date}</td>
+                <td>{event.startTime}</td>
+                <td>{event.endTime}</td>
+                <td>
+                  <table>
+                    <tbody>
+                      <tr>
+                        <th>Dish</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
                       </tr>
-                    );
-                  })}
-                </tr>
-              </td>
-              <td>
-                <Link to={{
-                  pathname: '/user/chefschedule/reservation',
-                  state: { event, user },
-                  // props: { user },
-                }}>
-                  <button type="button">Make Reservation</button>
-                </Link>
-              </td>
-            </tr>
-          );
-        })
-        }
+                      {event.menuItems.map((item) => {
+                        return (
+                          <tr key={item.id}>
+                            <td>{item.name}</td>
+                            <td>
+                              <span>$</span>
+                              {item.price}
+                            </td>
+                            <td>{item.quantity - item.reservations}</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </td>
+                <td>
+                  <Link to={{
+                    pathname: '/user/chefschedule/reservation',
+                    state: { event, user },
+                    // props: { user },
+                  }}>
+                    <button type="button">Make Reservation</button>
+                  </Link>
+                </td>
+              </tr>
+            );
+          })
+          }
+        </tbody>
       </table>
     );
   }

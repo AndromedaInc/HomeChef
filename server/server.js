@@ -34,11 +34,6 @@ app.use(bodyParser.json());
 // });
 // server.start(() => console.log('Server is running on http://localhost:4000'));
 
-app.get('/api/chef/schedule', (req, res) => {
-  console.log(req.params);
-  res.end();
-});
-
 app.use((req, res) => {
   console.log(req.url);
   const context = {};
