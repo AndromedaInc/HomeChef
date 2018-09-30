@@ -3,6 +3,8 @@ import UserAuth from './auth/UserAuth';
 // import ChefAuth from './auth/ChefAuth';
 // import ChefHome from './chefs/ChefHome';
 // import UserHome from './users/UserHome';
+// import ViewChefSchedule from './users/ViewChefSchedule';
+// import MakeReservation from './users/MakeReservation';
 import AsyncRoute from './AsyncRoute';
 
 // import Loadable from 'react-loadable';
@@ -39,6 +41,8 @@ const ChefAuth = (props) => <AsyncRoute props={props} loadingPromise={import('./
 // const UserAuth = (props) => <AsyncRoute props={props} loadingPromise={import('./auth/UserAuth')} />
 const ChefHome = (props) => <AsyncRoute props={props} loadingPromise={import('./chefs/ChefHome')} />
 const UserHome = (props) => <AsyncRoute props={props} loadingPromise={import('./users/UserHome')} />
+// const ViewChefSchedule = (props) => <AsyncRoute props={props} loadingPromise={import('./users/ChefSchedule')} />
+// const MakeReservation = (props) => <AsyncRoute props={props} loadingPromise={import('./users/MakeReservation')} />
 
 export default [
   { path: '/', component: UserAuth, exact: true },
@@ -46,4 +50,6 @@ export default [
   { path: '/public/chefauth', component: ChefAuth, exact: true },
   { path: '/public/chef', component: ChefHome, exact: true },
   { path: '/public/user', component: UserHome, exact: true },
+  // { path: '/public/user/chefschedule', component: ViewChefSchedule, exact: true },
+  // { path: '/public/user/chefschedule/reservation', component: MakeReservation, exact: true },
 ];

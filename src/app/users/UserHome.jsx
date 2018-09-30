@@ -1,5 +1,6 @@
 import React from 'react';
+import ViewChefSchedule from './ViewChefSchedule';
 
-const UserHome = () => <div>User Home View Here</div>;
+const UserHome = () => <div><ViewChefSchedule /></div>;
 
 export default UserHome;

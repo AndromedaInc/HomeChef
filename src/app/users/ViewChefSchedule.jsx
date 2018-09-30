@@ -3,39 +3,41 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import sampleData from '../sampleData';
 
-class ChefSchedule extends React.Component {
+class ViewChefSchedule extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       schedule: sampleData,
+      user: { id: 1, name: 'Jane Doe' }, // eventually will want to get user from prior component 
     };
   }
 
   componentDidMount() {
-    // fetch events & menuItems for this chef id
-    // axios.get('/api/chef/items-events', {
-    //   params: {
-    //     id: this.menuItem.id,
-    //   },
-    // }).then((data) => {
-    //   console.log(data);
-    //   this.setState({ itemEvents: data });
-    // }).catch(err => console.log(err));
+    // this.getSchedule();
   }
 
-  handleEditMenu(){
-    // redirect to UpdateMenu component
-  }
-
-  handleEditEvent(e, eventId){
-    // redirect to UpdateSchedule
-    
-      // if it is an edit (not add new), 
-        // pass this particular itemEvent obj
-  }
+  // getSchedule() {
+  //   const chef = { this.props };
+  //   graphql.get(`/gql/chef/schedule?query={chefSchedule(id:${chef.id}) {
+  //     eventId
+  //     date (sort by date?)
+  //     startTime (then by time?)
+  //     endTime
+  //     menuItems {
+  //       menuItemId
+  //       name
+  //       description
+  //       imageUrl
+  //       price
+  //       remainingQuantity
+  //     }
+  //   }}`)
+  //   .then( schedule => this.setState({ schedule }))
+  //   .catch( err => console.log(err));
+  // }
 
   render() {
-    const { schedule } = this.state;
+    const { schedule, user } = this.state;
     return (
       <table>
         <tbody>
@@ -57,8 +59,7 @@ class ChefSchedule extends React.Component {
                       <tr>
                         <th>Dish</th>
                         <th>Price</th>
-                        <th>Total Quantity</th>
-                        <th>Reservations</th>
+                        <th>Quantity</th>
                       </tr>
                       {event.menuItems.map((item) => {
                         return (
@@ -68,8 +69,7 @@ class ChefSchedule extends React.Component {
                               <span>$</span>
                               {item.price}
                             </td>
-                            <td>{item.quantity}</td>
-                            <td>{item.reservations}</td>
+                            <td>{item.quantity - item.reservations}</td>
                           </tr>
                         );
                       })}
@@ -78,10 +78,11 @@ class ChefSchedule extends React.Component {
                 </td>
                 <td>
                   <Link to={{
-                    pathname: '/chef/updateschedule',
-                    state: { event },
+                    pathname: '/user/chefschedule/reservation',
+                    state: { event, user },
+                    // props: { user },
                   }}>
-                    <button type="button">Edit</button>
+                    <button type="button">Make Reservation</button>
                   </Link>
                 </td>
               </tr>
@@ -94,4 +95,4 @@ class ChefSchedule extends React.Component {
   }
 }
 
-export default ChefSchedule;
+export default ViewChefSchedule;
