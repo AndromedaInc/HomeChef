@@ -17,7 +17,7 @@ const db = require('./../database/database.js');
 
 const port = process.env.PORT || 5678;
 
-app.use('/dist', express.static(`${__dirname}/../dist`));
+app.use('/public', express.static(`${__dirname}/../public`));
 
 // Test Database:
 app.post('/test', (req, res) => {
