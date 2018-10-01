@@ -17,8 +17,8 @@ const orm = new Sequelize(
   `${process.env.DB_PASS}`,
   {
     host: `${process.env.DB_HOST}`,
-    dialect: 'mysql'
-  }
+    dialect: 'mysql',
+  },
 );
 
 orm
@@ -26,7 +26,7 @@ orm
   .then(() => {
     console.log('Connection has been established successfully.');
   })
-  .catch(err => {
+  .catch((err) => {
     console.error('Unable to connect to the database:', err);
   });
 
@@ -40,7 +40,7 @@ const Chef = orm.define('chef', {
   password: Sequelize.STRING,
   address: Sequelize.TEXT,
   description: Sequelize.TEXT,
-  imageUrl: Sequelize.STRING
+  imageUrl: Sequelize.STRING,
   // payment_info: ?
   // rating: cached
 });
@@ -48,14 +48,14 @@ const Chef = orm.define('chef', {
 const Event = orm.define('event', {
   date: Sequelize.DATEONLY,
   startTime: Sequelize.STRING,
-  endTime: Sequelize.STRING
+  endTime: Sequelize.STRING,
   // foreign key auto created: chefId
 });
 
 const ItemEvent = orm.define('itemEvent', {
   // foreign keys: eventId, menuItemId
   quantity: Sequelize.INTEGER,
-  reservations: Sequelize.INTEGER
+  reservations: Sequelize.INTEGER,
 });
 
 const MenuItem = orm.define('menuItem', {
@@ -63,7 +63,7 @@ const MenuItem = orm.define('menuItem', {
   name: Sequelize.STRING,
   description: Sequelize.TEXT,
   price: Sequelize.INTEGER,
-  imageUrl: Sequelize.STRING
+  imageUrl: Sequelize.STRING,
 });
 
 const Order = orm.define('order', {
@@ -73,7 +73,7 @@ const Order = orm.define('order', {
 const Rating = orm.define('rating', {
   // foreign keys: chefId, userId
   stars: Sequelize.INTEGER,
-  review: Sequelize.TEXT
+  review: Sequelize.TEXT,
 });
 
 const Transaction = orm.define('transaction', {
@@ -82,14 +82,14 @@ const Transaction = orm.define('transaction', {
   total: Sequelize.INTEGER, // or cached?
   tax: Sequelize.INTEGER, // or cached?
   fee: Sequelize.INTEGER, // or cached?
-  tip: Sequelize.INTEGER // or cached?
+  tip: Sequelize.INTEGER, // or cached?
 });
 
 const User = orm.define('user', {
   name: Sequelize.STRING,
   username: Sequelize.STRING,
   password: Sequelize.STRING,
-  imageUrl: Sequelize.STRING
+  imageUrl: Sequelize.STRING,
   // payment_info: ?
 });
 

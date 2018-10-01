@@ -41,11 +41,7 @@ app.use((req, res) => {
   const context = {};
   const body = ReactDOMServer.renderToString(
     // eslint-disable max-len
-    React.createElement(
-      StaticRouter,
-      { location: req.url, context },
-      React.createElement(App)
-    )
+    React.createElement(StaticRouter, { location: req.url, context }, React.createElement(App)),
   );
 
   if (context.url) {
