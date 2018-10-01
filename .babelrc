@@ -11,10 +11,7 @@
       }
     ]
   ],
-  "plugins": [
-    "syntax-dynamic-import",
-    "dynamic-import-webpack",
-  ],
+  "plugins": ["syntax-dynamic-import", "dynamic-import-webpack"],
   "env": {
     "server": {
       "plugins": ["transform-es2015-modules-commonjs"]
