@@ -1,12 +1,12 @@
-import React from "react";
-import axios from "axios";
+import React from 'react';
+import axios from 'axios';
 
 class MakeReservation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       times: [],
-      selection: ""
+      selection: '',
     };
   }
 
@@ -14,12 +14,12 @@ class MakeReservation extends React.Component {
     // fetch times for this menu item
     // TODO: sort most recent first
     axios
-      .get("/api/menu/availability", {
+      .get('/api/menu/availability', {
         params: {
-          id: this.menuItem.id
-        }
+          id: this.menuItem.id,
+        },
       })
-      .then(data => {
+      .then((data) => {
         console.log(data);
         this.setState({ times: data });
       })
@@ -30,11 +30,11 @@ class MakeReservation extends React.Component {
     const { selection } = this.state;
     const { user } = this.props;
     axios
-      .post("/api/consumer/reservation", {
+      .post('/api/consumer/reservation', {
         id: user.id,
-        selection
+        selection,
       })
-      .then(() => console.log("reservation saved"))
+      .then(() => console.log('reservation saved'))
       .catch(err => console.log(err));
   }
 
@@ -53,15 +53,15 @@ class MakeReservation extends React.Component {
         <p>{menuItem.description}</p>
         {menuItem.price}
         <select onChange={this.makeSelection.bind(this)}>
-          {times.map(time => {
-            return (
-              <option key="time.id">
-                {time.date}
-                at
-                {time.start}-{time.end}
-              </option>
-            );
-          })}
+          {times.map(time => (
+            <option key="time.id">
+              {time.date}
+              at
+              {time.start}
+-
+              {time.end}
+            </option>
+          ))}
         </select>
         <button type="submit" onClick={this.makeReservation}>
           Make Reservation

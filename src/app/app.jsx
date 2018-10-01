@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import routes from './routes.jsx';
+import routes from './routes';
 
 const routeOptions = routes.map(({ path, component, exact }) => (
   <Route

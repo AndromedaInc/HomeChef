@@ -1,10 +1,12 @@
 import React from 'react';
+
 class UsersChefDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
     console.log('log:', this.props);
   }
+
   render() {
     return (
       <div>
