@@ -20,7 +20,7 @@ const app = express();
 
 const port = process.env.PORT || 5678;
 
-app.use('/public', express.static(`${__dirname}/../public`));
+app.use('/public', (req, res, next) => console.log(req) || next(), express.static(`${__dirname}/../public`));
 app.use(bodyParser.json());
 
 // can play with GraphQL queries in the browser at localhost:5678/graphql
@@ -37,7 +37,7 @@ app.use(bodyParser.json());
 // server.start(() => console.log('Server is running on http://localhost:4000'));
 
 app.use((req, res) => {
-  console.log(req.url);
+  console.log('inside catchall', req.url);
   const context = {};
   const body = ReactDOMServer.renderToString(
     // eslint-disable max-len

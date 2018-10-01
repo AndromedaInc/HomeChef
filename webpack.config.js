@@ -13,6 +13,7 @@ module.exports = {
     path: DIST_DIR,
     filename: '[name].bundle.js',
     chunkFilename: '[name].bundle.js',
+    publicPath: '/public/',
   },
   module: {
     rules: [
@@ -38,9 +39,9 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(['public']),
-    new HtmlWebPackPlugin({
-      template: `${SRC_DIR}/index.html`,
-      filename: `${DIST_DIR}/index.html`,
-    }),
+    // new HtmlWebPackPlugin({
+    //   template: `${SRC_DIR}/index.html`,
+    //   filename: `${DIST_DIR}/index.html`,
+    // }),
   ],
 };
