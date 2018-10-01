@@ -42,25 +42,26 @@ class ChefHome extends Component {
 
   render() {
     const {
-      edit,
-      streetAddress,
-      city,
-      stateName,
-      zip,
-      cuisine,
-      id,
+      edit, streetAddress, city, stateName, zip, cuisine, id,
     } = this.state;
     const editButton = edit ? 'Save' : 'Edit your account';
 
     return (
       <div>
         <h1>What's Cooking?</h1>
-        <button type="button" value={editButton} onClick={this.toggleEditAccount}>Manage your account</button>
+        <button type="button" value={editButton} onClick={this.toggleEditAccount}>
+          Manage your account
+        </button>
         <form onSubmit={this.handleSubmit}>
           <h3>Address</h3>
           <label htmlFor="address">
             Street Address:
-            <input type="text" name="streetAddress" value={streetAddress} onChange={this.onChange} />
+            <input
+              type="text"
+              name="streetAddress"
+              value={streetAddress}
+              onChange={this.onChange}
+            />
           </label>
           <label htmlFor="city">
             City:
@@ -98,7 +99,9 @@ class ChefHome extends Component {
           <br /> */}
           <input type="hidden" name="id" value={id} onChange={this.onChange} />
           <button type="submit">Save</button>
-          <button type="button" onClick={this.onDelete}>Delete</button>
+          <button type="button" onClick={this.onDelete}>
+            Delete
+          </button>
         </form>
         <ChefSchedule />
       </div>

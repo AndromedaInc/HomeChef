@@ -4,8 +4,9 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './app/app';
 
 const { document } = global;
-hydrate((
+hydrate(
   <BrowserRouter>
     <App />
-  </BrowserRouter>
-), document.getElementById('app'));
+  </BrowserRouter>,
+  document.getElementById('app'),
+);

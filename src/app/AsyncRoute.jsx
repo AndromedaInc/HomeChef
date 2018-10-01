@@ -41,4 +41,3 @@ class AsyncRoute extends Component {
 }
 
 export default AsyncRoute;
-

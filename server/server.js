@@ -16,6 +16,8 @@ const baseTemplate = fs.readFileSync(`${__dirname}/../src/index.html`);
 const template = _.template(baseTemplate); // returns a function
 
 const app = express();
+// const db = require('./../database/database.js');
+
 const port = process.env.PORT || 5678;
 
 app.use('/public', express.static(`${__dirname}/../public`));
