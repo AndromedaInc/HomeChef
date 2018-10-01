@@ -47,7 +47,7 @@ class UserAuth extends React.Component {
     return (
       <Provider store={store}>
         <Fragment>
-          <Link to="/chefauth">
+          <Link to="/public/chefauth">
             <button type="button">Login as a Chef</button>
           </Link>
           <form onSubmit={this.handleSubmit}>
@@ -71,7 +71,7 @@ class UserAuth extends React.Component {
                   onChange={this.handleChange}
                 />
               </div>
-              <Link to="/user">
+              <Link to="/public/user">
                 <button type="button">Login</button>
               </Link>
             </div>
