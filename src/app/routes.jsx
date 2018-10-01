@@ -8,6 +8,10 @@ import UserAuth from './auth/UserAuth';
 // import UsersChefDetails from "./users/UsersChefDetails";
 import AsyncRoute from './AsyncRoute';
 
+// code to handle require.ensure error that would otherwise pop up on server (babel-plugin-dynamic-import-node not working)
+if (typeof require.ensure !== 'function') require.ensure = (d, c) => { c(require); };
+if (typeof require.include !== 'function') require.include = () => { };
+
 // import Loadable from 'react-loadable';
 // const UserAuth = () => Loadable({
 //     loader: () => import('./auth/UserAuth'),
