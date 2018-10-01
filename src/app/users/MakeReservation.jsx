@@ -1,47 +1,41 @@
 import React from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 
 class MakeReservation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      times: [],
-      selection: '',
     };
   }
 
   componentDidMount() {
     // fetch times for this menu item
     // TODO: sort most recent first
-    axios
-      .get('/api/menu/availability', {
-        params: {
-          id: this.menuItem.id,
-        },
-      })
-      .then((data) => {
-        console.log(data);
-        this.setState({ times: data });
-      })
-      .catch(err => console.log(err));
+    // axios.get('/api/menu/availability', {
+    //   params: {
+    //     id: this.menuItem.id,
+    //   },
+    // }).then((data) => {
+    //   console.log(data);
+    //   this.setState({ times: data });
+    // }).catch(err => console.log(err));
   }
 
-  makeReservation() {
-    const { selection } = this.state;
-    const { user } = this.props;
-    axios
-      .post('/api/consumer/reservation', {
-        id: user.id,
-        selection,
-      })
-      .then(() => console.log('reservation saved'))
-      .catch(err => console.log(err));
-  }
 
-  makeSelection(e) {
-    console.log(e.target);
-    this.setState({ selection: e.target });
-  }
+  // makeReservation() {
+  //   const { event, user } = this.props;
+  //   axios.post('/api/consumer/reservation', {
+  //     id: user.id,
+  //     selection,
+  //   })
+  //     .then(() => console.log('reservation saved'))
+  //     .catch((err) => console.log(err));
+  // }
+
+  // makeSelection(e) {
+  //   console.log(e.target);
+  //   this.setState({ selection: e.target});
+  // }
 
   render() {
     const { times } = this.state;
@@ -53,19 +47,20 @@ class MakeReservation extends React.Component {
         <p>{menuItem.description}</p>
         {menuItem.price}
         <select onChange={this.makeSelection.bind(this)}>
-          {times.map(time => (
-            <option key="time.id">
-              {time.date}
-              at
-              {time.start}
--
-              {time.end}
-            </option>
-          ))}
+          {times.map((time) => {
+            return (
+              <option key="time.id">
+                {time.date}
+                at
+                {time.start}
+                -
+                {time.end}
+              </option>
+            );
+          })
+          }
         </select>
-        <button type="submit" onClick={this.makeReservation}>
-          Make Reservation
-        </button>
+        <button type="submit" onClick={this.makeReservation}>Make Reservation</button>
       </div>
     );
   }
