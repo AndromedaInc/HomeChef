@@ -5,7 +5,6 @@ node_modules/
 build/
 dist/
 public/
-dist/
 
 .env
 
