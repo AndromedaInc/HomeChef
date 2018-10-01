@@ -1,17 +1,9 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
-
-const UserAuth = () => (
-  <Fragment>
-    <div>User Login Here</div>
-    <Link to="/public/chefauth">
-      <button type="button">Go to login as a Chef</button>
-    </Link>
-    <Link to="/public/user">
-      <button type="button">Login</button>
-    </Link>
-  </Fragment>
-);
+import { Provider } from "react-redux";
+import store from "../redux/store";
+import Posts from "../redux/sampleComponents/Posts";
+import PostForm from "../redux/sampleComponents/PostForm";
 class UserAuth extends React.Component {
   constructor(props) {
     super(props);
@@ -31,40 +23,63 @@ class UserAuth extends React.Component {
   }
 
   handleSubmit(e) {
-    // e.preventDefault();
+    e.preventDefault();
+    // const post = {
+    //   username: this.state.username,
+    //   password: this.state.password
+    // };
+    // fetch("https://jsonplaceholder.typicode.com/posts", {
+    //   method: "POST",
+    //   headers: {
+    //     "content-type": "application/json"
+    //   },
+    //   body: JSON.stringify(post)
+    // })
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     // if (data) {
+    //     //   redirect: window.location.replace("../user.html");
+    //     // }
+    //     // console.log(data);
+    //   });
   }
   render() {
     return (
-      <Fragment>
-        <Link to="/public/chefauth">
-          <button type="button">Login as a Chef</button>
-        </Link>
-        <form onSubmit={this.handleSubmit}>
-          <div className="user-login">
-            <h3>Login as a User</h3>
-            <div>
-              Username: <br />
-              <input
-                name="username"
-                value={this.state.username}
-                onChange={this.handleChange}
-              />
+      <Provider store={store}>
+        <Fragment>
+          <Link to="/chefauth">
+            <button type="button">Login as a Chef</button>
+          </Link>
+          <form onSubmit={this.handleSubmit}>
+            <div className="user-login">
+              <h3>Login as a User</h3>
+              <div>
+                <label>Username: </label> <br />
+                <input
+                  name="username"
+                  value={this.state.username}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div>
+                <label>Password: </label>
+                <br />
+                <input
+                  name="userPassword"
+                  value={this.state.userPassword}
+                  type="password"
+                  onChange={this.handleChange}
+                />
+              </div>
+              <Link to="/user">
+                <button type="button">Login</button>
+              </Link>
             </div>
-            <div>
-              Password: <br />
-              <input
-                name="userPassword"
-                value={this.state.userPassword}
-                type="password"
-                onChange={this.handleChange}
-              />
-            </div>
-            <Link to="/public/user">
-              <button type="button">Login</button>
-            </Link>
-          </div>
-        </form>
-      </Fragment>
+          </form>
+          {/* <PostForm />
+          <Posts /> */}
+        </Fragment>
+      </Provider>
     );
   }
 }
