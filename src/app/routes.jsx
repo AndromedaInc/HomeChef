@@ -49,8 +49,9 @@ const ChefAuth = props => <AsyncRoute props={props} loadingPromise={import('./au
 const UserAuth = (props) => <AsyncRoute props={props} loadingPromise={import('./auth/UserAuth')} />
 const ChefHome = props => <AsyncRoute props={props} loadingPromise={import('./chefs/ChefHome')} />;
 const UserHome = props => <AsyncRoute props={props} loadingPromise={import('./users/UserHome')} />;
-// const ViewChefSchedule = (props) => <AsyncRoute props={props} loadingPromise={import('./users/ChefSchedule')} />
-// const MakeReservation = (props) => <AsyncRoute props={props} loadingPromise={import('./users/MakeReservation')} />
+const UsersChefDetails = props => <AsyncRoute props={props} loadingPromise={import('./users/UsersChefDetails')} />;
+const ViewChefSchedule = (props) => <AsyncRoute props={props} loadingPromise={import('./users/ViewChefSchedule')} />
+const MakeReservation = (props) => <AsyncRoute props={props} loadingPromise={import('./users/MakeReservation')} />
 
 export default [
   { path: '/', component: UserAuth, exact: true },
@@ -58,6 +59,7 @@ export default [
   { path: '/chefauth', component: ChefAuth, exact: true },
   { path: '/chef', component: ChefHome, exact: true },
   { path: '/user', component: UserHome, exact: true },
-  // { path: '/user/chefschedule', component: ViewChefSchedule, exact: true },
-  // { path: '/user/chefschedule/reservation', component: MakeReservation, exact: true },
+  { path: '/user/chefdetails', component: UsersChefDetails, exact: true },
+  { path: '/user/chefschedule', component: ViewChefSchedule, exact: true },
+  { path: '/user/chefschedule/reservation', component: MakeReservation, exact: true },
 ];

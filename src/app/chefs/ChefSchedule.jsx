@@ -1,5 +1,5 @@
 import React from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import sampleData from '../sampleData';
 
@@ -8,31 +8,31 @@ class ChefSchedule extends React.Component {
     super(props);
     this.state = {
       schedule: sampleData,
+      id: 1,
     };
   }
 
   componentDidMount() {
     // fetch events & menuItems for this chef id
-    // axios.get('/api/chef/items-events', {
-    //   params: {
-    //     id: this.menuItem.id,
-    //   },
-    // }).then((data) => {
-    //   console.log(data);
-    //   this.setState({ itemEvents: data });
-    // }).catch(err => console.log(err));
+    const { id } = this.state; // change to passed in prop
+    axios.get('/api/chef/schedule', { params: { id }})
+      .then((data) => {
+        console.log('data returned from axios get:', data);
+        this.setState({ schedule: [] });
+      })
+      .catch(err => console.log(err));
   }
 
-  handleEditMenu(){
-    // redirect to UpdateMenu component
-  }
+  // handleEditMenu(){
+  //   // redirect to UpdateMenu component
+  // }
 
-  handleEditEvent(e, eventId){
-    // redirect to UpdateSchedule
+  // handleEditEvent(e, eventId){
+  //   // redirect to UpdateSchedule
     
-      // if it is an edit (not add new), 
-        // pass this particular itemEvent obj
-  }
+  //     // if it is an edit (not add new), 
+  //       // pass this particular itemEvent obj
+  // }
 
   render() {
     const { schedule } = this.state;

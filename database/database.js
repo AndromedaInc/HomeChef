@@ -53,7 +53,7 @@ const Event = orm.define('event', {
 });
 
 const ItemEvent = orm.define('itemEvent', {
-  // foreign keys: eventId, menuItemId
+  // foreign keys: eventId, menuItemId, chefId
   quantity: Sequelize.INTEGER,
   reservations: Sequelize.INTEGER,
 });
@@ -96,49 +96,28 @@ const User = orm.define('user', {
 // /* //////////////////////////// */
 // /* RELATIONSHIPS (alphabetized) */
 // /* //////////////////////////// */
+Event.belongsTo(Chef);
 
-Chef.hasMany(Event);
-Chef.hasMany(MenuItem);
-Chef.hasMany(Rating);
-Chef.hasMany(Transaction);
+ItemEvent.belongsTo(MenuItem);
+ItemEvent.belongsTo(Event);
+ItemEvent.belongsTo(Chef);
 
-Event.hasOne(Chef);
-Event.hasMany(ItemEvent);
-Event.hasMany(Order);
+MenuItem.belongsTo(Chef);
 
-ItemEvent.hasOne(MenuItem);
-ItemEvent.hasOne(Event);
+Order.belongsTo(ItemEvent);
+Order.belongsTo(Transaction);
+Order.belongsTo(User);
 
-MenuItem.hasOne(Chef);
-MenuItem.hasMany(Order);
-MenuItem.belongsTo(ItemEvent);
+Rating.belongsTo(Chef);
+Rating.belongsTo(User);
 
-Order.hasOne(ItemEvent);
-Order.hasOne(Transaction);
-Order.hasOne(User);
-
-Rating.hasOne(Chef);
-Rating.hasOne(User);
-
-Transaction.hasOne(Chef);
-Transaction.hasMany(Order);
-Transaction.hasOne(User);
-
-User.hasMany(Order);
-User.hasMany(Rating);
-User.hasMany(Transaction);
+Transaction.belongsTo(Chef);
+Transaction.belongsTo(User);
 
 // /* ///////////// */
 // /* Create Tables */
 // /* ///////////// */
-User.sync();
-Chef.sync();
-Rating.sync();
-MenuItem.sync();
-Event.sync();
-Transaction.sync();
-ItemEvent.sync();
-Order.sync();
+orm.sync();
 
 exports.connection = orm;
 exports.Chef = Chef;

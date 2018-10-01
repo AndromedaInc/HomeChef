@@ -59,7 +59,7 @@ class UserHome extends React.Component {
             {chef.chefDescription}
 , Hours:
             {chef.chefHours}
-            <Link to="/usersChefDetails">
+            <Link to="/user/chefdetails">
               <button type="button">Select</button>
             </Link>
           </div>
