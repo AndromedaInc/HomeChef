@@ -58,6 +58,6 @@ export default [
   { path: '/chefauth', component: ChefAuth, exact: true },
   { path: '/chef', component: ChefHome, exact: true },
   { path: '/user', component: UserHome, exact: true },
-  // { path: '/public/user/chefschedule', component: ViewChefSchedule, exact: true },
-  // { path: '/public/user/chefschedule/reservation', component: MakeReservation, exact: true },
+  // { path: '/user/chefschedule', component: ViewChefSchedule, exact: true },
+  // { path: '/user/chefschedule/reservation', component: MakeReservation, exact: true },
 ];
