@@ -8,7 +8,7 @@ class ViewChefSchedule extends React.Component {
     super(props);
     this.state = {
       schedule: sampleData,
-      user: { id: 1, name: 'Jane Doe' }, // eventually will want to get user from prior component 
+      user: { id: 1, name: 'Jane Doe' }, // eventually will want to get user from prior component
     };
   }
 

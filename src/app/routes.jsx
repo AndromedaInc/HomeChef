@@ -5,6 +5,7 @@ import UserAuth from './auth/UserAuth';
 // import UserHome from './users/UserHome';
 // import ViewChefSchedule from './users/ViewChefSchedule';
 // import MakeReservation from './users/MakeReservation';
+// import UsersChefDetails from "./users/UsersChefDetails";
 import AsyncRoute from './AsyncRoute';
 
 // import Loadable from 'react-loadable';
@@ -36,11 +37,11 @@ import AsyncRoute from './AsyncRoute';
 // const codeSplitter = pathToModule => props => <AsyncRoute props={props} loadingPromise={import(pathToModule)} />
 // const ChefAuth = codeSplitter('./auth/ChefAuth')
 
-const ChefAuth = (props) => <AsyncRoute props={props} loadingPromise={import('./auth/ChefAuth')} />
+const ChefAuth = props => <AsyncRoute props={props} loadingPromise={import('./auth/ChefAuth')} />;
 // console.log('UserHome import() call within routes.jsx is', import('./users/UserHome').then(data => console.log('promise resolved with', data)));
 // const UserAuth = (props) => <AsyncRoute props={props} loadingPromise={import('./auth/UserAuth')} />
-const ChefHome = (props) => <AsyncRoute props={props} loadingPromise={import('./chefs/ChefHome')} />
-const UserHome = (props) => <AsyncRoute props={props} loadingPromise={import('./users/UserHome')} />
+const ChefHome = props => <AsyncRoute props={props} loadingPromise={import('./chefs/ChefHome')} />;
+const UserHome = props => <AsyncRoute props={props} loadingPromise={import('./users/UserHome')} />;
 // const ViewChefSchedule = (props) => <AsyncRoute props={props} loadingPromise={import('./users/ChefSchedule')} />
 // const MakeReservation = (props) => <AsyncRoute props={props} loadingPromise={import('./users/MakeReservation')} />
 
