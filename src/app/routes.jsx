@@ -9,8 +9,11 @@ import React from 'react';
 import AsyncRoute from './AsyncRoute';
 
 /***** code to handle require.ensure error that would otherwise pop up on server (also tried babel-plugin-dynamic-import-node but could not get to work) *****/
-if (typeof require.ensure !== 'function') require.ensure = (d, c) => { c(require); };
-if (typeof require.include !== 'function') require.include = () => { };
+if (typeof require.ensure !== 'function')
+  require.ensure = (d, c) => {
+    c(require);
+  };
+if (typeof require.include !== 'function') require.include = () => {};
 
 /***** attempt to code split using react-loadable but commented out for now in exchange for AsynRoute.jsx approach detailed by Brian Holt in Frontend Master *****/
 // import Loadable from 'react-loadable';
@@ -46,12 +49,18 @@ if (typeof require.include !== 'function') require.include = () => { };
 /***** Codesplitting using AsyncRoute.jsx approach detailed by Brian Holt in Frontend Masters *****/
 const ChefAuth = props => <AsyncRoute props={props} loadingPromise={import('./auth/ChefAuth')} />;
 // console.log('UserHome import() call within routes.jsx is', import('./users/UserHome').then(data => console.log('promise resolved with', data)));
-const UserAuth = (props) => <AsyncRoute props={props} loadingPromise={import('./auth/UserAuth')} />
+const UserAuth = props => <AsyncRoute props={props} loadingPromise={import('./auth/UserAuth')} />;
 const ChefHome = props => <AsyncRoute props={props} loadingPromise={import('./chefs/ChefHome')} />;
 const UserHome = props => <AsyncRoute props={props} loadingPromise={import('./users/UserHome')} />;
-const UsersChefDetails = props => <AsyncRoute props={props} loadingPromise={import('./users/UsersChefDetails')} />;
-const ViewChefSchedule = (props) => <AsyncRoute props={props} loadingPromise={import('./users/ViewChefSchedule')} />
-const MakeReservation = (props) => <AsyncRoute props={props} loadingPromise={import('./users/MakeReservation')} />
+const UsersChefDetails = props => (
+  <AsyncRoute props={props} loadingPromise={import('./users/UsersChefDetails')} />
+);
+const ViewChefSchedule = props => (
+  <AsyncRoute props={props} loadingPromise={import('./users/ViewChefSchedule')} />
+);
+const MakeReservation = props => (
+  <AsyncRoute props={props} loadingPromise={import('./users/MakeReservation')} />
+);
 
 export default [
   { path: '/', component: UserAuth, exact: true },

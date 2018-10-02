@@ -4,8 +4,7 @@ import React from 'react';
 class MakeReservation extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-    };
+    this.state = {};
   }
 
   componentDidMount() {
@@ -20,7 +19,6 @@ class MakeReservation extends React.Component {
     //   this.setState({ times: data });
     // }).catch(err => console.log(err));
   }
-
 
   // makeReservation() {
   //   const { event, user } = this.props;
@@ -47,20 +45,19 @@ class MakeReservation extends React.Component {
         <p>{menuItem.description}</p>
         {menuItem.price}
         <select onChange={this.makeSelection.bind(this)}>
-          {times.map((time) => {
-            return (
-              <option key="time.id">
-                {time.date}
+          {times.map(time => (
+            <option key="time.id">
+              {time.date}
                 at
-                {time.start}
-                -
-                {time.end}
-              </option>
-            );
-          })
-          }
+              {time.start}
+-
+              {time.end}
+            </option>
+          ))}
         </select>
-        <button type="submit" onClick={this.makeReservation}>Make Reservation</button>
+        <button type="submit" onClick={this.makeReservation}>
+          Make Reservation
+        </button>
       </div>
     );
   }

@@ -19,7 +19,11 @@ const db = require('./../database/database');
 
 const port = process.env.PORT || 5678;
 
-app.use('/public', (req, res, next) => console.log('in server') || next(), express.static(`${__dirname}/../public`));
+app.use(
+  '/public',
+  (req, res, next) => console.log('in server') || next(),
+  express.static(`${__dirname}/../public`),
+);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -28,6 +32,37 @@ app.use(bodyParser.json());
 //   schema: gqlSchema,
 //   graphiql: true,
 // }));
+app.get(
+  '/api/user/accountInfo',
+  (req, res, next) => console.log('get request to user/accountInfo') || next(),
+  (req, res) => {
+    const { username } = req.query;
+    console.log('username is', username);
+    db.User.findOne({ where: { username } })
+      .then(accountInfo => res.status(200).send(accountInfo))
+      .catch(err => console.log(err));
+  },
+);
+
+app.get(
+  '/api/chef/accountInfo',
+  (req, res, next) => console.log('get request to chef/accountInfo') || next(),
+  (req, res) => {
+    const { username } = req.query;
+    console.log('username is', username);
+    db.Chef.findOne({ where: { username } })
+      .then(accountInfo => res.status(200).send(accountInfo))
+      .catch(err => console.log(err));
+  },
+);
+
+app.get('/api/chef/all', (req, res) => {
+  db.Chef.findAll()
+    .then((data) => {
+      res.send(data);
+    })
+    .catch(err => console.log(err));
+});
 
 app.get('/api/chef/schedule', (req, res) => {
   console.log('REQ query!!! : ', req.query);
