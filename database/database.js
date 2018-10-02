@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 require('dotenv').config();
+
 // const orm = new Sequelize('HomeChef', 'root', '', {
 //   dialect: 'mysql',
 // });

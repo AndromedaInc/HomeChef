@@ -19,7 +19,11 @@ const db = require('./../database/database');
 
 const port = process.env.PORT || 5678;
 
-app.use('/public', (req, res, next) => console.log('in server') || next(), express.static(`${__dirname}/../public`));
+app.use(
+  '/public',
+  (req, res, next) => console.log('in server') || next(),
+  express.static(`${__dirname}/../public`),
+);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 

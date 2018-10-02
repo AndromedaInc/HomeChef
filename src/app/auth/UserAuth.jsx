@@ -60,11 +60,7 @@ class UserAuth extends React.Component {
                 <label>Username: </label>
                 {' '}
                 <br />
-                <input
-                  name="username"
-                  value={this.state.username}
-                  onChange={this.handleChange}
-                />
+                <input name="username" value={this.state.username} onChange={this.handleChange} />
               </div>
               <div>
                 <label>Password: </label>
@@ -76,7 +72,12 @@ class UserAuth extends React.Component {
                   onChange={this.handleChange}
                 />
               </div>
-              <Link to="/user">
+              <Link
+                to={{
+                  pathname: '/user',
+                  state: { username: this.state.username },
+                }}
+              >
                 <button type="button">Login</button>
               </Link>
             </div>
