@@ -44,6 +44,8 @@ app.use((req, res) => {
     React.createElement(StaticRouter, { location: req.url, context }, React.createElement(App)),
   );
 
+  // TODO: read up on context.url and redirection (e.g. Brian Holt frontend masters)
+
   if (context.url) {
     res.redirect(301, context.url);
   }
