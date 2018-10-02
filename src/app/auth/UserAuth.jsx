@@ -26,24 +26,6 @@ class UserAuth extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    // const post = {
-    //   username: this.state.username,
-    //   password: this.state.password
-    // };
-    // fetch("https://jsonplaceholder.typicode.com/posts", {
-    //   method: "POST",
-    //   headers: {
-    //     "content-type": "application/json"
-    //   },
-    //   body: JSON.stringify(post)
-    // })
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     // if (data) {
-    //     //   redirect: window.location.replace("../user.html");
-    //     // }
-    //     // console.log(data);
-    //   });
   }
 
   render() {
