@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import axios from 'axios';
 import store from '../redux/store';
 import Posts from '../redux/sampleComponents/Posts';
 import PostForm from '../redux/sampleComponents/PostForm';
@@ -24,8 +25,13 @@ class UserAuth extends React.Component {
     });
   }
 
+  // handleLogin(){
+
+  // }
+
   handleSubmit(e) {
     e.preventDefault();
+    // axios.get('/api/user/login');
   }
 
   render() {

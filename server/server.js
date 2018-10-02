@@ -39,6 +39,7 @@ app.use(bodyParser.json());
 //   schema: gqlSchema,
 //   graphiql: true,
 // }));
+
 app.get(
   '/api/user/accountInfo',
   (req, res, next) => console.log('get request to user/accountInfo') || next(),
@@ -47,7 +48,7 @@ app.get(
     console.log('username is', username);
     db.User.findOne({ where: { username } })
       .then(accountInfo => res.status(200).send(accountInfo))
-      .catch(err => console.log(err));
+      .catch(res.redirect('/'));
   },
 );
 
