@@ -1,31 +1,87 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import ChefSchedule from './ChefSchedule';
-
-// const ChefHome = () => <div>Chef Home View Here</div>;
+import ChefAccountForm from './ChefAccountForm';
+import ChefAccountInfo from './ChefAccountInfo';
 
 class ChefHome extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
+      edit: false,
+      address: 'test address',
       streetAddress: '',
       city: '',
       stateName: '',
-      zip: 0,
-      cuisine: '',
-      id: '',
-      edit: false,
+      zip: null,
+      description: '',
+      username: 'chefusername', // will want to change from hardcode
+      name: 'testchef', // may want to remove from here
+      password: 'chefpass', // may want to remove from here
+      imageUrl: 'chefimage.com', // may want to remove from here
     };
 
     this.onChange = this.onChange.bind(this);
     this.toggleEditAccount = this.toggleEditAccount.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleUpsert = this.handleUpsert.bind(this);
+    this.getAccountInfo = this.getAccountInfo.bind(this);
+  }
+
+  componentDidMount() {
+    this.getAccountInfo();
   }
 
   onChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
     });
+  }
+
+  getAccountInfo() {
+    const { username } = this.state;
+    return axios.get(`/api/chef/accountInfo?username=${username}`)
+      .then(({
+        data: {
+          description,
+          streetAddress,
+          city,
+          stateName,
+          zip,
+          id,
+          imageUrl,
+          name,
+          password,
+        },
+      }) => (
+        this.setState({
+          description,
+          streetAddress,
+          city,
+          stateName,
+          zip,
+          id,
+          imageUrl,
+          name,
+          password,
+          username,
+        })
+      ));
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    console.log('handling submit');
+    this.handleUpsert(this.state);
+    this.toggleEditAccount();
+  }
+
+  handleUpsert() {
+    console.log('sending upsert patch request with this state:', this.state);
+    axios.patch('/api/chef/accountInfo', { data: this.state })
+      .then(() => console.log('upsert successful'))
+      .then(() => this.getAccountInfo());
   }
 
   toggleEditAccount() {
@@ -35,75 +91,37 @@ class ChefHome extends Component {
     });
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    this.toggleEditAccount();
+  renderView() {
+    const { edit } = this.state;
+    const editButton = edit ? 'Save' : 'Edit your account';
+    if (edit) {
+      return (
+        <ChefAccountForm
+          state={this.state}
+          onChange={this.onChange}
+          handleSubmit={this.handleSubmit}
+        />
+      );
+    }
+    return (
+      <div>
+        <button
+          type="button"
+          onClick={this.toggleEditAccount}
+        >
+          {editButton}
+        </button>
+        <ChefAccountInfo state={this.state} />
+      </div>
+    );
   }
 
   render() {
-    const {
-      edit, streetAddress, city, stateName, zip, cuisine, id,
-    } = this.state;
-    const editButton = edit ? 'Save' : 'Edit your account';
-
     return (
       <div>
         <h1>What's Cooking?</h1>
-        <button type="button" value={editButton} onClick={this.toggleEditAccount}>
-          Manage your account
-        </button>
-        <form onSubmit={this.handleSubmit}>
-          <h3>Address</h3>
-          <label htmlFor="address">
-            Street Address:
-            <input
-              type="text"
-              name="streetAddress"
-              value={streetAddress}
-              onChange={this.onChange}
-            />
-          </label>
-          <label htmlFor="city">
-            City:
-            <input type="text" name="city" value={city} onChange={this.onChange} />
-          </label>
-          <label htmlFor="stateName">
-            State:
-            <input type="text" name="stateName" value={stateName} onChange={this.onChange} />
-          </label>
-          <label htmlFor="zip">
-            Zip:
-            <input type="text" name="zip" value={zip} onChange={this.onChange} />
-          </label>
-          <br />
-          <h3>Cuisine</h3>
-          <label htmlFor="cuisine">
-            How do you describe your food?
-            <input type="textarea" name="cuisine" value={cuisine} onChange={this.onChange} />
-          </label>
-          <br />
-          {/* <label htmlFor="distance">
-            Distance:
-            <input type="textarea" name="distanceInMiles" value={distanceInMiles} onChange={this.onChange} />
-          </label>
-          <br />
-          <label htmlFor="duration">
-            Duration:
-            <input type="text" name="timeToCompleteInHours" value={timeToCompleteInHours} onChange={this.onChange} />
-          </label>
-          <br />
-          <label htmlFor="speed">
-            Speed (MPH):
-            <input type="text" name="averageSpeedMPH" value={averageSpeedMPH} onChange={this.onChange} />
-          </label>
-          <br /> */}
-          <input type="hidden" name="id" value={id} onChange={this.onChange} />
-          <button type="submit">Save</button>
-          <button type="button" onClick={this.onDelete}>
-            Delete
-          </button>
-        </form>
-        <ChefSchedule chefId={id} />
+        {this.renderView()}
+        {/* <ChefSchedule chefId={id} /> */}
       </div>
     );
   }
