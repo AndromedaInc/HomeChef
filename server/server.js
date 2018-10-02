@@ -59,8 +59,6 @@ app.patch('/api/chef/accountInfo', (req, res, next) => console.log('patch reques
       }
     });
 });
-// const { route, username } = req.body.data;
-// db.createRoute(route, username)
 
 app.get('/api/chef/schedule', (req, res) => {
   console.log('REQ query!!! : ', req.query);

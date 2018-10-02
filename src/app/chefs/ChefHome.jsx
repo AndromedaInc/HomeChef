@@ -39,11 +39,27 @@ class ChefHome extends Component {
     });
   }
 
-  toggleEditAccount() {
-    const { edit } = this.state;
-    this.setState({
-      edit: !edit,
-    });
+  getAccountInfo() {
+    const { username } = this.state;
+    return axios.get(`/api/chef/accountInfo?username=${username}`)
+      .then(({
+        data: {
+          description,
+          id,
+          imageUrl,
+          name,
+          password,
+        },
+      }) => (
+        this.setState({
+          description,
+          id,
+          imageUrl,
+          name,
+          password,
+          username,
+        })
+      ));
   }
 
   handleSubmit(e) {
@@ -60,34 +76,11 @@ class ChefHome extends Component {
       .then(() => this.getAccountInfo());
   }
 
-  getAccountInfo() {
-    const { username } = this.state;
-    return axios.get(`/api/chef/accountInfo?username=${username}`)
-      .then(({
-        data: {
-          description,
-          id,
-          imageUrl,
-          name,
-          password,
-        },
-      }) => {
-        console.log('just received response to get request from api/chef/accountInfo and will set state', description,
-          id,
-          imageUrl,
-          name,
-          password);
-        // .then((accountInfo) => {
-        //   console.log('just received response to get request from api/chef/accountInfo and will set state', accountInfo.data);
-        this.setState({
-          description,
-          id,
-          imageUrl,
-          name,
-          password,
-          username,
-        });
-      });
+  toggleEditAccount() {
+    const { edit } = this.state;
+    this.setState({
+      edit: !edit,
+    });
   }
 
   renderView() {
@@ -95,8 +88,11 @@ class ChefHome extends Component {
     const editButton = edit ? 'Save' : 'Edit your account';
     if (edit) {
       return (
-        <ChefAccountForm state={this.state} onChange={this.onChange} handleSubmit={this.handleSubmit} />
-        // <p>ChefAccountForm</p>
+        <ChefAccountForm
+          state={this.state}
+          onChange={this.onChange}
+          handleSubmit={this.handleSubmit}
+        />
       );
     }
     return (
@@ -109,7 +105,6 @@ class ChefHome extends Component {
         </button>
         <ChefAccountInfo state={this.state} />
       </div>
-      // <p>ChefAccountInfo</p>
     );
   }
 
