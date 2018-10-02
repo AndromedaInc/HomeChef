@@ -103,7 +103,7 @@ class ChefHome extends Component {
             Delete
           </button>
         </form>
-        <ChefSchedule />
+        <ChefSchedule chefId={id} />
       </div>
     );
   }
