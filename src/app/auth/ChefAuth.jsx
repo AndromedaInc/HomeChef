@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 const ChefAuth = () => (
   <Fragment>
     <div>Chef Login Here</div>
-    <Link to="/public/userauth">
+    <Link to="/userauth">
       <button type="button">Go to login as a User</button>
     </Link>
-    <Link to="/public/chef">
+    <Link to="/chef">
       <button type="button">Login</button>
     </Link>
   </Fragment>

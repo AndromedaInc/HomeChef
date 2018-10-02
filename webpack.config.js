@@ -1,4 +1,3 @@
-const HtmlWebPackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const path = require('path');
 
@@ -13,6 +12,7 @@ module.exports = {
     path: DIST_DIR,
     filename: '[name].bundle.js',
     chunkFilename: '[name].bundle.js',
+    publicPath: '/public/',
   },
   module: {
     rules: [
@@ -38,9 +38,5 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(['public']),
-    new HtmlWebPackPlugin({
-      template: `${SRC_DIR}/index.html`,
-      filename: `${DIST_DIR}/index.html`,
-    }),
   ],
 };
