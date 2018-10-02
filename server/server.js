@@ -41,38 +41,6 @@ app.use(bodyParser.json());
 // }));
 
 app.get(
-  '/api/user/accountInfo',
-  (req, res, next) => console.log('get request to user/accountInfo') || next(),
-  (req, res) => {
-    const { username } = req.query;
-    console.log('username is', username);
-    db.User.findOne({ where: { username } })
-      .then(accountInfo => res.status(200).send(accountInfo))
-      .catch(res.redirect('/'));
-  },
-);
-
-app.get(
-  '/api/chef/accountInfo',
-  (req, res, next) => console.log('get request to chef/accountInfo') || next(),
-  (req, res) => {
-    const { username } = req.query;
-    console.log('username is', username);
-    db.Chef.findOne({ where: { username } })
-      .then(accountInfo => res.status(200).send(accountInfo))
-      .catch(err => console.log(err));
-  },
-);
-
-app.get('/api/chef/all', (req, res) => {
-  db.Chef.findAll()
-    .then((data) => {
-      res.send(data);
-    })
-    .catch(err => console.log(err));
-});
-
-app.get(
   '/api/chef/accountInfo',
   (req, res, next) => console.log('get request to chef/accountInfo') || next(),
   (req, res) => {
@@ -100,6 +68,26 @@ app.patch(
     });
   },
 );
+
+app.get(
+  '/api/user/accountInfo',
+  (req, res, next) => console.log('get request to user/accountInfo') || next(),
+  (req, res) => {
+    const { username } = req.query;
+    console.log('username is', username);
+    db.User.findOne({ where: { username } })
+      .then(accountInfo => res.status(200).send(accountInfo))
+      .catch(res.redirect('/'));
+  },
+);
+
+app.get('/api/chef/all', (req, res) => {
+  db.Chef.findAll()
+    .then((data) => {
+      res.send(data);
+    })
+    .catch(err => console.log(err));
+});
 
 app.get('/api/chef/schedule', (req, res) => {
   console.log('REQ query!!! : ', req.query);
