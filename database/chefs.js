@@ -2,20 +2,24 @@ const db = require('./database.js');
 
 const upsertAccountInfo = ({
   username,
-  address, // replace with values below once able to drop and resync db with Sarah
-  // streetAddress,
-  // city,
-  // state,
-  // zip,
+  streetAddress,
+  city,
+  stateName,
+  zip,
   description,
+  imageUrl,
+  name,
+  password,
 }) => (db.Chef.upsert({
   username,
-  address, // replace with values below once able to drop and resync db with Sarah
-  // streetAddress,
-  // city,
-  // state,
-  // zip,
+  streetAddress,
+  city,
+  stateName,
+  zip,
   description,
+  imageUrl,
+  name,
+  password,
 }));
 
 exports.upsertAccountInfo = upsertAccountInfo;

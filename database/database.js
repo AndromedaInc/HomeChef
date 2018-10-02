@@ -38,11 +38,10 @@ const Chef = orm.define('chef', {
   name: Sequelize.STRING,
   username: Sequelize.STRING,
   password: Sequelize.STRING,
-  address: Sequelize.STRING, // remove once can resync DB with Sarah
-  // streetAddress: Sequelize.TEXT,
-  // city: Sequelize.TEXT,
-  // state: Sequelize.TEXT,
-  // zip: Sequelize.INTEGER,
+  streetAddress: Sequelize.TEXT,
+  city: Sequelize.TEXT,
+  stateName: Sequelize.TEXT,
+  zip: Sequelize.INTEGER,
   description: Sequelize.TEXT,
   imageUrl: Sequelize.STRING,
   // payment_info: ?

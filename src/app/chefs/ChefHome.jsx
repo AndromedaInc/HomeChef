@@ -45,6 +45,10 @@ class ChefHome extends Component {
       .then(({
         data: {
           description,
+          streetAddress,
+          city,
+          stateName,
+          zip,
           id,
           imageUrl,
           name,
@@ -53,6 +57,10 @@ class ChefHome extends Component {
       }) => (
         this.setState({
           description,
+          streetAddress,
+          city,
+          stateName,
+          zip,
           id,
           imageUrl,
           name,

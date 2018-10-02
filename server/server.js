@@ -50,11 +50,9 @@ app.patch('/api/chef/accountInfo', (req, res, next) => console.log('patch reques
     .then((created) => {
       if (created) {
         res.status(200);
-        // console.log('Successfully stored');
         res.send('Successfully stored');
       } else {
         res.status(200);
-        // console.log('Successfully inserted');
         res.send('Successfully inserted');
       }
     });
