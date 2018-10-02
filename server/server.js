@@ -19,7 +19,7 @@ const db = require('./../database/database');
 
 const port = process.env.PORT || 5678;
 
-app.use('/public', (req, res, next) => console.log('in server') || next(), express.static(`${__dirname}/../public`));
+app.use('/public', (req, res, next) => console.log('in express.static') || next(), express.static(`${__dirname}/../public`));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -28,6 +28,10 @@ app.use(bodyParser.json());
 //   schema: gqlSchema,
 //   graphiql: true,
 // }));
+
+app.get('/api/chef/accountInfo', (req, res, next) => console.log('in chef/accountInfo') || next(), (req, res) => {
+
+});
 
 app.get('/api/chef/schedule', (req, res) => {
   console.log('REQ query!!! : ', req.query);
@@ -113,8 +117,7 @@ app.post('/api/chef/event', (req, res) => {
     .catch(err => console.log(err));
 });
 
-// ALL SERVER REQUESTS ABOVE HERE
-// Catch All:
+/* **** Catch All - all server requests above here **** */
 app.use((req, res) => {
   console.log(req.url);
   const context = {};
@@ -123,6 +126,8 @@ app.use((req, res) => {
     React.createElement(StaticRouter, { location: req.url, context }, React.createElement(App)),
   );
 
+  // TODO: read up on context.url and redirection (e.g. Brian Holt frontend masters)
+  // TODO: make sure any error gets error message
   if (context.url) {
     res.redirect(301, context.url);
   }

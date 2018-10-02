@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 import ChefSchedule from './ChefSchedule';
-
-// const ChefHome = () => <div>Chef Home View Here</div>;
+import ChefAccountForm from './ChefAccountForm';
+import ChefAccountInfo from './ChefAccountInfo';
 
 class ChefHome extends Component {
   constructor(props) {
@@ -11,7 +12,7 @@ class ChefHome extends Component {
       streetAddress: '',
       city: '',
       stateName: '',
-      zip: 0,
+      zip: null,
       cuisine: '',
       id: '',
       edit: false,
@@ -40,69 +41,40 @@ class ChefHome extends Component {
     this.toggleEditAccount();
   }
 
+  handleUpsert(route) {
+    axios.patch('/api/routes', { data: route })
+      .then(() => console.log('upsert successful'))
+      .then(() => this.getRoutes());
+  }
+
+  renderView() {
+    const { edit } = this.state;
+    if (edit) {
+      return (
+        <ChefAccountForm state={this.state} onChange={this.onChange} handleSubmit={this.handleSubmit} />
+        // <p>ChefAccountForm</p>
+      );
+    }
+    return (
+      <ChefAccountInfo state={this.state} />
+      // <p>ChefAccountInfo</p>
+    );
+  }
+
   render() {
-    const {
-      edit, streetAddress, city, stateName, zip, cuisine, id,
-    } = this.state;
+    const { edit } = this.state;
     const editButton = edit ? 'Save' : 'Edit your account';
 
     return (
       <div>
         <h1>What's Cooking?</h1>
-        <button type="button" value={editButton} onClick={this.toggleEditAccount}>
-          Manage your account
+        <button
+          type="button"
+          onClick={this.toggleEditAccount}
+        >
+          {editButton}
         </button>
-        <form onSubmit={this.handleSubmit}>
-          <h3>Address</h3>
-          <label htmlFor="address">
-            Street Address:
-            <input
-              type="text"
-              name="streetAddress"
-              value={streetAddress}
-              onChange={this.onChange}
-            />
-          </label>
-          <label htmlFor="city">
-            City:
-            <input type="text" name="city" value={city} onChange={this.onChange} />
-          </label>
-          <label htmlFor="stateName">
-            State:
-            <input type="text" name="stateName" value={stateName} onChange={this.onChange} />
-          </label>
-          <label htmlFor="zip">
-            Zip:
-            <input type="text" name="zip" value={zip} onChange={this.onChange} />
-          </label>
-          <br />
-          <h3>Cuisine</h3>
-          <label htmlFor="cuisine">
-            How do you describe your food?
-            <input type="textarea" name="cuisine" value={cuisine} onChange={this.onChange} />
-          </label>
-          <br />
-          {/* <label htmlFor="distance">
-            Distance:
-            <input type="textarea" name="distanceInMiles" value={distanceInMiles} onChange={this.onChange} />
-          </label>
-          <br />
-          <label htmlFor="duration">
-            Duration:
-            <input type="text" name="timeToCompleteInHours" value={timeToCompleteInHours} onChange={this.onChange} />
-          </label>
-          <br />
-          <label htmlFor="speed">
-            Speed (MPH):
-            <input type="text" name="averageSpeedMPH" value={averageSpeedMPH} onChange={this.onChange} />
-          </label>
-          <br /> */}
-          <input type="hidden" name="id" value={id} onChange={this.onChange} />
-          <button type="submit">Save</button>
-          <button type="button" onClick={this.onDelete}>
-            Delete
-          </button>
-        </form>
+        {this.renderView()}
         <ChefSchedule chefId={id} />
       </div>
     );

@@ -1,18 +1,21 @@
 import React from 'react';
-// import UserAuth from './auth/UserAuth';
-// import ChefAuth from './auth/ChefAuth';
-// import ChefHome from './chefs/ChefHome';
-// import UserHome from './users/UserHome';
-// import ViewChefSchedule from './users/ViewChefSchedule';
-// import MakeReservation from './users/MakeReservation';
-// import UsersChefDetails from "./users/UsersChefDetails";
 import AsyncRoute from './AsyncRoute';
+
+/* *****Import Block without codesplitting (kept here for codesplitting debugging) *****
+import UserAuth from './auth/UserAuth';
+import ChefAuth from './auth/ChefAuth';
+import ChefHome from './chefs/ChefHome';
+import UserHome from './users/UserHome';
+import ViewChefSchedule from './users/ViewChefSchedule';
+import MakeReservation from './users/MakeReservation';
+import UsersChefDetails from "./users/UsersChefDetails";
+*/
 
 /***** code to handle require.ensure error that would otherwise pop up on server (also tried babel-plugin-dynamic-import-node but could not get to work) *****/
 if (typeof require.ensure !== 'function') require.ensure = (d, c) => { c(require); };
 if (typeof require.include !== 'function') require.include = () => { };
 
-/***** attempt to code split using react-loadable but commented out for now in exchange for AsynRoute.jsx approach detailed by Brian Holt in Frontend Master *****/
+/***** attempt to code split using react-loadable but commented out for now in exchange for AsyncRoute.jsx approach detailed by Brian Holt in Frontend Master *****/
 // import Loadable from 'react-loadable';
 // const UserAuth = () => Loadable({
 //     loader: () => import('./auth/UserAuth'),
@@ -45,7 +48,6 @@ if (typeof require.include !== 'function') require.include = () => { };
 
 /***** Codesplitting using AsyncRoute.jsx approach detailed by Brian Holt in Frontend Masters *****/
 const ChefAuth = props => <AsyncRoute props={props} loadingPromise={import('./auth/ChefAuth')} />;
-// console.log('UserHome import() call within routes.jsx is', import('./users/UserHome').then(data => console.log('promise resolved with', data)));
 const UserAuth = (props) => <AsyncRoute props={props} loadingPromise={import('./auth/UserAuth')} />
 const ChefHome = props => <AsyncRoute props={props} loadingPromise={import('./chefs/ChefHome')} />;
 const UserHome = props => <AsyncRoute props={props} loadingPromise={import('./users/UserHome')} />;
