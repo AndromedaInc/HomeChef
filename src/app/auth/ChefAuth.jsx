@@ -1,16 +1,74 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from '../redux/store';
+// import Posts from '../redux/sampleComponents/Posts';
+// import PostForm from '../redux/sampleComponents/PostForm';
 
-const ChefAuth = () => (
-  <Fragment>
-    <div>Chef Login Here</div>
-    <Link to="/userauth">
-      <button type="button">Go to login as a User</button>
-    </Link>
-    <Link to="/chef">
-      <button type="button">Login</button>
-    </Link>
-  </Fragment>
-);
+class ChefAuth extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: '',
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(e) {
+    const name = e.target.name;
+    const value = e.target.value;
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+  }
+
+  render() {
+    return (
+      <Provider store={store}>
+        <Fragment>
+          <Link to="/userauth">
+            <button type="button">Login as a User</button>
+          </Link>
+          <form onSubmit={this.handleSubmit}>
+            <div className="chef-login">
+              <h3>Login as a Chef</h3>
+              <div>
+                <label>Username: </label>
+                {' '}
+                <br />
+                <input
+                  name="username"
+                  value={this.state.username}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <div>
+                <label>Password: </label>
+                <br />
+                <input
+                  name="password"
+                  value={this.state.password}
+                  type="password"
+                  onChange={this.handleChange}
+                />
+              </div>
+              <Link to="/chef">
+                <button type="button">Login</button>
+              </Link>
+            </div>
+          </form>
+          {/* <PostForm />
+          <Posts /> */}
+        </Fragment>
+      </Provider>
+    );
+  }
+}
 
 export default ChefAuth;

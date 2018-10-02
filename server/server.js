@@ -1,23 +1,30 @@
 require('babel-register');
+/* **** Express modules **** */
 const express = require('express');
+
+const app = express();
+const port = process.env.PORT || 5678;
+
+/* **** Server-side Rendering Modules **** */
 const React = require('react');
 const ReactDOMServer = require('react-dom/server');
 const ReactRouter = require('react-router-dom');
 const _ = require('lodash');
 const fs = require('fs');
 const bodyParser = require('body-parser');
-// const graphqlHTTP = require('express-graphql');
-// const gqlSchema = require('./schema');
 const App = require('../src/app/app').default;
 
 const { StaticRouter } = ReactRouter;
 const baseTemplate = fs.readFileSync(`${__dirname}/../src/index.html`);
 const template = _.template(baseTemplate); // returns a function
 
-const app = express();
+/* **** DB Connection modules **** */
 const db = require('./../database/database');
+const chefs = require('./../database/chefs.js');
 
-const port = process.env.PORT || 5678;
+/* **** GraphQL Modules **** */
+// const graphqlHTTP = require('express-graphql');
+// const gqlSchema = require('./schema');
 
 app.use('/public', (req, res, next) => console.log('in express.static') || next(), express.static(`${__dirname}/../public`));
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -29,9 +36,31 @@ app.use(bodyParser.json());
 //   graphiql: true,
 // }));
 
-app.get('/api/chef/accountInfo', (req, res, next) => console.log('in chef/accountInfo') || next(), (req, res) => {
-
+app.get('/api/chef/accountInfo', (req, res, next) => console.log('get request to chef/accountInfo') || next(), (req, res) => {
+  const { username } = req.query;
+  console.log('username is', username);
+  db.Chef.findOne({ where: { username } })
+    .then(accountInfo => res.status(200).send(accountInfo))
+    .catch(err => console.log(err));
 });
+
+app.patch('/api/chef/accountInfo', (req, res, next) => console.log('patch request to chef/accountInfo') || next(), (req, res) => {
+  console.log('incoming patch request to chef/accountInfo is', req);
+  chefs.upsertAccountInfo(req.body.data)
+    .then((created) => {
+      if (created) {
+        res.status(200);
+        // console.log('Successfully stored');
+        res.send('Successfully stored');
+      } else {
+        res.status(200);
+        // console.log('Successfully inserted');
+        res.send('Successfully inserted');
+      }
+    });
+});
+// const { route, username } = req.body.data;
+// db.createRoute(route, username)
 
 app.get('/api/chef/schedule', (req, res) => {
   console.log('REQ query!!! : ', req.query);

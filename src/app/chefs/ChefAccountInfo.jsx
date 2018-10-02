@@ -6,8 +6,7 @@ const ChefAccountInfo = ({ state }) => {
     city,
     stateName,
     zip,
-    cuisine,
-    id,
+    description,
   } = state;
 
   return (
@@ -31,7 +30,7 @@ const ChefAccountInfo = ({ state }) => {
       </div>
       <div>
         <h3>Cuisine</h3>
-        {cuisine}
+        {description}
       </div>
     </div>
   );

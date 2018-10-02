@@ -7,8 +7,7 @@ const ChefAccountForm = ({ state, onChange, handleSubmit }) => {
     city,
     stateName,
     zip,
-    cuisine,
-    id,
+    description,
   } = state;
   return (
     <form onSubmit={handleSubmit}>
@@ -51,17 +50,17 @@ const ChefAccountForm = ({ state, onChange, handleSubmit }) => {
       </label>
       <br />
       <h3>Cuisine</h3>
-      <label htmlFor="cuisine">
+      <label htmlFor="description">
         How do you describe your food?
         <input
           type="textarea"
-          name="cuisine"
-          value={cuisine}
+          name="description"
+          value={description}
           onChange={onChange}
         />
       </label>
       <br />
-      <input type="hidden" name="id" value={id} onChange={onChange} />
+      <button type="submit">Save</button>
     </form>
   );
 };
