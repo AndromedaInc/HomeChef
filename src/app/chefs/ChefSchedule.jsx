@@ -1,13 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import sampleData from '../sampleData';
 
 class ChefSchedule extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      schedule: sampleData,
+      schedule: [],
       chefId: 1,
     };
   }
@@ -22,7 +21,6 @@ class ChefSchedule extends React.Component {
     axios.get('/api/chef/schedule', { params: { id: chefId } })
     // axios.get(`/api/chef/schedule?id=${id}`)
       .then((data) => {
-        console.log('data returned from ChefSchedule get:', data.data);
         this.setState({ schedule: data.data });
       })
       .catch(err => console.log(err));
@@ -41,7 +39,6 @@ class ChefSchedule extends React.Component {
 
   render() {
     const { schedule } = this.state;
-    console.log(schedule);
     return (
       <table>
         <tbody>

@@ -4,60 +4,59 @@ import React from 'react';
 class MakeReservation extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      order: {},
+    };
   }
 
   componentDidMount() {
-    // fetch times for this menu item
-    // TODO: sort most recent first
-    // axios.get('/api/menu/availability', {
-    //   params: {
-    //     id: this.menuItem.id,
-    //   },
-    // }).then((data) => {
-    //   console.log(data);
-    //   this.setState({ times: data });
-    // }).catch(err => console.log(err));
+    // all data coming from ViewChefSchedule - don't need to query
   }
 
-  // makeReservation() {
-  //   const { event, user } = this.props;
-  //   axios.post('/api/consumer/reservation', {
-  //     id: user.id,
-  //     selection,
-  //   })
-  //     .then(() => console.log('reservation saved'))
-  //     .catch((err) => console.log(err));
-  // }
+  saveReservation() {
+    const { event, user } = this.props;
+    axios.post('/api/consumer/reservation', {
+      id: user.id,
+      selection,
+    })
+      .then(() => console.log('reservation saved'))
+      .catch((err) => console.log(err));
+  }
 
-  // makeSelection(e) {
-  //   console.log(e.target);
-  //   this.setState({ selection: e.target});
-  // }
+  increaseCount() {
+  }
+  
+  decreaseCount() {
+  }
 
   render() {
-    const { times } = this.state;
-    const { menuItem } = this.props;
+    const { event, user, chef } = this.state;
     return (
       <div>
-        <h3>{menuItem.name}</h3>
-        <img alt={menuItem.name} src={menuItem.image} />
-        <p>{menuItem.description}</p>
-        {menuItem.price}
-        <select onChange={this.makeSelection.bind(this)}>
-          {times.map(time => (
-            <option key="time.id">
-              {time.date}
-                at
-              {time.start}
--
-              {time.end}
-            </option>
-          ))}
-        </select>
-        <button type="submit" onClick={this.makeReservation}>
-          Make Reservation
-        </button>
+        hi
+        <h1>{chef.name}</h1>
+        <h2>
+          {event.date}
+          <span> </span>
+          {event.startTime}
+          <span> - </span>
+          {event.endTime}
+        </h2>
+        {event.menuItems.map((item) => {
+          return (
+            <div key={item.id}>
+              <h3>{item.name}</h3>
+              <img alt={item.name} src={item.image} />
+              <p>{item.description}</p>
+              {item.price}
+              <button type="button" onClick={this.increaseCount.bind(this, item)}>+</button>
+              <button type="button" onClick={this.decreaseCount.bind(this, item)}>-</button>
+            </div>
+          );
+        })}
+        <h2>Save Your Reservation</h2>
+        <p>add date, items, etc</p>
+        <button type="submit" onClick={this.saveReservation}>Save</button>
       </div>
     );
   }

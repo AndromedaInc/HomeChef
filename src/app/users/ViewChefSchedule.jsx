@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 // import { ApolloProvider } from 'react-apollo';
 // import { graphql } from 'react-apollo';
 import axios from 'axios';
-import sampleData from '../sampleData';
 
 
 // const client = new ApolloClient({
@@ -16,9 +15,9 @@ class ViewChefSchedule extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      schedule: sampleData,
+      schedule: [],
       user: { id: 1, name: 'Jane Doe' }, // eventually will want to get user from prior component
-      chefId: 1, // TODO this should be passed in as prop
+      chef: { id: 1, name: 'Chef McChef' }, // TODO this should be passed in as prop
     };
   }
 
@@ -27,12 +26,10 @@ class ViewChefSchedule extends React.Component {
   }
 
   getSchedule() {
-    const { chefId } = this.state; // change to passed in prop
-    console.log('id', chefId);
-    axios.get('/api/chef/schedule', { params: { id: chefId } })
+    const { chef } = this.state; // change to passed in prop
+    console.log('id', chef.id);
+    axios.get('/api/chef/schedule', { params: { id: chef.id } })
       .then((data) => {
-        console.log('data returned from ViewChefSchedule get:');
-        console.log(data.data);
         this.setState({ schedule: data.data });
       })
       .catch(err => console.log(err));
@@ -64,8 +61,7 @@ class ViewChefSchedule extends React.Component {
   // }
 
   render() {
-    const { schedule, user } = this.state;
-    console.log(schedule);
+    const { schedule, user, chef } = this.state;
     return (
       <table>
         <tbody>
@@ -107,7 +103,7 @@ class ViewChefSchedule extends React.Component {
                 <td>
                   <Link to={{
                     pathname: '/user/chefschedule/reservation',
-                    state: { event, user },
+                    state: { event, user, chef },
                     // props: { user },
                   }}>
                     <button type="button">Make Reservation</button>

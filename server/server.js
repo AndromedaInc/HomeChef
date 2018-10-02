@@ -21,6 +21,7 @@ const template = _.template(baseTemplate); // returns a function
 /* **** DB Connection modules **** */
 const db = require('./../database/database');
 const chefs = require('./../database/chefs.js');
+const util = require('./util');
 
 /* **** GraphQL Modules **** */
 // const graphqlHTTP = require('express-graphql');
@@ -102,9 +103,9 @@ app.get('/api/chef/all', (req, res) => {
 });
 
 app.get('/api/chef/schedule', (req, res) => {
-  console.log('REQ query!!! : ', req.query);
   const chefId = req.query.id;
   db.ItemEvent.findAll({
+    where: { chefId },
     include: [
       {
         model: db.Event,
@@ -119,7 +120,8 @@ app.get('/api/chef/schedule', (req, res) => {
     ],
   })
     .then((data) => {
-      res.send(data);
+      const schedule = util.organizeSchedule(data);
+      res.send(schedule);
     })
     .catch(err => console.log(err));
 });
@@ -128,7 +130,8 @@ app.get('/api/chef/menu', (req, res) => {
   const chefId = req.query.id;
   db.MenuItem.findAll({ where: { chefId } })
     .then((data) => {
-      res.send(data);
+      const schedule = util.organizeSchedule(data);
+      res.send(schedule);
     })
     .catch(err => console.log(err));
 });
