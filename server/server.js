@@ -109,32 +109,32 @@ app.get('/api/chef/schedule', (req, res) => {
       {
         model: db.Event,
         where: { chefId },
+        attributes: ['id', 'date', 'startTime', 'endTime', 'chefId', 'createdAt', 'updatedAt'],
       },
       {
         model: db.MenuItem,
         where: { chefId },
+        attributes: ['id', 'name', 'description', 'price', 'imageUrl', 'chefId'],
       },
     ],
   })
     .then((data) => {
-      console.log('data result!!!! : ', data);
       res.send(data);
     })
     .catch(err => console.log(err));
 });
 
 app.get('/api/chef/menu', (req, res) => {
-  // console.log('REQ query!!! : ', req.query);
   const chefId = req.query.id;
   db.MenuItem.findAll({ where: { chefId } })
     .then((data) => {
-      // console.log('data: ', data);
       res.send(data);
     })
     .catch(err => console.log(err));
 });
 
 app.post('/api/chef/menu', (req, res) => {
+  // NOT YET TESTED
   // console.log('REQ query!!! : ', req.body);
   const item = req.body;
   db.MenuItem.create({
@@ -151,17 +151,16 @@ app.post('/api/chef/menu', (req, res) => {
 });
 
 app.get('/api/chef/events', (req, res) => {
-  // console.log('REQ query!!! : ', req.query);
   const chefId = req.query.id;
   db.Event.findAll({ where: { chefId } })
     .then((data) => {
-      // console.log('data: ', data);
       res.send(data);
     })
     .catch(err => console.log(err));
 });
 
 app.post('/api/chef/event', (req, res) => {
+  // NOT YET TESTED
   // console.log('REQ query!!! : ', req.body);
   const event = req.body;
   db.Event.create({

@@ -23,15 +23,17 @@ class ViewChefSchedule extends React.Component {
   }
 
   componentDidMount() {
-    // this.getSchedule();
+    this.getSchedule();
   }
 
   getSchedule() {
-    const { id } = this.state; // change to passed in prop
-    axios.get('/api/chef/schedule', { params: { id }})
+    const { chefId } = this.state; // change to passed in prop
+    console.log('id', chefId);
+    axios.get('/api/chef/schedule', { params: { id: chefId } })
       .then((data) => {
-        console.log('data returned from axios get:', data);
-        this.setState({ schedule: [] });
+        console.log('data returned from ViewChefSchedule get:');
+        console.log(data.data);
+        this.setState({ schedule: data.data });
       })
       .catch(err => console.log(err));
   }
@@ -63,6 +65,7 @@ class ViewChefSchedule extends React.Component {
 
   render() {
     const { schedule, user } = this.state;
+    console.log(schedule);
     return (
       <table>
         <tbody>

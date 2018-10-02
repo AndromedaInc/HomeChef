@@ -8,17 +8,22 @@ class ChefSchedule extends React.Component {
     super(props);
     this.state = {
       schedule: sampleData,
-      id: 1,
+      chefId: 1,
     };
   }
 
   componentDidMount() {
     // fetch events & menuItems for this chef id
-    const { id } = this.state; // change to passed in prop
-    axios.get('/api/chef/schedule', { params: { id }})
+    this.getSchedule();
+  }
+
+  getSchedule() {
+    const { chefId } = this.state; // change to passed in prop
+    axios.get('/api/chef/schedule', { params: { id: chefId } })
+    // axios.get(`/api/chef/schedule?id=${id}`)
       .then((data) => {
-        console.log('data returned from axios get:', data);
-        this.setState({ schedule: [] });
+        console.log('data returned from ChefSchedule get:', data.data);
+        this.setState({ schedule: data.data });
       })
       .catch(err => console.log(err));
   }
@@ -36,6 +41,7 @@ class ChefSchedule extends React.Component {
 
   render() {
     const { schedule } = this.state;
+    console.log(schedule);
     return (
       <table>
         <tbody>
