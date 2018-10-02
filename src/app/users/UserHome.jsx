@@ -35,6 +35,11 @@ class UserHome extends React.Component {
   }
 
   componentDidMount() {
+    const receivedUsername = this.props.location.state.username;
+
+    this.setState({
+      username: receivedUsername,
+    });
     // axios.get('/api/chefs', (req, res) => {});
   }
 

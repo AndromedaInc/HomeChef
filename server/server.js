@@ -26,7 +26,11 @@ const chefs = require('./../database/chefs.js');
 // const graphqlHTTP = require('express-graphql');
 // const gqlSchema = require('./schema');
 
-app.use('/public', (req, res, next) => console.log('in express.static') || next(), express.static(`${__dirname}/../public`));
+app.use(
+  '/public',
+  (req, res, next) => console.log('in express.static') || next(),
+  express.static(`${__dirname}/../public`),
+);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -36,18 +40,24 @@ app.use(bodyParser.json());
 //   graphiql: true,
 // }));
 
-app.get('/api/chef/accountInfo', (req, res, next) => console.log('get request to chef/accountInfo') || next(), (req, res) => {
-  const { username } = req.query;
-  console.log('username is', username);
-  db.Chef.findOne({ where: { username } })
-    .then(accountInfo => res.status(200).send(accountInfo))
-    .catch(err => console.log(err));
-});
+app.get(
+  '/api/chef/accountInfo',
+  (req, res, next) => console.log('get request to chef/accountInfo') || next(),
+  (req, res) => {
+    const { username } = req.query;
+    console.log('username is', username);
+    db.Chef.findOne({ where: { username } })
+      .then(accountInfo => res.status(200).send(accountInfo))
+      .catch(err => console.log(err));
+  },
+);
 
-app.patch('/api/chef/accountInfo', (req, res, next) => console.log('patch request to chef/accountInfo') || next(), (req, res) => {
-  console.log('incoming patch request to chef/accountInfo is', req);
-  chefs.upsertAccountInfo(req.body.data)
-    .then((created) => {
+app.patch(
+  '/api/chef/accountInfo',
+  (req, res, next) => console.log('patch request to chef/accountInfo') || next(),
+  (req, res) => {
+    console.log('incoming patch request to chef/accountInfo is', req);
+    chefs.upsertAccountInfo(req.body.data).then((created) => {
       if (created) {
         res.status(200);
         res.send('Successfully stored');
@@ -56,7 +66,8 @@ app.patch('/api/chef/accountInfo', (req, res, next) => console.log('patch reques
         res.send('Successfully inserted');
       }
     });
-});
+  },
+);
 
 app.get('/api/chef/schedule', (req, res) => {
   console.log('REQ query!!! : ', req.query);
