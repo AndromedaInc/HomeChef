@@ -1,0 +1,13 @@
+INSERT INTO chefs (name, username, password, streetAddress, city, stateName, zip, description, imageUrl) VALUES ('Mr Chef', 'mrchef12', 'secretpass', '123 Street', 'CoffeeTown', 'CA', 99999, 'Awesome Chef!', 'image.com');
+INSERT INTO users (name, username, password, imageUrl) VALUES ('Francine', 'frannylikestoeat', 'password', 'userimage.com');
+INSERT INTO events (date, startTime, endTime, chefId) VALUES ('2018/10/31', '4:00 PM', '6:00 PM', 1);
+INSERT INTO menuItems (name, description, price, imageUrl, chefId) VALUES ('Pad Thai', 'Tasty thai food!', 10, 'thaiimage.com', 1);
+INSERT INTO itemEvents (quantity, reservations, eventId, menuItemId, chefId) VALUES (20, 5, 1, 1, 1);
+INSERT INTO transactions (status, total, tax, fee, tip, userId, chefId) VALUES ('complete', 20, 2, 2, 2, 1, 1);
+INSERT INTO orders (itemEventId, userId, transactionId) VALUES (1, 1, 1);
+INSERT INTO ratings (stars, review, userId, chefId) VALUES (4, 'really nice chef. super good food.', 1, 1);
+
+INSERT INTO events (date, startTime, endTime, chefId) VALUES ('2018/10/30', '5:00 PM', '9:00 PM', 1);
+INSERT INTO menuItems (name, description, price, imageUrl, chefId) VALUES ('Pad See Ew', 'Fat noodles are good.', 10, 'padseeewimage.com', 1);
+INSERT INTO itemEvents (quantity, reservations, eventId, menuItemId, chefId) VALUES (20, 2, 1, 21, 1);
+INSERT INTO itemEvents (quantity, reservations, eventId, menuItemId, chefId) VALUES (15, 5, 21, 1, 1);

@@ -1,11 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 // import ApolloClient from 'apollo-boost';
 // import { gql } from 'apollo-boost';
 // import { ApolloProvider } from 'react-apollo';
 // import { graphql } from 'react-apollo';
-import axios from 'axios';
-import sampleData from '../sampleData';
 
 
 // const client = new ApolloClient({
@@ -16,22 +15,22 @@ class ViewChefSchedule extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      schedule: sampleData,
+      schedule: [],
       user: { id: 1, name: 'Jane Doe' }, // eventually will want to get user from prior component
-      chefId: 1, // TODO this should be passed in as prop
+      chef: { id: 1, name: 'Chef McChef' }, // TODO this should be passed in as prop
     };
   }
 
   componentDidMount() {
-    // this.getSchedule();
+    this.getSchedule();
   }
 
   getSchedule() {
-    const { id } = this.state; // change to passed in prop
-    axios.get('/api/chef/schedule', { params: { id }})
+    const { chef } = this.state; // change to passed in prop
+    console.log('id', chef.id);
+    axios.get('/api/chef/schedule', { params: { id: chef.id } })
       .then((data) => {
-        console.log('data returned from axios get:', data);
-        this.setState({ schedule: [] });
+        this.setState({ schedule: data.data });
       })
       .catch(err => console.log(err));
   }
@@ -62,7 +61,7 @@ class ViewChefSchedule extends React.Component {
   // }
 
   render() {
-    const { schedule, user } = this.state;
+    const { schedule, user, chef } = this.state;
     return (
       <table>
         <tbody>
@@ -104,8 +103,7 @@ class ViewChefSchedule extends React.Component {
                 <td>
                   <Link to={{
                     pathname: '/user/chefschedule/reservation',
-                    state: { event, user },
-                    // props: { user },
+                    state: { event, user, chef },
                   }}>
                     <button type="button">Make Reservation</button>
                   </Link>
