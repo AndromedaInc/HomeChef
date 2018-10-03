@@ -48,7 +48,18 @@ class UsersChefDetails extends React.Component {
     return (
       <div>
         <h3>{`Chef ${this.state.currentChef}`}</h3>
-
+        <div>
+          {`Address - ${this.state.chefDetails.streetAddress}`}
+          {' '}
+          <br />
+          {' '}
+          {`${this.state.chefDetails.city}, ${this.state.chefDetails.stateName}, ${
+            this.state.chefDetails.zip
+          }`}
+          <br />
+          {`Description - ${this.state.chefDetails.description}`}
+        </div>
+        <br />
         <ViewChefSchedule />
         <div />
       </div>
