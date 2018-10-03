@@ -33,13 +33,15 @@ class ChefSchedule extends React.Component {
         <Link to={{
           pathname: '/chef/schedule/update',
           state: { chefId },
-        }}>
+        }}
+        >
           <button type="button">Add New Event</button>
         </Link>
         <Link to={{
           pathname: '/chef/menu/update',
           state: { chefId },
-        }}>
+        }}
+        >
           <button type="button">Update Menu</button>
         </Link>
 
@@ -85,7 +87,7 @@ class ChefSchedule extends React.Component {
                   <td>
                     <Link to={{
                       pathname: '/chef/schedule/update',
-                      state: { event, chefId, },
+                      state: { event, chefId },
                     }}
                     >
                       <button type="button">Edit</button>

@@ -12,6 +12,8 @@ class UpdateSchedule extends React.Component {
       menuItems: [],
       updatedMenuItems: [],
       newSchedule: true,
+      // chefId: this.props.location.state,
+      // event: this.props.location.state,
       chefId: 1, // DELETE
       event: { id: 1, date: '2018/10/31', startTime: '4:00 PM', endTime: '6:00 PM', menuItems: [{ id: 1, name: 'Pad Thai', quantity: 20 }, { id: 21, name: 'Pad See Ew', quantity: 10 }] },
     };
@@ -39,6 +41,8 @@ class UpdateSchedule extends React.Component {
 
   handleQuantityChange(item, event) {
     const newQty = event.target.value;
+    // const { updatedMenuItems } = this.state;
+    // const tempMenuItems = updatedMenuItems.slice();
     const tempMenuItems = this.state.updatedMenuItems.slice(); // DO NOT CHANGE
     for (let i = 0; i < tempMenuItems.length; i += 1) {
       if (tempMenuItems[i].id === item.id) {
