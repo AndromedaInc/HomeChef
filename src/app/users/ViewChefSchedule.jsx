@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 // import ApolloClient from 'apollo-boost';
 // import { gql } from 'apollo-boost';
 // import { ApolloProvider } from 'react-apollo';
 // import { graphql } from 'react-apollo';
-import axios from 'axios';
 
 
 // const client = new ApolloClient({
@@ -104,7 +104,6 @@ class ViewChefSchedule extends React.Component {
                   <Link to={{
                     pathname: '/user/chefschedule/reservation',
                     state: { event, user, chef },
-                    // props: { user },
                   }}>
                     <button type="button">Make Reservation</button>
                   </Link>

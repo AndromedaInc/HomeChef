@@ -130,24 +130,24 @@ app.get('/api/chef/menu', (req, res) => {
   const chefId = req.query.id;
   db.MenuItem.findAll({ where: { chefId } })
     .then((data) => {
-      const schedule = util.organizeSchedule(data);
-      res.send(schedule);
+      res.send(data);
     })
     .catch(err => console.log(err));
 });
 
 app.post('/api/chef/menu', (req, res) => {
-  // NOT YET TESTED
-  // console.log('REQ query!!! : ', req.body);
+  // works with postman
+  console.log('REQ BODY : ', req.body);
   const item = req.body;
   db.MenuItem.create({
     name: item.name,
     description: item.description,
     price: item.price,
     imageUrl: item.imageUrl,
+    chefId: item.chefId,
   })
     .then((data) => {
-      // console.log('data: ', data);
+      console.log('data: ', data);
       res.send(data);
     })
     .catch(err => console.log(err));
@@ -163,17 +163,16 @@ app.get('/api/chef/events', (req, res) => {
 });
 
 app.post('/api/chef/event', (req, res) => {
-  // NOT YET TESTED
-  // console.log('REQ query!!! : ', req.body);
+// works with postman body:
+// {date, startTime, endTime, chefId, menuItems:[{id, quantity, reservations}] }
   const event = req.body;
   db.Event.create({
-    name: event.name,
-    description: event.description,
-    price: event.price,
-    imageUrl: event.imageUrl,
+    date: event.date,
+    startTime: event.startTime,
+    endTime: event.endTime,
+    chefId: event.chefId,
   })
     .then((data) => {
-      // console.log('data: ', data);
       event.menuItems.forEach((item) => {
         db.ItemEvent.create({
           quantity: item.quantity,
