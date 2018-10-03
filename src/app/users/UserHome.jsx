@@ -44,11 +44,9 @@ class UserHome extends React.Component {
 
   getChefList() {
     axios.get('/api/chef/all').then((res) => {
-      if (res.data.length > 0) {
-        this.setState({
-          chefs: res.data,
-        });
-      }
+      this.setState({
+        chefs: res.data,
+      });
     });
   }
 
@@ -60,8 +58,7 @@ class UserHome extends React.Component {
             {`Chef: ${chef.username}, Address: ${chef.streetAddress} ${chef.city}, ${
               chef.stateName
             }, ${chef.zip}, Description: ${chef.description}`}
-            {/* , Hours:
-            {chef.chefHours} */}
+
             <Link
               to={{
                 pathname: '/user/chefdetails',
