@@ -68,16 +68,18 @@ app.patch(
     });
   },
 );
-app.post('/api/user/login', (req, res) => {
-  const username = req.body.username;
-  const password = req.body.password;
-  db.User.findOne({ where: { username } }).then((res) => {
-    if (res.length === 0) {
-      console.log('username not found');
-      res.redirect('/api/user/signup');
-    }
-  });
-});
+
+// app.post('/api/user/login', (req, res) => {
+//   const username = req.body.username;
+//   const password = req.body.password;
+//   db.User.findOne({ where: { username } }).then((res) => {
+//     if (res.length === 0) {
+//       console.log('username not found');
+//       res.redirect('/api/user/signup');
+//     }
+//   });
+// });
+
 app.get(
   '/api/user/accountInfo',
   (req, res, next) => console.log('get request to user/accountInfo') || next(),
