@@ -55,21 +55,14 @@ class UserHome extends React.Component {
       <ul>
         <li>
           <div>
-            Chef:
-            {' '}
-            {chef.chefUsername}
-, Address:
-            {' '}
-            {chef.chefAddress}
-, Description:
-            {' '}
-            {chef.chefDescription}
-, Hours:
-            {chef.chefHours}
+            {`Chef: ${chef.username}, Address: ${chef.streetAddress} ${chef.city}, ${
+              chef.stateName
+            }, ${chef.zip}, Description: ${chef.description}`}
+
             <Link
               to={{
                 pathname: '/user/chefdetails',
-                state: { username: this.state.username, currentChef: chef.chefUsername },
+                state: { username: this.state.username, currentChef: chef.username },
               }}
             >
               <button type="button">Select</button>
