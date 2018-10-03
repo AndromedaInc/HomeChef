@@ -89,7 +89,7 @@ app.get(
     console.log('username is', username);
     db.User.findOne({ where: { username } })
       .then(accountInfo => res.status(200).send(accountInfo))
-      .catch(res.redirect('/'));
+      .catch(err => console.log(err));
   },
 );
 
@@ -120,6 +120,7 @@ app.get('/api/chef/schedule', (req, res) => {
     ],
   })
     .then((data) => {
+      console.log(data);
       const schedule = util.organizeSchedule(data);
       res.send(schedule);
     })
@@ -162,9 +163,7 @@ app.get('/api/chef/events', (req, res) => {
     .catch(err => console.log(err));
 });
 
-app.post('/api/chef/event', (req, res) => {
-// works with postman body:
-// {date, startTime, endTime, chefId, menuItems:[{id, quantity}] }
+app.post('/api/chef/event/create', (req, res) => {
   const event = req.body;
   db.Event.create({
     date: event.date,
@@ -173,15 +172,47 @@ app.post('/api/chef/event', (req, res) => {
     chefId: event.chefId,
   })
     .then((data) => {
-      event.menuItems.forEach((item) => {
+      event.updatedMenuItems.forEach((item) => {
         db.ItemEvent.create({
           quantity: item.quantity,
-          reservations: 0,
           eventId: data.id,
           menuItemId: item.id,
+          chefId: event.chefId,
+          reservations: 0,
         });
       });
+    })
+    .then((data) => {
       res.send(data);
+      //res.redirect('/chef');
+    })
+    .catch(err => console.log(err));
+});
+
+app.post('/api/chef/event/update', (req, res) => {
+  // {eventId, date, startTime, endTime, chefId, menuItems:[{id, quantity}] }
+  const event = req.body;
+  db.Event.update(
+    {
+      date: event.date,
+      startTime: event.startTime,
+      endTime: event.endTime,
+    },
+    { where: { id: event.id } },
+  )
+    .then(() => {
+      event.updatedMenuItems.forEach((item) => {
+        console.log('event: ', event);
+        console.log('item: ', item);
+        db.ItemEvent.update(
+          { quantity: item.quantity },
+          { where: { eventId: event.id, menuItemId: item.id } },
+        );
+      });
+    })
+    .then((data) => {
+      res.send(data);
+      // res.redirect('/chef');
     })
     .catch(err => console.log(err));
 });

@@ -19,6 +19,7 @@ class ChefSchedule extends React.Component {
     const { chefId } = this.state; // change to passed in prop
     axios.get('/api/chef/schedule', { params: { id: chefId } })
       .then((data) => {
+        console.log(data.data);
         this.setState({ schedule: data.data });
       })
       .catch(err => console.log(err));
@@ -84,7 +85,7 @@ class ChefSchedule extends React.Component {
                   <td>
                     <Link to={{
                       pathname: '/chef/schedule/update',
-                      state: { event, chefId },
+                      state: { event, chefId, },
                     }}
                     >
                       <button type="button">Edit</button>
