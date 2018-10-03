@@ -29,6 +29,7 @@ class UsersChefDetails extends React.Component {
 
   getChefDetails(chefUsername) {
     axios.get(`/api/chef/accountInfo?username=${chefUsername}`).then((res) => {
+      console.log(res.data);
       this.setState({
         chefDetails: res.data,
       });

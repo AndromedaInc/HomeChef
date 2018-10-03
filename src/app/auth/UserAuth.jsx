@@ -15,6 +15,7 @@ class UserAuth extends React.Component {
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   handleChange(e) {
@@ -25,13 +26,21 @@ class UserAuth extends React.Component {
     });
   }
 
-  // handleLogin(){
-
-  // }
+  handleLogin() {
+    axios
+      .post('/api/user/login', {
+        username: this.state.username,
+        password: this.state.userPassword,
+      })
+      .then((res) => {
+        console.log('UserAuth handlesubmit', res);
+      })
+      .catch(err => console.log(err));
+  }
 
   handleSubmit(e) {
     e.preventDefault();
-    // axios.get('/api/user/login');
+    this.handleLogin();
   }
 
   render() {
