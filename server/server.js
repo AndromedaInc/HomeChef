@@ -164,7 +164,7 @@ app.get('/api/chef/events', (req, res) => {
 
 app.post('/api/chef/event', (req, res) => {
 // works with postman body:
-// {date, startTime, endTime, chefId, menuItems:[{id, quantity, reservations}] }
+// {date, startTime, endTime, chefId, menuItems:[{id, quantity}] }
   const event = req.body;
   db.Event.create({
     date: event.date,

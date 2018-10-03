@@ -20,6 +20,7 @@ class ChefHome extends Component {
       name: 'testchef', // may want to remove from here
       password: 'chefpass', // may want to remove from here
       imageUrl: 'chefimage.com', // may want to remove from here
+      id: 1,
     };
 
     this.onChange = this.onChange.bind(this);
@@ -117,11 +118,12 @@ class ChefHome extends Component {
   }
 
   render() {
+    const { id } = this.state;
     return (
       <div>
         <h1>What's Cooking?</h1>
         {this.renderView()}
-        {/* <ChefSchedule chefId={id} /> */}
+        <ChefSchedule chefId={id} />
       </div>
     );
   }
