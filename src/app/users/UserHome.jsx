@@ -28,26 +28,33 @@ class UserHome extends React.Component {
           chefHours: '12:30-1:30pm, 5:30-6:30pm',
         },
       ],
-      currentChef: '',
       username: '',
     };
-    this.handleClick = this.handleClick.bind(this);
+    this.getChefList = this.getChefList.bind(this);
   }
 
   componentDidMount() {
-    // axios.get('/api/chefs', (req, res) => {});
+    this.getChefList();
+    const receivedUsername = this.props.location.state.username;
+
+    this.setState({
+      username: receivedUsername,
+    });
   }
 
-  handleClick(username) {
-    this.setState({ currentChef: username });
-    console.log(this.state);
+  getChefList() {
+    axios.get('/api/chef/all').then((res) => {
+      this.setState({
+        chefs: res.data,
+      });
+    });
   }
 
   renderChefList() {
     return this.state.chefs.map(chef => (
       <ul>
         <li>
-          <div onClick={() => this.handleClick(chef.chefUsername)}>
+          <div>
             Chef:
             {' '}
             {chef.chefUsername}
@@ -59,7 +66,12 @@ class UserHome extends React.Component {
             {chef.chefDescription}
 , Hours:
             {chef.chefHours}
-            <Link to="/user/chefdetails">
+            <Link
+              to={{
+                pathname: '/user/chefdetails',
+                state: { username: this.state.username, currentChef: chef.chefUsername },
+              }}
+            >
               <button type="button">Select</button>
             </Link>
           </div>
@@ -68,11 +80,6 @@ class UserHome extends React.Component {
     ));
   }
 
-  // renderChefDetails() {
-  //   if (this.state.currentChef !== '') {
-  //     return <div>{this.state.currentChef}</div>;
-  //   }
-  // }
   render() {
     return (
       <div>

@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import axios from 'axios';
 import store from '../redux/store';
 import Posts from '../redux/sampleComponents/Posts';
 import PostForm from '../redux/sampleComponents/PostForm';
@@ -24,26 +25,13 @@ class UserAuth extends React.Component {
     });
   }
 
+  // handleLogin(){
+
+  // }
+
   handleSubmit(e) {
     e.preventDefault();
-    // const post = {
-    //   username: this.state.username,
-    //   password: this.state.password
-    // };
-    // fetch("https://jsonplaceholder.typicode.com/posts", {
-    //   method: "POST",
-    //   headers: {
-    //     "content-type": "application/json"
-    //   },
-    //   body: JSON.stringify(post)
-    // })
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     // if (data) {
-    //     //   redirect: window.location.replace("../user.html");
-    //     // }
-    //     // console.log(data);
-    //   });
+    // axios.get('/api/user/login');
   }
 
   render() {
@@ -60,11 +48,7 @@ class UserAuth extends React.Component {
                 <label>Username: </label>
                 {' '}
                 <br />
-                <input
-                  name="username"
-                  value={this.state.username}
-                  onChange={this.handleChange}
-                />
+                <input name="username" value={this.state.username} onChange={this.handleChange} />
               </div>
               <div>
                 <label>Password: </label>
@@ -76,7 +60,12 @@ class UserAuth extends React.Component {
                   onChange={this.handleChange}
                 />
               </div>
-              <Link to="/user">
+              <Link
+                to={{
+                  pathname: '/user',
+                  state: { username: this.state.username },
+                }}
+              >
                 <button type="button">Login</button>
               </Link>
             </div>
