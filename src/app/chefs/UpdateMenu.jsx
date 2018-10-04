@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import UpdateItem from './UpdateItem';
 
 class UpdateMenu extends React.Component {
   constructor(props) {
@@ -10,28 +11,27 @@ class UpdateMenu extends React.Component {
   }
 
   componentDidMount() {
-    // get request for all menu items for this chef id
+    const { chefId } = this.props.location.state;
+    axios.get('/api/chef/menu', { params: { id: chefId } })
+      .then((data) => {
+        console.log('data.data', data.data);
+        this.setState({ menuItems: data.data });
+      })
+      .catch(err => console.log(err));
   }
 
-  handleChange() {
-    
-  }
-
-  handleSubmit() {
-  }
+  // handleAddNew() {
+  // }
 
   render() {
-    // triggered by add new event button from ChefSchedule
-
-    // button to add new menu item
-    // show each meal with option to edit each one:
-      // name
-      // description
-      // price
-      // image
-
+    const { menuItems } = this.state;
     return (
       <div>
+        <h1>Your Menu</h1>
+        <button type="button" onClick={this.handleAddNew}>Add New Menu Item</button>
+        <br />
+        <br />
+        {menuItems.map(item => <UpdateItem item={item} />)}
       </div>
     );
   }
