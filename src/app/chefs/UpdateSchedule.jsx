@@ -119,18 +119,24 @@ class UpdateSchedule extends React.Component {
         <form>
           Date:
           <input
+            name="date"
+            type="date"
             defaultValue={date}
             onChange={e => this.setState({ date: e.target.value })}
           />
           <br />
           Start Time:
           <input
+            name="startTime"
+            type="time"
             defaultValue={startTime}
             onChange={e => this.setState({ startTime: e.target.value })}
           />
           <br />
           End Time:
           <input
+            name="endTime"
+            type="time"
             defaultValue={endTime}
             onChange={e => this.setState({ endTime: e.target.value })}
           />
@@ -149,6 +155,8 @@ class UpdateSchedule extends React.Component {
                 {item.name}
                 <span>: </span>
                 <input
+                  type="number"
+                  min="0"
                   defaultValue={quantity}
                   onChange={this.handleQuantityChange.bind(this, item)}
                 />

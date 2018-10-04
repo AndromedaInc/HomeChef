@@ -81,8 +81,10 @@ class UpdateItem extends React.Component {
         <br />
         Price:
         <input
-          type="text"
           name="price"
+          type="number"
+          step="0.01"
+          min="0"
           defaultValue={item.price}
           onChange={this.handleChange}
         />

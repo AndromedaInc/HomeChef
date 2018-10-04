@@ -3,8 +3,8 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 class ChefSchedule extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor({ chefId }) {
+    super({ chefId });
     this.state = {
       schedule: [],
     };
@@ -18,14 +18,15 @@ class ChefSchedule extends React.Component {
     const { chefId } = this.props;
     axios.get('/api/chef/schedule', { params: { id: chefId } })
       .then((data) => {
-        this.setState({ schedule: data.data });
+        // save chefId to state to prevent unknown switching to different chefId number in render
+        this.setState({ schedule: data.data, chefId });
       })
       .catch(err => console.log(err));
   }
 
   render() {
-    const { chefId } = this.props;
-    const { schedule } = this.state;
+    // get chefId from state (set in getSchedule) to prevent unknown switch to diff chefId num
+    const { chefId, schedule } = this.state;
     return (
       <div>
         <h3>Schedule</h3>
