@@ -110,13 +110,6 @@ app.post('/login', (req, res) => {
   // .catch(err => res.status(401).send({ err }));
 });
 
-app.get('/loginTest', util.checkIfAuthenticated, (req, res) => {
-  // console.log('req.user is', req.user, 'res currently is', res);
-  res.status(200);
-  res.send('ya done good!');
-});
-
-
 /* **** **** */
 
 app.get('/api/chef/accountInfo', (req, res) => {
