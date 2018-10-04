@@ -96,6 +96,7 @@ app.post('/login', (req, res) => {
       if (!result) {
         return res.status(400).send('user not found');
       }
+      const { dataValues: { id: userId } } = result;
       console.log('found record is', result);
       // TODO: add bcrypt match here
       const token = util.createJWTBearerToken(result);
@@ -105,7 +106,7 @@ app.post('/login', (req, res) => {
       //   subject: result.id.toString(),
       // });
       res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
-      return res.send();
+      return res.send({ userId });
       // res.send(token);
     });
   // .catch(err => res.status(401).send({ err }));
@@ -114,10 +115,9 @@ app.post('/login', (req, res) => {
 /* **** **** */
 
 app.get('/api/chef/accountInfo', (req, res) => {
-  const { username } = req.query;
-  console.log('username is', username);
-  // chefs.findChef(username);
-  db.Chef.findOne({ where: { username } })
+  const { id } = req.query;
+  console.log('id is', id);
+  db.Chef.findOne({ where: { id } })
     .then(accountInfo => res.status(200).send(accountInfo))
     .catch(err => console.log(err));
 });
