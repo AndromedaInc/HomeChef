@@ -1,22 +1,23 @@
 import React from 'react';
 import axios from 'axios';
+// import { Redirect } from 'react-router-dom';
 
 class UpdateItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       edit: false,
-      imageUrl: '',
-      name: '',
+      imageUrl: null,
+      name: null,
       price: null,
-      description: '',
+      description: null,
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleEdit() {
     const { edit } = this.state;
-    this.setState({ edit: !edit }, () => this.render());
+    this.setState({ edit: !edit });
   }
 
   handleChange(event) {
@@ -25,28 +26,29 @@ class UpdateItem extends React.Component {
   }
 
   handleSave(item) {
-    console.log(item);
     const { edit, imageUrl, name, price, description } = this.state;
-    axios.post('/api/chef/menu/update', {
-      imageUrl,
-      name,
-      price,
-      description,
-    })
-      .then(() => {
-        this.setState({ edit: !edit }, () => this.render());
+    const params = { id: item.id };
+    if (imageUrl) { params.imageUrl = imageUrl; }
+    if (name) { params.name = name; }
+    if (price) { params.price = price; }
+    if (description) { params.description = description; }
+
+    axios.post('/api/chef/menu/update', params)
+      .then((data) => {
+        this.setState({ edit: !edit });
+        // redirect or rerender with new updates
+        // return <Redirect to="/chef/menu/update" />;
       })
       .catch(err => console.log(err));
   }
 
   render() {
-    console.log(this.props);
     const { item } = this.props;
     const { edit } = this.state;
     if (!edit) {
       return (
         <div key={item.id}>
-          <img alt={item.name} src={item.imageUrl} />
+          <img width="300px" alt={item.name} src={item.imageUrl} />
           <h3>{item.name}</h3>
           <p>
             $

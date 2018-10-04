@@ -120,7 +120,6 @@ app.get('/api/chef/schedule', (req, res) => {
     ],
   })
     .then((data) => {
-      console.log(data);
       const schedule = util.organizeSchedule(data);
       res.send(schedule);
     })
@@ -137,7 +136,6 @@ app.get('/api/chef/menu', (req, res) => {
 });
 
 app.post('/api/chef/menu/add', (req, res) => {
-  console.log('REQ BODY : ', req.body);
   const item = req.body;
   db.MenuItem.create({
     name: item.name,
@@ -147,7 +145,6 @@ app.post('/api/chef/menu/add', (req, res) => {
     chefId: item.chefId,
   })
     .then((data) => {
-      console.log('data: ', data);
       res.send(data);
     })
     .catch(err => console.log(err));
@@ -165,7 +162,6 @@ app.post('/api/chef/menu/update', (req, res) => {
     { where: { id: item.id } },
   )
     .then((data) => {
-      console.log('data: ', data);
       res.send(data);
     })
     .catch(err => console.log(err));
