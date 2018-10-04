@@ -130,7 +130,7 @@ app.post('/login', (req, res) => {
       //   subject: result.id.toString(),
       // });
       res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
-      // return res.send({ userId });
+      return res.send();
       // res.send(token);
     });
   // .catch(err => res.status(401).send({ err }));
