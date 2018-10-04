@@ -136,8 +136,7 @@ app.get('/api/chef/menu', (req, res) => {
     .catch(err => console.log(err));
 });
 
-app.post('/api/chef/menu', (req, res) => {
-  // works with postman
+app.post('/api/chef/menu/add', (req, res) => {
   console.log('REQ BODY : ', req.body);
   const item = req.body;
   db.MenuItem.create({
@@ -147,6 +146,24 @@ app.post('/api/chef/menu', (req, res) => {
     imageUrl: item.imageUrl,
     chefId: item.chefId,
   })
+    .then((data) => {
+      console.log('data: ', data);
+      res.send(data);
+    })
+    .catch(err => console.log(err));
+});
+
+app.post('/api/chef/menu/update', (req, res) => {
+  const item = req.body;
+  db.MenuItem.update(
+    {
+      name: item.name,
+      description: item.description,
+      price: item.price,
+      imageUrl: item.imageUrl,
+    },
+    { where: { id: item.id } },
+  )
     .then((data) => {
       console.log('data: ', data);
       res.send(data);
@@ -184,7 +201,6 @@ app.post('/api/chef/event/create', (req, res) => {
     })
     .then((data) => {
       res.send(data);
-      //res.redirect('/chef');
     })
     .catch(err => console.log(err));
 });
@@ -202,8 +218,6 @@ app.post('/api/chef/event/update', (req, res) => {
   )
     .then(() => {
       event.updatedMenuItems.forEach((item) => {
-        console.log('event: ', event);
-        console.log('item: ', item);
         db.ItemEvent.update(
           { quantity: item.quantity },
           { where: { eventId: event.id, menuItemId: item.id } },
@@ -212,7 +226,6 @@ app.post('/api/chef/event/update', (req, res) => {
     })
     .then((data) => {
       res.send(data);
-      // res.redirect('/chef');
     })
     .catch(err => console.log(err));
 });

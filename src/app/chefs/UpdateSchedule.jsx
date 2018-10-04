@@ -2,8 +2,8 @@ import React from 'react';
 import axios from 'axios';
 
 class UpdateSchedule extends React.Component {
-  constructor({ /* event, chefId */ }) {
-    super({ /* event, chefId */ });
+  constructor(props) {
+    super(props);
     this.state = {
       availableMenuItems: [],
       date: '',
@@ -12,16 +12,12 @@ class UpdateSchedule extends React.Component {
       menuItems: [],
       updatedMenuItems: [],
       newSchedule: true,
-      // chefId: this.props.location.state,
-      // event: this.props.location.state,
-      chefId: 1, // DELETE
-      event: { id: 1, date: '2018/10/31', startTime: '4:00 PM', endTime: '6:00 PM', menuItems: [{ id: 1, name: 'Pad Thai', quantity: 20 }, { id: 21, name: 'Pad See Ew', quantity: 10 }] },
     };
   }
 
   componentDidMount() {
-    const { chefId, event } = this.state; // CHANGE TO THIS.PROPS
-    // if this event object is passed from ChefSchedule, update state
+    // const { location: { state: { chefId, event } } } = this.props;
+    const { chefId, event } = this.props.location.state;
     if (event) {
       this.setState({
         date: event.date,
@@ -63,13 +59,14 @@ class UpdateSchedule extends React.Component {
   }
 
   createNewEvent() {
+    const { chefId } = this.props.location.state;
     const {
       date,
       startTime,
       endTime,
       updatedMenuItems,
-      chefId, // CHANGE TO PROPS
     } = this.state;
+
     axios.post('/api/chef/event/create', {
       chefId,
       date,
@@ -85,17 +82,16 @@ class UpdateSchedule extends React.Component {
   }
 
   updateExistingEvent() {
+    const { chefId, event } = this.props.location.state;
     const {
-      event,
-      chefId, // CHANGE TO PROPS
       date,
       startTime,
       endTime,
       updatedMenuItems,
     } = this.state;
-    console.log('updatedMenuItems in update existing event', updatedMenuItems);
+
     axios.post('/api/chef/event/update', {
-      id: event.id,
+      id: event.eventId,
       chefId,
       date,
       startTime,

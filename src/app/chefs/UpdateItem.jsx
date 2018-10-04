@@ -6,25 +6,35 @@ class UpdateItem extends React.Component {
     super(props);
     this.state = {
       edit: false,
+      imageUrl: '',
+      name: '',
+      price: null,
+      description: '',
     };
+    this.handleChange = this.handleChange.bind(this);
   }
 
   handleEdit() {
     const { edit } = this.state;
-    this.setState({ edit: !edit });
+    this.setState({ edit: !edit }, () => this.render());
   }
 
-  // handleChange() {
-  // }
+  handleChange(event) {
+    const { name, value } = event.target;
+    this.setState({ [name]: value });
+  }
 
-  handleSave() {
-    const { edit } = this.state;
+  handleSave(item) {
+    console.log(item);
+    const { edit, imageUrl, name, price, description } = this.state;
     axios.post('/api/chef/menu/update', {
-      // updated items and menuItem Id
+      imageUrl,
+      name,
+      price,
+      description,
     })
       .then(() => {
-        // update item in render? redirec?
-        this.setState({ edit: !edit });
+        this.setState({ edit: !edit }, () => this.render());
       })
       .catch(err => console.log(err));
   }
@@ -43,7 +53,7 @@ class UpdateItem extends React.Component {
             {item.price.toFixed(2)}
           </p>
           <p>{item.description}</p>
-          <button type="button" onClick={this.handleEdit}>Edit</button>
+          <button type="button" onClick={this.handleEdit.bind(this, item)}>Edit</button>
           <br />
           <br />
         </div>
@@ -52,18 +62,38 @@ class UpdateItem extends React.Component {
     return (
       <form key={item.id}>
         Image:
-        <input defaultValue={item.imageUrl} />
+        <input
+          type="text"
+          name="imageUrl"
+          defaultValue={item.imageUrl}
+          onChange={this.handleChange}
+        />
         <br />
         Name:
-        <input defaultValue={item.name} />
+        <input
+          type="text"
+          name="name"
+          defaultValue={item.name}
+          onChange={this.handleChange}
+        />
         <br />
         Price:
-        <input defaultValue={item.price} />
+        <input
+          type="text"
+          name="price"
+          defaultValue={item.price}
+          onChange={this.handleChange}
+        />
         <br />
         Description:
-        <input defaultValue={item.description} />
+        <input
+          type="text"
+          name="description"
+          defaultValue={item.description}
+          onChange={this.handleChange}
+        />
         <br />
-        <button type="button" onClick={this.handleSave}>Save</button>
+        <button type="button" onClick={this.handleSave.bind(this, item)}>Save</button>
         <br />
         <br />
       </form>

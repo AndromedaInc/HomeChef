@@ -7,7 +7,6 @@ class ChefSchedule extends React.Component {
     super(props);
     this.state = {
       schedule: [],
-      chefId: 1,
     };
   }
 
@@ -16,7 +15,7 @@ class ChefSchedule extends React.Component {
   }
 
   getSchedule() {
-    const { chefId } = this.state; // change to passed in prop
+    const { chefId } = this.props;
     axios.get('/api/chef/schedule', { params: { id: chefId } })
       .then((data) => {
         console.log(data.data);
@@ -26,7 +25,9 @@ class ChefSchedule extends React.Component {
   }
 
   render() {
-    const { schedule, chefId } = this.state;
+    const { chefId } = this.props;
+    const { schedule } = this.state;
+    console.log('schedule:', schedule);
     return (
       <div>
         <h3>Schedule</h3>
@@ -55,7 +56,7 @@ class ChefSchedule extends React.Component {
             </tr>
             {schedule.map((event) => {
               return (
-                <tr key={event.id}>
+                <tr key={event.eventId}>
                   <td>{event.date}</td>
                   <td>{event.startTime}</td>
                   <td>{event.endTime}</td>

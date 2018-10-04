@@ -21,7 +21,6 @@ class UpdateMenu extends React.Component {
   }
 
   // handleAddNew() {
-    
   // }
 
   render() {
