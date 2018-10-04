@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import axios from 'axios';
 import store from '../redux/store';
@@ -12,6 +12,7 @@ class ChefAuth extends React.Component {
     this.state = {
       username: '',
       password: '',
+      redirect: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -27,21 +28,41 @@ class ChefAuth extends React.Component {
 
   handleSubmit(e) {
     const { username, password } = this.state;
-    const { history } = this.props;
+    // const { history } = this.props;
     e.preventDefault();
     axios.post('/login', {
       username,
       password,
     }).then((res) => {
-      console.log('response from loginTest is', res);
-      history.push('/chef');
+      console.log('response from login is', res);
+      // history.push('/chef');
+      const { data: { userId } } = res;
+      console.log(userId);
+      this.setState({
+        redirect: true,
+        userId,
+      });
     }).catch(err => console.log(err));
+  }
+
+  renderRedirect() {
+    const { redirect, userId } = this.state;
+    if (redirect) {
+      return (
+        <Redirect to={{
+          pathname: '/chef',
+          state: { userId },
+        }}
+        />
+      );
+    }
   }
 
   render() {
     return (
       <Provider store={store}>
         <Fragment>
+          {this.renderRedirect()}
           <Link to="/userauth">
             <button type="button">Login as a User</button>
           </Link>

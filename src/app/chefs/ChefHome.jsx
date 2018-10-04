@@ -7,7 +7,9 @@ import ChefAccountInfo from './ChefAccountInfo';
 class ChefHome extends Component {
   constructor(props) {
     super(props);
+    console.log(props);
 
+    const { location: { state: { userId: id } } } = this.props;
     this.state = {
       edit: false,
       address: 'test address',
@@ -20,7 +22,7 @@ class ChefHome extends Component {
       name: 'testchef', // may want to remove from here
       password: 'chefpass', // may want to remove from here
       imageUrl: 'chefimage.com', // may want to remove from here
-      id: 1,
+      id,
     };
 
     this.onChange = this.onChange.bind(this);
@@ -41,8 +43,8 @@ class ChefHome extends Component {
   }
 
   getAccountInfo() {
-    const { username } = this.state;
-    return axios.get(`/api/chef/accountInfo?username=${username}`)
+    const { id } = this.state;
+    return axios.get(`/api/chef/accountInfo?id=${id}`)
       .then(({
         data: {
           description,
@@ -50,7 +52,8 @@ class ChefHome extends Component {
           city,
           stateName,
           zip,
-          id,
+          // id,
+          username,
           imageUrl,
           name,
           password,

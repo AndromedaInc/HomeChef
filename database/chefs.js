@@ -1,6 +1,7 @@
 const db = require('./database.js');
 
 const upsertAccountInfo = ({
+  id,
   username,
   streetAddress,
   city,
@@ -11,6 +12,7 @@ const upsertAccountInfo = ({
   name,
   password,
 }) => (db.Chef.upsert({
+  id,
   username,
   streetAddress,
   city,
