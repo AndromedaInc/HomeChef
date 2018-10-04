@@ -1,9 +1,14 @@
 require('babel-register');
+require('dotenv').config();
 /* **** Express modules **** */
 const express = require('express');
 
 const app = express();
 const port = process.env.PORT || 5678;
+const morgan = require('morgan');
+
+/* **** JWT and Passport Modules **** */
+const cookieParser = require('cookie-parser');
 
 /* **** Server-side Rendering Modules **** */
 const React = require('react');
@@ -27,13 +32,12 @@ const util = require('./util');
 // const graphqlHTTP = require('express-graphql');
 // const gqlSchema = require('./schema');
 
-app.use(
-  '/public',
-  (req, res, next) => console.log('in express.static') || next(),
-  express.static(`${__dirname}/../public`),
-);
+/* **** Apply universal middleware **** */
+app.use('/public', express.static(`${__dirname}/../public`));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(morgan({ format: 'dev' }));
 
 // can play with GraphQL queries in the browser at localhost:5678/graphql
 // app.use('/graphql', graphqlHTTP({
@@ -41,34 +45,101 @@ app.use(bodyParser.json());
 //   graphiql: true,
 // }));
 
-app.get(
-  '/api/chef/accountInfo',
-  (req, res, next) => console.log('get request to chef/accountInfo') || next(),
-  (req, res) => {
-    const { username } = req.query;
-    console.log('username is', username);
-    db.Chef.findOne({ where: { username } })
-      .then(accountInfo => res.status(200).send(accountInfo))
-      .catch(err => console.log(err));
-  },
-);
+/* **** Authentication **** */
+// app.use(util.checkIfAuthenticated, (err, req, res, next) => {
+//   if (err.name === 'UnauthorizedError') {
+//     res.status(401);
+//     console.log('req is', req, 'req.headers.host is', req.headers.host);
+//     res.redirect('/');
+//   }
+//   next();
+// }); // this will see if all incoming requests are authenticated and if not redirect to the home page, but not currently working
 
-app.patch(
-  '/api/chef/accountInfo',
-  (req, res, next) => console.log('patch request to chef/accountInfo') || next(),
-  (req, res) => {
-    console.log('incoming patch request to chef/accountInfo is', req);
-    chefs.upsertAccountInfo(req.body.data).then((created) => {
-      if (created) {
-        res.status(200);
-        res.send('Successfully stored');
-      } else {
-        res.status(200);
-        res.send('Successfully inserted');
+/* **** WIP Signup Endpoint ****
+app.post('/signup', (req, res) => {
+  console.log('incoming signup request is', req);
+  const { or } = db.connection.Op;
+  const { username, password, email } = req.body; // for app
+  // const { username, password } = req.query; // for postman
+  if (!username || !password) {
+    return res.status(401).send('no fields');
+  }
+
+  return db.Chef.findOne({
+    where: {
+      [or]: [
+        { username },
+        { email },
+      ],
+    },
+  })
+    .then((result) => {
+      if (result) {
+        return res.status(400).send('that username or email already exists');
       }
+      return db.Chef.create({ username, password });
+    })
+    .then(() => res.send('ok'));
+});
+*/
+
+app.post('/login', (req, res) => {
+  console.log('incoming login request is', req);
+  const { username, password } = req.body; // for app
+  // const { username, password } = req.query; // for postman
+  if (!username || !password) {
+    return res.status(401).send('no fields');
+  }
+  db.Chef.findOne({ where: { username } })
+    .then((result) => {
+      if (!result) {
+        return res.status(400).send('user not found');
+      }
+      console.log('found record is', result);
+      // TODO: add bcrypt match here
+      const token = util.createJWTBearerToken(result);
+      // const jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, {
+      //   algorithm: 'RS256',
+      //   expiresIn: 120000000,
+      //   subject: result.id.toString(),
+      // });
+      res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
+      res.send();
+      // res.send(token);
     });
-  },
-);
+  // .catch(err => res.status(401).send({ err }));
+});
+
+app.get('/loginTest', util.checkIfAuthenticated, (req, res) => {
+  // console.log('req.user is', req.user, 'res currently is', res);
+  res.status(200);
+  res.send('ya done good!');
+});
+
+
+/* **** **** */
+
+app.get('/api/chef/accountInfo', (req, res) => {
+  const { username } = req.query;
+  console.log('username is', username);
+  // chefs.findChef(username);
+  db.Chef.findOne({ where: { username } })
+    .then(accountInfo => res.status(200).send(accountInfo))
+    .catch(err => console.log(err));
+});
+
+app.patch('/api/chef/accountInfo', (req, res) => {
+  console.log('incoming patch request to chef/accountInfo is', req);
+  chefs.upsertAccountInfo(req.body.data).then((created) => {
+    if (created) {
+      res.status(200);
+      res.send('Successfully stored');
+    } else {
+      res.status(200);
+      res.send('Successfully inserted');
+    }
+  });
+});
 
 // app.post('/api/user/login', (req, res) => {
 //   const username = req.body.username;
@@ -227,7 +298,7 @@ app.post('/api/chef/event/update', (req, res) => {
 });
 
 /* **** Catch All - all server requests above here **** */
-app.use((req, res) => {
+app.use(util.checkIfAuthenticated, (req, res) => {
   console.log(req.url);
   const context = {};
   const body = ReactDOMServer.renderToString(

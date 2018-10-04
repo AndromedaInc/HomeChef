@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import axios from 'axios';
 import store from '../redux/store';
 // import Posts from '../redux/sampleComponents/Posts';
 // import PostForm from '../redux/sampleComponents/PostForm';
@@ -25,7 +26,16 @@ class ChefAuth extends React.Component {
   }
 
   handleSubmit(e) {
+    const { username, password } = this.state;
+    const { history } = this.props;
     e.preventDefault();
+    axios.post('/login', {
+      username,
+      password,
+    }).then((res) => {
+      console.log('response from loginTest is', res);
+      history.push('/chef');
+    }).catch(err => console.log(err));
   }
 
   render() {
@@ -58,9 +68,9 @@ class ChefAuth extends React.Component {
                   onChange={this.handleChange}
                 />
               </div>
-              <Link to="/chef">
-                <button type="button">Login</button>
-              </Link>
+              {/* <Link to="/chef"> */}
+              <button type="submit">Login</button>
+              {/* </Link> */}
             </div>
           </form>
           {/* <PostForm />
