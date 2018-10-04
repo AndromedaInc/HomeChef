@@ -22,4 +22,7 @@ const upsertAccountInfo = ({
   password,
 }));
 
+const findChef = username => db.Chef.findOne({ where: { username } });
+
 exports.upsertAccountInfo = upsertAccountInfo;
+exports.findChef = findChef;
