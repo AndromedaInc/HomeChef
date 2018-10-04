@@ -18,7 +18,6 @@ class ChefSchedule extends React.Component {
     const { chefId } = this.props;
     axios.get('/api/chef/schedule', { params: { id: chefId } })
       .then((data) => {
-        console.log(data.data);
         this.setState({ schedule: data.data });
       })
       .catch(err => console.log(err));
@@ -27,7 +26,6 @@ class ChefSchedule extends React.Component {
   render() {
     const { chefId } = this.props;
     const { schedule } = this.state;
-    console.log('schedule:', schedule);
     return (
       <div>
         <h3>Schedule</h3>
