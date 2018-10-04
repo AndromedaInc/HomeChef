@@ -9,7 +9,7 @@ class ChefHome extends Component {
     super(props);
     console.log(props);
 
-    // const { location: { state: { userId: id } } } = this.props;
+    const { location: { state: { chefId: id } } } = this.props;
     this.state = {
       edit: false,
       address: 'test address',
@@ -22,7 +22,7 @@ class ChefHome extends Component {
       name: 'testchef', // may want to remove from here
       password: 'chefpass', // may want to remove from here
       imageUrl: 'chefimage.com', // may want to remove from here
-      id: 1,
+      id,
     };
 
     this.onChange = this.onChange.bind(this);

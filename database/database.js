@@ -39,6 +39,7 @@ const Chef = orm.define('chef', {
   name: Sequelize.STRING,
   username: Sequelize.STRING,
   password: Sequelize.STRING,
+  email: Sequelize.STRING,
   streetAddress: Sequelize.TEXT,
   city: Sequelize.TEXT,
   stateName: Sequelize.TEXT,
@@ -93,6 +94,7 @@ const User = orm.define('user', {
   name: Sequelize.STRING,
   username: Sequelize.STRING,
   password: Sequelize.STRING,
+  email: Sequelize.STRING,
   imageUrl: Sequelize.STRING,
   // payment_info: ?
 });

@@ -30,39 +30,33 @@ class ChefAuth extends React.Component {
     const { username, password } = this.state;
     const { history } = this.props;
     e.preventDefault();
-    axios
-      .post('/login', {
-        username,
-        password,
-      })
-      .then((res) => {
-        console.log('response from login is', res);
-        history.push('/chef');
-        // const {
-        //   data: { userId },
-        // } = res;
-        // console.log(userId);
-        // this.setState({
-        //   redirect: true,
-        //   userId,
-        // });
-      })
-      .catch(err => console.log(err));
+    axios.post('/login', {
+      username,
+      password,
+    }).then((res) => {
+      console.log('response from login is', res);
+      // history.push('/chef');
+      const { data: { chefId } } = res;
+      console.log(chefId);
+      this.setState({
+        redirect: true,
+        chefId,
+      });
+    }).catch(err => console.log(err));
   }
 
-  // renderRedirect() {
-  //   const { redirect, userId } = this.state;
-  //   if (redirect) {
-  //     return (
-  //       <Redirect
-  //         to={{
-  //           pathname: '/chef',
-  //           state: { userId },
-  //         }}
-  //       />
-  //     );
-  //   }
-  // }
+  renderRedirect() {
+    const { redirect, chefId } = this.state;
+    if (redirect) {
+      return (
+        <Redirect to={{
+          pathname: '/chef',
+          state: { chefId },
+        }}
+        />
+      );
+    }
+  }
 
   render() {
     return (

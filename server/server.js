@@ -7,8 +7,11 @@ const app = express();
 const port = process.env.PORT || 5678;
 const morgan = require('morgan');
 
-/* **** JWT and Passport Modules **** */
+/* **** JWT and Authentication Modules **** */
 const cookieParser = require('cookie-parser');
+const bcrypt = require('bcrypt');
+
+const salt = bcrypt.genSaltSync(10);
 
 /* **** Server-side Rendering Modules **** */
 const React = require('react');
@@ -57,11 +60,12 @@ app.use(morgan({ format: 'dev' }));
 // if not will redirect to the home page (but not currently working)
 
 /* **** WIP Signup Endpoint ****
+*/
 app.post('/signup', (req, res) => {
   console.log('incoming signup request is', req);
   const { or } = db.connection.Op;
   const { username, password, email } = req.body; // for app
-  // const { username, password } = req.query; // for postman
+  // const { username, password, email } = req.query; // for postman
   if (!username || !password) {
     return res.status(401).send('no fields');
   }
@@ -73,16 +77,16 @@ app.post('/signup', (req, res) => {
         { email },
       ],
     },
-  })
-    .then((result) => {
-      if (result) {
-        return res.status(400).send('that username or email already exists');
-      }
-      return db.Chef.create({ username, password });
-    })
+  }).then((result) => {
+    console.log('result retreived from DB is', result);
+    if (result) {
+      return res.status(400).send('that username or email already exists');
+    }
+    return bcrypt.hash(password, salt);
+  }).then(hash => db.Chef.create({ username, password: hash }))
     .then(() => res.send('ok'));
 });
-*/
+
 app.post('/api/user/login', (req, res) => {
   console.log('incoming login request is', req);
   const { username, password } = req.body; // for app
@@ -112,36 +116,39 @@ app.post('/login', (req, res) => {
   console.log('incoming login request is', req);
   const { username, password } = req.body; // for app
   // const { username, password } = req.query; // for postman
+  let chef;
   if (!username || !password) {
     return res.status(401).send('no fields');
   }
   return db.Chef.findOne({ where: { username } })
-    .then((result) => {
-      if (!result) {
+    .then((chefRecord) => {
+      if (!chefRecord) {
         return res.status(400).send('user not found');
       }
-      // const { dataValues: { id: userId } } = result;
-      console.log('found record is', result);
-      // TODO: add bcrypt match here
-      const token = util.createJWTBearerToken(result);
-      // const jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, {
-      //   algorithm: 'RS256',
-      //   expiresIn: 120000000,
-      //   subject: result.id.toString(),
-      // });
+      chef = chefRecord;
+      console.log('found record is', chef);
+      const { dataValues: { password: hash } } = chef;
+      console.log('password match boolean is', bcrypt.compare(password, hash));
+      return bcrypt.compare(password, hash);
+    }).then((match) => {
+      if (match) {
+        return util.createJWTBearerToken(chef);
+      }
+      throw new Error({ message: 'that password does not match' });
+    }).then((token) => {
+      console.log('weve got a token and are ready to send!');
       res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
-      return res.send();
-      // res.send(token);
-    });
-  // .catch(err => res.status(401).send({ err }));
+      const { dataValues: { id: chefId } } = chef;
+      return res.status(200).send({ chefId });
+    })
+    .catch(err => res.status(401).send(err));
 });
 
 /* **** **** */
 
 app.get('/api/chef/accountInfo', (req, res) => {
-  const { username } = req.query;
-  // console.log('id is', id);
-  db.Chef.findOne({ where: { username } })
+  const { id } = req.query;
+  db.Chef.findOne({ where: { id } })
     .then(accountInfo => res.status(200).send(accountInfo))
     .catch(err => console.log(err));
 });
