@@ -8,26 +8,7 @@ class UserHome extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      chefs: [
-        {
-          chefUsername: 'Sarah',
-          chefAddress: 'South-SouthBay',
-          chefDescription: 'I LOVE PAD THAI!!!!!!!!!!!!!',
-          chefHours: '12:30-1:30pm, 5:30-6:30pm',
-        },
-        {
-          chefUsername: 'Stephen',
-          chefAddress: 'Actual Bay',
-          chefDescription: 'I LIKE PAD THAI!!!!!!!!!!!!!',
-          chefHours: '12:30-1:30pm, 5:30-6:30pm',
-        },
-        {
-          chefUsername: 'Duke',
-          chefAddress: 'East-East-East-East-East-East-East-East-East-East-East-East-Bay?',
-          chefDescription: 'I WANT PAD THAI!!!!!!!!!!!!!',
-          chefHours: '12:30-1:30pm, 5:30-6:30pm',
-        },
-      ],
+      chefs: [],
       username: '',
     };
     this.getChefList = this.getChefList.bind(this);

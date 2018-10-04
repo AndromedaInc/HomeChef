@@ -9,7 +9,7 @@ class ChefHome extends Component {
     super(props);
     console.log(props);
 
-    const { location: { state: { userId: id } } } = this.props;
+    // const { location: { state: { userId: id } } } = this.props;
     this.state = {
       edit: false,
       address: 'test address',
@@ -22,7 +22,7 @@ class ChefHome extends Component {
       name: 'testchef', // may want to remove from here
       password: 'chefpass', // may want to remove from here
       imageUrl: 'chefimage.com', // may want to remove from here
-      id,
+      id: 1,
     };
 
     this.onChange = this.onChange.bind(this);
@@ -43,35 +43,26 @@ class ChefHome extends Component {
   }
 
   getAccountInfo() {
-    const { id } = this.state;
-    return axios.get(`/api/chef/accountInfo?id=${id}`)
+    const { username } = this.state;
+    return axios
+      .get(`/api/chef/accountInfo?username=${username}`)
       .then(({
         data: {
-          description,
-          streetAddress,
-          city,
-          stateName,
-          zip,
-          // id,
-          username,
-          imageUrl,
-          name,
-          password,
+          description, streetAddress, city, stateName, zip, id, // username,
+          imageUrl, name, password,
         },
-      }) => (
-        this.setState({
-          description,
-          streetAddress,
-          city,
-          stateName,
-          zip,
-          id,
-          imageUrl,
-          name,
-          password,
-          username,
-        })
-      ));
+      }) => this.setState({
+        description,
+        streetAddress,
+        city,
+        stateName,
+        zip,
+        id,
+        imageUrl,
+        name,
+        password,
+        username,
+      }));
   }
 
   handleSubmit(e) {
@@ -83,7 +74,8 @@ class ChefHome extends Component {
 
   handleUpsert() {
     console.log('sending upsert patch request with this state:', this.state);
-    axios.patch('/api/chef/accountInfo', { data: this.state })
+    axios
+      .patch('/api/chef/accountInfo', { data: this.state })
       .then(() => console.log('upsert successful'))
       .then(() => this.getAccountInfo());
   }
@@ -109,10 +101,7 @@ class ChefHome extends Component {
     }
     return (
       <div>
-        <button
-          type="button"
-          onClick={this.toggleEditAccount}
-        >
+        <button type="button" onClick={this.toggleEditAccount}>
           {editButton}
         </button>
         <ChefAccountInfo state={this.state} />

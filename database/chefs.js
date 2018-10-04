@@ -1,7 +1,7 @@
 const db = require('./database.js');
 
 const upsertAccountInfo = ({
-  id,
+  // id,
   username,
   streetAddress,
   city,
@@ -11,8 +11,8 @@ const upsertAccountInfo = ({
   imageUrl,
   name,
   password,
-}) => (db.Chef.upsert({
-  id,
+}) => db.Chef.upsert({
+  // id,
   username,
   streetAddress,
   city,
@@ -22,7 +22,7 @@ const upsertAccountInfo = ({
   imageUrl,
   name,
   password,
-}));
+});
 
 const findChef = username => db.Chef.findOne({ where: { username } });
 

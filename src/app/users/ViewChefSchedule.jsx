@@ -6,7 +6,6 @@ import axios from 'axios';
 // import { ApolloProvider } from 'react-apollo';
 // import { graphql } from 'react-apollo';
 
-
 // const client = new ApolloClient({
 //   uri: 'http://localhost:5678/graphql'
 // }); // <ApolloProvider client={client}></ApolloProvider>
@@ -16,19 +15,30 @@ class ViewChefSchedule extends React.Component {
     super(props);
     this.state = {
       schedule: [],
-      user: { id: 1, name: 'Jane Doe' }, // eventually will want to get user from prior component
-      chef: { id: 1, name: 'Chef McChef' }, // TODO this should be passed in as prop
+      // user: { id: 1, name: 'Jane Doe' }, // eventually will want to get user from prior component
+      // chef: { id: 1, name: 'Chef McChef' }, // TODO this should be passed in as prop
     };
+    this.getSchedule = this.getSchedule.bind(this);
   }
 
   componentDidMount() {
-    this.getSchedule();
+    setTimeout(() => {
+      // console.log(this.props, this.state);
+      // const user = this.props.user;
+      // const chef = this.props.chef;
+      this.setState({
+        user: this.props.user,
+        chef: this.props.chef,
+      });
+      this.getSchedule(this.props.chef);
+    }, 400);
   }
 
-  getSchedule() {
-    const { chef } = this.state; // change to passed in prop
-    console.log('id', chef.id);
-    axios.get('/api/chef/schedule', { params: { id: chef.id } })
+  getSchedule(chef) {
+    // const { chef } = this.state.chef; // change to passed in prop
+    console.log('id', chef.id); // , chef.id);
+    axios
+      .get('/api/chef/schedule', { params: { id: chef.id } })
       .then((data) => {
         this.setState({ schedule: data.data });
       })
@@ -71,48 +81,44 @@ class ViewChefSchedule extends React.Component {
             <th>End Time</th>
             <th>Menu Items</th>
           </tr>
-          {schedule.map((event) => {
-            return (
-              <tr key={event.id}>
-                <td>{event.date}</td>
-                <td>{event.startTime}</td>
-                <td>{event.endTime}</td>
-                <td>
-                  <table>
-                    <tbody>
-                      <tr>
-                        <th>Dish</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
+          {schedule.map(event => (
+            <tr key={event.id}>
+              <td>{event.date}</td>
+              <td>{event.startTime}</td>
+              <td>{event.endTime}</td>
+              <td>
+                <table>
+                  <tbody>
+                    <tr>
+                      <th>Dish</th>
+                      <th>Price</th>
+                      <th>Quantity</th>
+                    </tr>
+                    {event.menuItems.map(item => (
+                      <tr key={item.id}>
+                        <td>{item.name}</td>
+                        <td>
+                          <span>$</span>
+                          {item.price}
+                        </td>
+                        <td>{item.quantity - item.reservations}</td>
                       </tr>
-                      {event.menuItems.map((item) => {
-                        return (
-                          <tr key={item.id}>
-                            <td>{item.name}</td>
-                            <td>
-                              <span>$</span>
-                              {item.price}
-                            </td>
-                            <td>{item.quantity - item.reservations}</td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </td>
-                <td>
-                  <Link to={{
+                    ))}
+                  </tbody>
+                </table>
+              </td>
+              <td>
+                <Link
+                  to={{
                     pathname: '/user/chefschedule/reservation',
                     state: { event, user, chef },
                   }}
-                  >
-                    <button type="button">Make Reservation</button>
-                  </Link>
-                </td>
-              </tr>
-            );
-          })
-          }
+                >
+                  <button type="button">Make Reservation</button>
+                </Link>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     );
