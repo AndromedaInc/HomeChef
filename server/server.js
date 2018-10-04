@@ -53,7 +53,8 @@ app.use(morgan({ format: 'dev' }));
 //     res.redirect('/');
 //   }
 //   next();
-// }); // this will see if all incoming requests are authenticated and if not redirect to the home page, but not currently working
+// }); // this will see if all incoming requests are authenticated
+// if not will redirect to the home page (but not currently working)
 
 /* **** WIP Signup Endpoint ****
 app.post('/signup', (req, res) => {
@@ -90,7 +91,7 @@ app.post('/login', (req, res) => {
   if (!username || !password) {
     return res.status(401).send('no fields');
   }
-  db.Chef.findOne({ where: { username } })
+  return db.Chef.findOne({ where: { username } })
     .then((result) => {
       if (!result) {
         return res.status(400).send('user not found');
@@ -104,7 +105,7 @@ app.post('/login', (req, res) => {
       //   subject: result.id.toString(),
       // });
       res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
-      res.send();
+      return res.send();
       // res.send(token);
     });
   // .catch(err => res.status(401).send({ err }));
