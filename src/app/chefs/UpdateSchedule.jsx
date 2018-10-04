@@ -1,10 +1,12 @@
 import React from 'react';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 class UpdateSchedule extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      redirect: false,
       availableMenuItems: [],
       date: '',
       startTime: '',
@@ -61,6 +63,7 @@ class UpdateSchedule extends React.Component {
   createNewEvent() {
     const { chefId } = this.props.location.state;
     const {
+      redirect,
       date,
       startTime,
       endTime,
@@ -74,9 +77,8 @@ class UpdateSchedule extends React.Component {
       endTime,
       updatedMenuItems,
     })
-      .then((data) => {
-        console.log(data);
-        // TODO: add redirect back to chefschedule
+      .then(() => {
+        this.setState({ redirect: !redirect });
       })
       .catch(err => console.log(err));
   }
@@ -84,6 +86,7 @@ class UpdateSchedule extends React.Component {
   updateExistingEvent() {
     const { chefId, event } = this.props.location.state;
     const {
+      redirect,
       date,
       startTime,
       endTime,
@@ -98,21 +101,26 @@ class UpdateSchedule extends React.Component {
       endTime,
       updatedMenuItems,
     })
-      .then((data) => {
-        console.log(data);
-        // TODO: add redirect back to chefschedule
+      .then(() => {
+        this.setState({ redirect: !redirect });
       })
       .catch(err => console.log(err));
   }
 
   render() {
     const {
+      redirect,
       availableMenuItems,
       date,
       startTime,
       endTime,
       menuItems,
     } = this.state;
+
+    if (redirect) {
+      return <Redirect to="/chef" />;
+    }
+
     return (
       <div>
         <h1>Update Your Schedule</h1>

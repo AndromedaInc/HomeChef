@@ -66,7 +66,7 @@ const MenuItem = orm.define('menuItem', {
   // foreign keys: chefId
   name: Sequelize.STRING,
   description: Sequelize.TEXT,
-  price: Sequelize.INTEGER,
+  price: Sequelize.FLOAT,
   imageUrl: Sequelize.STRING,
 });
 
