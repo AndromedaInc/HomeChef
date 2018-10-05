@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import axios from 'axios';
 import store from '../redux/store';
@@ -112,7 +112,7 @@ class ChefAuth extends React.Component {
     return (
       <Provider store={store}>
         <Fragment>
-          {/* {this.renderRedirect()} */}
+          {this.renderRedirect()}
           <Link to="/userauth">
             <button type="button">Login as a User</button>
           </Link>
