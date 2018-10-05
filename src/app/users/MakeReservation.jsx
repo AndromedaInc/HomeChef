@@ -5,7 +5,6 @@ import { Redirect } from 'react-router-dom';
 class MakeReservation extends React.Component {
   constructor(props) {
     super(props);
-    console.log('props is', props); // Stephen @Sarah: I console-logged props to show what we're working with when reaching this component via a React Router
     this.state = {
       quantity: 1,
       order: {},
@@ -15,19 +14,14 @@ class MakeReservation extends React.Component {
     this.saveReservation = this.saveReservation.bind(this);
   }
 
-  componentDidMount() {
-    // all data coming from ViewChefSchedule - don't need to query
-  }
-
   onChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
     });
   }
 
-  decreaseCount(e) {
-    // e.preventDefault();
-    const quantity = this.state.quantity;
+  decreaseCount() {
+    const { quantity } = this.state;
     if (quantity > 1) {
       this.setState({
         quantity: quantity - 1,
@@ -35,23 +29,22 @@ class MakeReservation extends React.Component {
     }
   }
 
-  increaseCount(e) {
-    // e.preventDefault();
-    const quantity = this.state.quantity;
+  increaseCount() {
+    const { quantity } = this.state;
     this.setState({
       quantity: quantity + 1,
     });
   }
 
   saveReservation() {
-    const { chef, event, user } = this.props.location.state;
-    const quantity = this.state;
+    const { chef, event } = this.props.location.state;
+    const { quantity } = this.state;
     axios
       .post('/api/user/reservation', {
         id: event.eventId,
         menuItem: event.menuItems[0],
         chefId: chef.id,
-        quantity: this.state.quantity,
+        quantity,
       })
       .then(() => {
         console.log('reservation saved');
@@ -64,22 +57,26 @@ class MakeReservation extends React.Component {
 
   renderRedirect() {
     const { redirect } = this.state;
+    const { chef, user } = this.props.location.state;
     if (redirect) {
       return (
         <Redirect
-          to="/user/chefdetails"
-          // state: { userId },
+          to={{
+            pathname: '/user/chefdetails',
+            state: { username: user.username, currentChef: chef.username },
+          }}
         />
       );
     }
   }
 
   render() {
-    this.renderRedirect();
-    const { event, user, chef } = this.props.location.state;
-    // console.log('THIS IS THE USER', user);
+    const { event, chef } = this.props.location.state;
+    const { quantity } = this.state;
     return (
       <div>
+        {this.renderRedirect()}
+
         <h1>{`${chef.name}`}</h1>
         <h2>
           {event.date}
@@ -96,7 +93,7 @@ class MakeReservation extends React.Component {
 
             {`Price $${item.price}`}
             <br />
-            {`How many dishes do you want? ${this.state.quantity} `}
+            {`How many dishes do you want? ${quantity} `}
             <button type="button" onClick={this.increaseCount.bind(this, item)}>
               +
             </button>

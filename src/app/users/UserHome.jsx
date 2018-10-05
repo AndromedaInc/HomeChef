@@ -1,12 +1,11 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import UsersChefList from './UsersChefList';
-import UsersChefDetails from './UsersChefDetails';
 
 class UserHome extends React.Component {
   constructor(props) {
     super(props);
+    console.log(props);
     this.state = {
       chefs: [],
       username: '',
@@ -32,7 +31,8 @@ class UserHome extends React.Component {
   }
 
   renderChefList() {
-    return this.state.chefs.map(chef => (
+    const { chefs, username } = this.state;
+    return chefs.map(chef => (
       <ul>
         <li>
           <div>
@@ -43,7 +43,7 @@ class UserHome extends React.Component {
             <Link
               to={{
                 pathname: '/user/chefdetails',
-                state: { username: this.state.username, currentChef: chef.username },
+                state: { username, currentChef: chef.username },
               }}
             >
               <button type="button">Select</button>

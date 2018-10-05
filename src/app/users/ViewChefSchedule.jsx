@@ -15,28 +15,22 @@ class ViewChefSchedule extends React.Component {
     super(props);
     this.state = {
       schedule: [],
-      // user: { id: 1, name: 'Jane Doe' }, // eventually will want to get user from prior component
-      // chef: { id: 1, name: 'Chef McChef' }, // TODO this should be passed in as prop
     };
     this.getSchedule = this.getSchedule.bind(this);
   }
 
   componentDidMount() {
     setTimeout(() => {
-      // console.log(this.props, this.state);
-      // const user = this.props.user;
-      // const chef = this.props.chef;
+      const { user, chef } = this.props;
       this.setState({
-        user: this.props.user,
-        chef: this.props.chef,
+        user,
+        chef,
       });
-      this.getSchedule(this.props.chef);
+      this.getSchedule(chef);
     }, 400);
   }
 
   getSchedule(chef) {
-    // const { chef } = this.state.chef; // change to passed in prop
-    console.log('id', chef.id); // , chef.id);
     axios
       .get('/api/chef/schedule', { params: { id: chef.id } })
       .then((data) => {
