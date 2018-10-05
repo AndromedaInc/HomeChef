@@ -10,7 +10,7 @@ class UpdateItem extends React.Component {
       name: null,
       price: null,
       description: null,
-      item: this.props.item, // do not change = this.props.item.item
+      item: props.item,
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -55,7 +55,7 @@ class UpdateItem extends React.Component {
     }
     axios.post('/api/chef/menu/update', params)
       .then(() => {
-        this.setState({ edit: !edit, item }, () => this.render());
+        this.setState({ edit: !edit, item });
       })
       .catch(err => console.log(err));
   }

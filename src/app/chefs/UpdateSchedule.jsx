@@ -39,13 +39,10 @@ class UpdateSchedule extends React.Component {
 
   handleQuantityChange(item, event) {
     const newQty = event.target.value;
-    // const { updatedMenuItems } = this.state;
-    // const tempMenuItems = updatedMenuItems.slice();
-    const tempMenuItems = this.state.updatedMenuItems.slice(); // DO NOT CHANGE
+    const { updatedMenuItems } = this.state;
+    const tempMenuItems = updatedMenuItems.slice();
     for (let i = 0; i < tempMenuItems.length; i += 1) {
-      if (tempMenuItems[i].id === item.id) {
-        tempMenuItems.splice(i, 1);
-      }
+      if (tempMenuItems[i].id === item.id) { tempMenuItems.splice(i, 1); }
     }
     tempMenuItems.push({ id: item.id, quantity: newQty });
     this.setState({ updatedMenuItems: tempMenuItems });
@@ -69,7 +66,6 @@ class UpdateSchedule extends React.Component {
       endTime,
       updatedMenuItems,
     } = this.state;
-
     axios.post('/api/chef/event/create', {
       chefId,
       date,
@@ -92,7 +88,6 @@ class UpdateSchedule extends React.Component {
       endTime,
       updatedMenuItems,
     } = this.state;
-
     axios.post('/api/chef/event/update', {
       id: event.eventId,
       chefId,
@@ -102,12 +97,14 @@ class UpdateSchedule extends React.Component {
       updatedMenuItems,
     })
       .then(() => {
+        console.log('will redirect');
         this.setState({ redirect: !redirect });
       })
       .catch(err => console.log(err));
   }
 
   render() {
+    const { chefId } = this.props.location.state;
     const {
       redirect,
       availableMenuItems,
@@ -118,9 +115,17 @@ class UpdateSchedule extends React.Component {
     } = this.state;
 
     if (redirect) {
-      return <Redirect to="/chef" />;
+      console.log('in redirect');
+      return (
+        <Redirect
+          push
+          to={{
+            pathname: '/chef',
+            state: { chefId },
+          }}
+        />
+      );
     }
-
     return (
       <div>
         <h1>Update Your Schedule</h1>

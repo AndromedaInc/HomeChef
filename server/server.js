@@ -274,6 +274,7 @@ app.post('/api/chef/event/create', (req, res) => {
     chefId: event.chefId,
   })
     .then((data) => {
+      console.log('create event data', data);
       event.updatedMenuItems.forEach((item) => {
         db.ItemEvent.create({
           quantity: item.quantity,
@@ -285,6 +286,7 @@ app.post('/api/chef/event/create', (req, res) => {
       });
     })
     .then((data) => {
+      console.log('create itemEvent data', data);
       res.send(data);
     })
     .catch(err => console.log(err));
@@ -303,15 +305,26 @@ app.post('/api/chef/event/update', (req, res) => {
   )
     .then(() => {
       event.updatedMenuItems.forEach((item) => {
-        db.ItemEvent.update(
-          { quantity: item.quantity },
-          { where: { eventId: event.id, menuItemId: item.id } },
-        );
+        db.ItemEvent.count({ where: { eventId: event.id, menuItemId: item.id } })
+          .then((count) => {
+            if (count === 1) {
+              db.ItemEvent.update(
+                { quantity: item.quantity },
+                { where: { eventId: event.id, menuItemId: item.id } },
+              );
+            } else {
+              db.ItemEvent.create({
+                quantity: item.quantity,
+                eventId: event.id,
+                menuItemId: item.id,
+                chefId: event.chefId,
+                reservations: 0,
+              });
+            }
+          });
       });
     })
-    .then((data) => {
-      res.send(data);
-    })
+    .then(() => res.end())
     .catch(err => console.log(err));
 });
 
