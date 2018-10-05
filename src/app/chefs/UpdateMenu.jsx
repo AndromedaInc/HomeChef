@@ -33,9 +33,16 @@ class UpdateMenu extends React.Component {
         >
           <button type="button">Add New Menu Item</button>
         </Link>
+        <Link to={{
+          pathname: '/chef',
+          state: { chefId },
+        }}
+        >
+          <button type="button">Back to Schedule</button>
+        </Link>
         <br />
         <br />
-        {menuItems.map(item => <UpdateItem item={item} />)}
+        {menuItems.map(item => <UpdateItem item={item} chefId={chefId} />)}
       </div>
     );
   }

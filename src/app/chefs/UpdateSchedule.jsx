@@ -1,10 +1,12 @@
 import React from 'react';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 class UpdateSchedule extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      redirect: false,
       availableMenuItems: [],
       date: '',
       startTime: '',
@@ -37,13 +39,10 @@ class UpdateSchedule extends React.Component {
 
   handleQuantityChange(item, event) {
     const newQty = event.target.value;
-    // const { updatedMenuItems } = this.state;
-    // const tempMenuItems = updatedMenuItems.slice();
-    const tempMenuItems = this.state.updatedMenuItems.slice(); // DO NOT CHANGE
+    const { updatedMenuItems } = this.state;
+    const tempMenuItems = updatedMenuItems.slice();
     for (let i = 0; i < tempMenuItems.length; i += 1) {
-      if (tempMenuItems[i].id === item.id) {
-        tempMenuItems.splice(i, 1);
-      }
+      if (tempMenuItems[i].id === item.id) { tempMenuItems.splice(i, 1); }
     }
     tempMenuItems.push({ id: item.id, quantity: newQty });
     this.setState({ updatedMenuItems: tempMenuItems });
@@ -61,12 +60,12 @@ class UpdateSchedule extends React.Component {
   createNewEvent() {
     const { chefId } = this.props.location.state;
     const {
+      redirect,
       date,
       startTime,
       endTime,
       updatedMenuItems,
     } = this.state;
-
     axios.post('/api/chef/event/create', {
       chefId,
       date,
@@ -74,9 +73,8 @@ class UpdateSchedule extends React.Component {
       endTime,
       updatedMenuItems,
     })
-      .then((data) => {
-        console.log(data);
-        // TODO: add redirect back to chefschedule
+      .then(() => {
+        this.setState({ redirect: !redirect });
       })
       .catch(err => console.log(err));
   }
@@ -84,12 +82,12 @@ class UpdateSchedule extends React.Component {
   updateExistingEvent() {
     const { chefId, event } = this.props.location.state;
     const {
+      redirect,
       date,
       startTime,
       endTime,
       updatedMenuItems,
     } = this.state;
-
     axios.post('/api/chef/event/update', {
       id: event.eventId,
       chefId,
@@ -98,39 +96,60 @@ class UpdateSchedule extends React.Component {
       endTime,
       updatedMenuItems,
     })
-      .then((data) => {
-        console.log(data);
-        // TODO: add redirect back to chefschedule
+      .then(() => {
+        console.log('will redirect');
+        this.setState({ redirect: !redirect });
       })
       .catch(err => console.log(err));
   }
 
   render() {
+    const { chefId } = this.props.location.state;
     const {
+      redirect,
       availableMenuItems,
       date,
       startTime,
       endTime,
       menuItems,
     } = this.state;
+
+    if (redirect) {
+      console.log('in redirect');
+      return (
+        <Redirect
+          push
+          to={{
+            pathname: '/chef',
+            state: { chefId },
+          }}
+        />
+      );
+    }
     return (
       <div>
         <h1>Update Your Schedule</h1>
         <form>
           Date:
           <input
+            name="date"
+            type="date"
             defaultValue={date}
             onChange={e => this.setState({ date: e.target.value })}
           />
           <br />
           Start Time:
           <input
+            name="startTime"
+            type="time"
             defaultValue={startTime}
             onChange={e => this.setState({ startTime: e.target.value })}
           />
           <br />
           End Time:
           <input
+            name="endTime"
+            type="time"
             defaultValue={endTime}
             onChange={e => this.setState({ endTime: e.target.value })}
           />
@@ -149,6 +168,8 @@ class UpdateSchedule extends React.Component {
                 {item.name}
                 <span>: </span>
                 <input
+                  type="number"
+                  min="0"
                   defaultValue={quantity}
                   onChange={this.handleQuantityChange.bind(this, item)}
                 />

@@ -1,6 +1,5 @@
 import React from 'react';
 import axios from 'axios';
-// import { Redirect } from 'react-router-dom';
 
 class UpdateItem extends React.Component {
   constructor(props) {
@@ -11,6 +10,7 @@ class UpdateItem extends React.Component {
       name: null,
       price: null,
       description: null,
+      item: props.item,
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -25,26 +25,43 @@ class UpdateItem extends React.Component {
     this.setState({ [name]: value });
   }
 
-  handleSave(item) {
-    const { edit, imageUrl, name, price, description } = this.state;
+  handleSave() {
+    const { item } = this.state;
+    const {
+      edit,
+      imageUrl,
+      name,
+      price,
+      description,
+    } = this.state;
     const params = { id: item.id };
-    if (imageUrl) { params.imageUrl = imageUrl; }
-    if (name) { params.name = name; }
-    if (price) { params.price = price; }
-    if (description) { params.description = description; }
-
+    // params -> send only changed values to DB
+    // item -> update changed values for rendering item
+    if (imageUrl) {
+      params.imageUrl = imageUrl;
+      item.imageUrl = imageUrl;
+    }
+    if (name) {
+      params.name = name;
+      item.name = name;
+    }
+    if (price) {
+      params.price = price;
+      item.price = price;
+    }
+    if (description) {
+      params.description = description;
+      item.description = description;
+    }
     axios.post('/api/chef/menu/update', params)
-      .then((data) => {
-        this.setState({ edit: !edit });
-        // redirect or rerender with new updates
-        // return <Redirect to="/chef/menu/update" />;
+      .then(() => {
+        this.setState({ edit: !edit, item });
       })
       .catch(err => console.log(err));
   }
 
   render() {
-    const { item } = this.props;
-    const { edit } = this.state;
+    const { edit, item } = this.state;
     if (!edit) {
       return (
         <div key={item.id}>
@@ -52,7 +69,7 @@ class UpdateItem extends React.Component {
           <h3>{item.name}</h3>
           <p>
             $
-            {item.price.toFixed(2)}
+            {(+item.price).toFixed(2)}
           </p>
           <p>{item.description}</p>
           <button type="button" onClick={this.handleEdit.bind(this, item)}>Edit</button>
@@ -81,8 +98,10 @@ class UpdateItem extends React.Component {
         <br />
         Price:
         <input
-          type="text"
           name="price"
+          type="number"
+          step="0.01"
+          min="0"
           defaultValue={item.price}
           onChange={this.handleChange}
         />
@@ -95,7 +114,7 @@ class UpdateItem extends React.Component {
           onChange={this.handleChange}
         />
         <br />
-        <button type="button" onClick={this.handleSave.bind(this, item)}>Save</button>
+        <button type="button" onClick={this.handleSave.bind(this)}>Save</button>
         <br />
         <br />
       </form>
