@@ -115,23 +115,24 @@ app.post('/login', (req, res) => {
   if (!username || !password) {
     return res.status(401).send('no fields');
   }
-  return db.Chef.findOne({ where: { username } }).then((result) => {
-    if (!result) {
-      return res.status(400).send('user not found');
-    }
-    // const { dataValues: { id: userId } } = result;
-    console.log('found record is', result);
-    // TODO: add bcrypt match here
-    const token = util.createJWTBearerToken(result);
-    // const jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, {
-    //   algorithm: 'RS256',
-    //   expiresIn: 120000000,
-    //   subject: result.id.toString(),
-    // });
-    res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
-    return res.send();
-    // res.send(token);
-  });
+  return db.Chef.findOne({ where: { username } })
+    .then((result) => {
+      if (!result) {
+        return res.status(400).send('user not found');
+      }
+      // const { dataValues: { id: userId } } = result;
+      console.log('found record is', result);
+      // TODO: add bcrypt match here
+      const token = util.createJWTBearerToken(result);
+      // const jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, {
+      //   algorithm: 'RS256',
+      //   expiresIn: 120000000,
+      //   subject: result.id.toString(),
+      // });
+      res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
+      return res.send();
+      // res.send(token);
+    });
   // .catch(err => res.status(401).send({ err }));
 });
 
