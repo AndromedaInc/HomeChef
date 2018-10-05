@@ -83,7 +83,31 @@ app.post('/signup', (req, res) => {
     .then(() => res.send('ok'));
 });
 */
-
+app.post('/api/user/login', (req, res) => {
+  console.log('incoming login request is', req);
+  const { username, password } = req.body; // for app
+  // const { username, password } = req.query; // for postman
+  if (!username || !password) {
+    return res.status(401).send('no fields');
+  }
+  return db.User.findOne({ where: { username } }).then((result) => {
+    if (!result) {
+      return res.status(400).send('user not found');
+    }
+    console.log('found record is', result);
+    // TODO: add bcrypt match here
+    const token = util.createJWTBearerToken(result);
+    // const jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, {
+    //   algorithm: 'RS256',
+    //   expiresIn: 120000000,
+    //   subject: result.id.toString(),
+    // });
+    res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
+    return res.send();
+    // res.send(token);
+  });
+  // .catch(err => res.status(401).send({ err }));
+});
 app.post('/login', (req, res) => {
   console.log('incoming login request is', req);
   const { username, password } = req.body; // for app
@@ -96,7 +120,7 @@ app.post('/login', (req, res) => {
       if (!result) {
         return res.status(400).send('user not found');
       }
-      const { dataValues: { id: userId } } = result;
+      // const { dataValues: { id: userId } } = result;
       console.log('found record is', result);
       // TODO: add bcrypt match here
       const token = util.createJWTBearerToken(result);
@@ -106,7 +130,7 @@ app.post('/login', (req, res) => {
       //   subject: result.id.toString(),
       // });
       res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
-      return res.send({ userId });
+      return res.send();
       // res.send(token);
     });
   // .catch(err => res.status(401).send({ err }));
@@ -115,9 +139,9 @@ app.post('/login', (req, res) => {
 /* **** **** */
 
 app.get('/api/chef/accountInfo', (req, res) => {
-  const { id } = req.query;
-  console.log('id is', id);
-  db.Chef.findOne({ where: { id } })
+  const { username } = req.query;
+  // console.log('id is', id);
+  db.Chef.findOne({ where: { username } })
     .then(accountInfo => res.status(200).send(accountInfo))
     .catch(err => console.log(err));
 });
@@ -285,6 +309,19 @@ app.post('/api/chef/event/update', (req, res) => {
         );
       });
     })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch(err => console.log(err));
+});
+
+app.post('/api/user/reservation', (req, res) => {
+  const event = req.body;
+  // console.log('ln 230 server!!!!#$#$!', req.body);
+  db.ItemEvent.update(
+    { reservations: event.menuItem.reservations + event.quantity },
+    { where: { eventId: event.id, menuItemId: event.menuItem.id } },
+  )
     .then((data) => {
       res.send(data);
     })

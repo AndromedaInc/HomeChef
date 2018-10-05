@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import axios from 'axios';
 import store from '../redux/store';
@@ -11,11 +11,12 @@ class UserAuth extends React.Component {
     super(props);
     this.state = {
       username: '',
-      userPassword: '',
+      password: '',
+      redirect: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleLogin = this.handleLogin.bind(this);
+    // this.handleLogin = this.handleLogin.bind(this);
   }
 
   handleChange(e) {
@@ -26,24 +27,33 @@ class UserAuth extends React.Component {
     });
   }
 
-  handleLogin() {
-    axios
-      .post('/api/user/login', {
-        username: this.state.username,
-        password: this.state.userPassword,
-      })
-      .then((res) => {
-        console.log('UserAuth handlesubmit', res);
-      })
-      .catch(err => console.log(err));
-  }
-
   handleSubmit(e) {
+    const { username, password } = this.state;
+    const { history } = this.props;
+
     e.preventDefault();
-    this.handleLogin();
+    axios.post('/api/user/login', {
+      username,
+      password,
+    }).then((res) => {
+      console.log('response from loginTest is', res);
+      history.push('/user');
+      // this.setState({
+      //   redirect: true,
+      // });
+    }).catch(err => console.log(err));
   }
 
   render() {
+//     if (this.state.redirect) {
+//       return (
+//         <Redirect to={{
+//           pathname: '/user',
+//           state: { username: this.state.username },
+//         }}
+//      />
+// );
+//     }
     return (
       <Provider store={store}>
         <Fragment>
@@ -63,8 +73,8 @@ class UserAuth extends React.Component {
                 <label>Password: </label>
                 <br />
                 <input
-                  name="userPassword"
-                  value={this.state.userPassword}
+                  name="password"
+                  value={this.state.password}
                   type="password"
                   onChange={this.handleChange}
                 />
@@ -75,7 +85,7 @@ class UserAuth extends React.Component {
                   state: { username: this.state.username },
                 }}
               >
-                <button type="button">Login</button>
+              <button type="submit">Login</button>
               </Link>
             </div>
           </form>

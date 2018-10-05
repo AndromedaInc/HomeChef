@@ -132,3 +132,9 @@ exports.Order = Order;
 exports.Rating = Rating;
 exports.Transaction = Transaction;
 exports.User = User;
+
+// try {
+//   module.exports = database;
+// } catch (err) {
+//   console.log('caught an error', err);
+// }

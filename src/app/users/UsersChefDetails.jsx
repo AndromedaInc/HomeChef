@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import ViewChefSchedule from './ViewChefSchedule';
+import MakeReservation from './MakeReservation';
 
 class UsersChefDetails extends React.Component {
   constructor(props) {
@@ -29,7 +30,7 @@ class UsersChefDetails extends React.Component {
 
   getChefDetails(chefUsername) {
     axios.get(`/api/chef/accountInfo?username=${chefUsername}`).then((res) => {
-      console.log(res.data);
+      // console.log(res.data);
       this.setState({
         chefDetails: res.data,
       });
@@ -60,8 +61,7 @@ class UsersChefDetails extends React.Component {
           {`Description - ${this.state.chefDetails.description}`}
         </div>
         <br />
-        <ViewChefSchedule />
-        <div />
+        <ViewChefSchedule user={this.state.userDetails} chef={this.state.chefDetails} />
       </div>
     );
   }
