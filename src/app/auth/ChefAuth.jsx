@@ -6,6 +6,7 @@ import store from '../redux/store';
 // import Posts from '../redux/sampleComponents/Posts';
 // import PostForm from '../redux/sampleComponents/PostForm';
 
+// this is master
 class ChefAuth extends React.Component {
   constructor(props) {
     super(props);
