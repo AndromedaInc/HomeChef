@@ -1,4 +1,4 @@
-INSERT INTO chefs (name, username, password, streetAddress, city, stateName, zip, description, imageUrl) VALUES ('Mr Chef', 'mrchef12', 'secretpass', '123 Street', 'CoffeeTown', 'CA', 99999, 'Awesome Chef!', 'image.com');
+INSERT INTO chefs (name, username, password, email, streetAddress, city, stateName, zip, description, imageUrl) VALUES ('Mr Chef', 'mrchef12', '$2b$10$dnFm3mDyObGaHvobWwgrT.y9lNSjI1XL8/6BiiYjYgnOZYvIMhS3i', 'mrchef@gmail.com','123 Street', 'CoffeeTown', 'CA', 99999, 'Awesome Chef!', 'image.com');
 INSERT INTO users (name, username, password, imageUrl) VALUES ('Francine', 'frannylikestoeat', 'password', 'userimage.com');
 INSERT INTO events (date, startTime, endTime, chefId) VALUES ('2018-10-30', '11:00', '14:00', 1);
 INSERT INTO menuItems (name, description, price, imageUrl, chefId) VALUES ('Pad Thai', 'Tasty thai food!', 10, 'http://www.thaifoodandtravel.com/images/pad-thai-04.jpg', 1);

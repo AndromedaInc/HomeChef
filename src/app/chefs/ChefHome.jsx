@@ -7,22 +7,21 @@ import ChefAccountInfo from './ChefAccountInfo';
 class ChefHome extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
+    console.log('ChefHome props are', props);
 
     const { location: { state: { chefId: id } } } = this.props;
     this.state = {
-      edit: false,
-      address: 'test address',
-      streetAddress: '',
       city: '',
-      stateName: '',
-      zip: null,
       description: '',
-      username: 'chefusername', // will want to change from hardcode
+      edit: false,
+      id,
+      imageUrl: 'chefimage.com', // may want to remove from here
       name: 'testchef', // may want to remove from here
       password: 'chefpass', // may want to remove from here
-      imageUrl: 'chefimage.com', // may want to remove from here
-      id,
+      stateName: '',
+      streetAddress: '',
+      username: 'chefusername', // will want to change from hardcode
+      zip: null,
     };
 
     this.onChange = this.onChange.bind(this);
@@ -48,21 +47,29 @@ class ChefHome extends Component {
       .get(`/api/chef/accountInfo?username=${username}`)
       .then(({
         data: {
-          description, streetAddress, city, stateName, zip, id, // username,
-          imageUrl, name, password,
+          city,
+          description,
+          imageUrl,
+          name,
+          password,
+          stateName,
+          streetAddress,
+          username,
+          zip,
         },
-      }) => this.setState({
-        description,
-        streetAddress,
-        city,
-        stateName,
-        zip,
-        id,
-        imageUrl,
-        name,
-        password,
-        username,
-      }));
+      }) => (
+        this.setState({
+          description,
+          streetAddress,
+          city,
+          stateName,
+          zip,
+          imageUrl,
+          name,
+          password,
+          username,
+        })
+      ));
   }
 
   handleSubmit(e) {
@@ -111,6 +118,7 @@ class ChefHome extends Component {
 
   render() {
     const { id } = this.state;
+    console.log('state of ChefHome component currently is', this.state);
     return (
       <div>
         <h1>What's Cooking?</h1>

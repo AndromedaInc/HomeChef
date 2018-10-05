@@ -47,8 +47,6 @@ app.use(morgan({ format: 'dev' }));
 // }));
 
 /* **** Authentication **** */
-// app.use(auth.checkIfAuthenticated, (req, res, next) => console.log('req reads', req) || next());
-
 app.post('/signup', auth.signup);
 app.post('/login', auth.login);
 
@@ -276,12 +274,12 @@ app.use(auth.checkIfAuthenticated, (req, res) => {
 });
 
 /* ***** Error Handler ***** */
-// app.use((err, req, res, next) => {
-//   if (err.status === 401) {
-//     return res.redirect('/');
-//   }
-//   return next();
-// });
+app.use((err, req, res, next) => {
+  if (err.status === 401) {
+    return res.redirect('/');
+  }
+  return next();
+});
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
