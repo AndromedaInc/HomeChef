@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-// import { Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 class NewItem extends React.Component {
   constructor(props) {
@@ -10,6 +10,7 @@ class NewItem extends React.Component {
       name: null,
       price: null,
       description: null,
+      redirect: false,
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -21,7 +22,13 @@ class NewItem extends React.Component {
 
   handleSave() {
     const { chefId } = this.props.location.state;
-    const { imageUrl, name, price, description } = this.state;
+    const {
+      redirect,
+      imageUrl,
+      name,
+      price,
+      description,
+    } = this.state;
     axios.post('/api/chef/menu/add', {
       chefId,
       imageUrl,
@@ -30,26 +37,39 @@ class NewItem extends React.Component {
       description,
     })
       .then(() => {
-        // return <Redirect to="/chef/menu/update" />;
+        this.setState({ redirect: !redirect });
       })
       .catch(err => console.log(err));
   }
 
   render() {
+    const { redirect } = this.state;
+    const { chefId } = this.props.location.state;
+    if (redirect) {
+      return (
+        <Redirect
+          push
+          to={{
+            pathname: '/chef/menu/update',
+            state: { chefId },
+          }}
+        />
+      );
+    }
     return (
       <form>
         <h1>Add a New Menu Item</h1>
         Image:
         <input
-          type="text"
           name="imageUrl"
+          type="text"
           onChange={this.handleChange}
         />
         <br />
         Name:
         <input
-          type="text"
           name="name"
+          type="text"
           onChange={this.handleChange}
         />
         <br />
@@ -64,8 +84,8 @@ class NewItem extends React.Component {
         <br />
         Description:
         <input
-          type="text"
           name="description"
+          type="text"
           onChange={this.handleChange}
         />
         <br />
