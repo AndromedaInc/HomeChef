@@ -36,16 +36,16 @@ orm
 /* ///////////////////// */
 
 const Chef = orm.define('chef', {
-  name: Sequelize.STRING,
-  username: Sequelize.STRING,
-  password: Sequelize.STRING,
-  email: Sequelize.STRING,
-  streetAddress: Sequelize.TEXT,
   city: Sequelize.TEXT,
-  stateName: Sequelize.TEXT,
-  zip: Sequelize.INTEGER,
   description: Sequelize.TEXT,
+  email: Sequelize.STRING,
   imageUrl: Sequelize.STRING,
+  name: Sequelize.STRING,
+  password: Sequelize.STRING,
+  username: Sequelize.STRING,
+  stateName: Sequelize.TEXT,
+  streetAddress: Sequelize.TEXT,
+  zip: Sequelize.INTEGER,
   // payment_info: ?
   // rating: cached
 });

@@ -14,6 +14,7 @@ class ChefHome extends Component {
     if (this.props.location.state) {
       id = this.props.location.state.chefId;
     }
+    console.log('id is', id);
     this.state = {
       city: '',
       description: '',
