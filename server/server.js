@@ -9,9 +9,6 @@ const morgan = require('morgan');
 
 /* **** JWT and Authentication Modules **** */
 const cookieParser = require('cookie-parser');
-const bcrypt = require('bcrypt');
-
-const salt = bcrypt.genSaltSync(10);
 
 /* **** Server-side Rendering Modules **** */
 const React = require('react');
@@ -50,91 +47,10 @@ app.use(morgan({ format: 'dev' }));
 // }));
 
 /* **** Authentication **** */
-// app.use(util.checkIfAuthenticated, (err, req, res, next) => {
-//   if (err.name === 'UnauthorizedError') {
-//     res.status(401);
-//     console.log('req is', req, 'req.headers.host is', req.headers.host);
-//     res.redirect('/');
-//   }
-//   next();
-// }); // this will see if all incoming requests are authenticated
-// if not will redirect to the home page (but not currently working)
+// app.use(auth.checkIfAuthenticated, (req, res, next) => console.log('req reads', req) || next());
 
-/* **** WIP Signup Endpoint ****
-*/
 app.post('/signup', auth.signup);
-// (req, res) => {
-//   console.log('incoming signup request is', req);
-//   const {
-//     username,
-//     password,
-//     email,
-//     name,
-//   } = req.body; // needs to be req.query for Postman
-
-//   if (!username || !password || !email || !name) {
-//     return res.status(401).send('incomplete fields');
-//   }
-
-//   return chefs.checkExistingEmailUsername(username, password)
-
-//     .then((result) => {
-//       if (result) {
-//         return res.status(400).send('that username or email already exists');
-//       }
-//       return bcrypt.hash(password, salt);
-//     })
-
-//     .then(hash => chefs.createChef(
-//       username,
-//       hash,
-//       email,
-//       name,
-//     ))
-
-//     .then(() => res.send('ok'));
-// }
-// );
-
 app.post('/login', auth.login);
-// (req, res) => {
-//   console.log('incoming login request is', req);
-//   const { username, password } = req.body; // needs to be req.query for Postman
-
-//   let chef;
-//   if (!username || !password) {
-//     return res.status(401).send('incomplete fields');
-//   }
-//   return chefs.checkUsername(username)
-
-//     .then((chefRecord) => {
-//       if (!chefRecord) {
-//         return res.status(400).send('user not found');
-//       }
-//       chef = chefRecord;
-//       console.log('found record is', chef);
-//       const { dataValues: { password: hash } } = chef;
-//       console.log('password match boolean is', bcrypt.compare(password, hash));
-//       return bcrypt.compare(password, hash);
-//     })
-
-//     .then((match) => {
-//       if (match) {
-//         return util.createJWTBearerToken(chef);
-//       }
-//       throw new Error({ message: 'that password does not match' });
-//     })
-
-//     .then((token) => {
-//       console.log('weve got a token and are ready to send!');
-//       res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
-//       const { dataValues: { id: chefId } } = chef;
-//       return res.status(200).send({ chefId });
-//     })
-
-//     .catch(err => res.status(401).send(err));
-// }
-// );
 
 /* **** **** */
 
@@ -358,6 +274,14 @@ app.use(auth.checkIfAuthenticated, (req, res) => {
   res.write(template({ body }));
   res.end();
 });
+
+/* ***** Error Handler ***** */
+// app.use((err, req, res, next) => {
+//   if (err.status === 401) {
+//     return res.redirect('/');
+//   }
+//   return next();
+// });
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);

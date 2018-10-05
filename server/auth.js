@@ -1,3 +1,4 @@
+require('dotenv').config();
 const bcrypt = require('bcrypt');
 
 const salt = bcrypt.genSaltSync(10);
@@ -27,6 +28,21 @@ const checkIfAuthenticated = expressJwt({
   getToken: req => req.cookies.SESSIONID,
 }).unless({ path: ['/', '/chefauth', '/userauth'] });
 
+const redirect = (req, res, next) => {
+  expressJwt({
+    secret: RSA_PUBLIC_KEY,
+    getToken: req => req.cookies.SESSIONID,
+  }).unless({ path: ['/', '/chefauth', '/userauth'] });
+
+  console.log('req now reads', req);
+
+  return (req.user) ? next() : res.redirect('/');
+};
+
+const redirectIfNotAuthenticated = (req, res, next) => {
+  console.log('req now looks like', req);
+  return (req.user) ? next() : res.redirect('/');
+};
 
 /* ********** LOGIN ********** */
 const login = (req, res) => {
@@ -105,3 +121,5 @@ const signup = (req, res) => {
 exports.login = login;
 exports.signup = signup;
 exports.checkIfAuthenticated = checkIfAuthenticated;
+exports.redirect = redirect;
+exports.redirectIfNotAuthenticated = redirectIfNotAuthenticated;
