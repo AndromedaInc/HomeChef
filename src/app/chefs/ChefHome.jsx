@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import ChefSchedule from './ChefSchedule';
 import ChefAccountForm from './ChefAccountForm';
@@ -9,7 +10,10 @@ class ChefHome extends Component {
     super(props);
     console.log('ChefHome props are', props);
 
-    const { location: { state: { chefId: id } } } = this.props;
+    let id;
+    if (this.props.location.state) {
+      id = this.props.location.state.chefId;
+    }
     this.state = {
       city: '',
       description: '',
@@ -34,6 +38,8 @@ class ChefHome extends Component {
   componentDidMount() {
     this.getAccountInfo();
   }
+
+  // ? Need a component willUnmountMethod that cancels asynchronous tasks? Received following error: Warning: Can't call setState (or forceUpdate) on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in the componentWillUnmount method.
 
   onChange(e) {
     this.setState({
@@ -95,8 +101,11 @@ class ChefHome extends Component {
   }
 
   renderView() {
-    const { edit } = this.state;
+    const { edit, id } = this.state;
     const editButton = edit ? 'Save' : 'Edit your account';
+    if (!id) {
+      return <Redirect to={{ pathname: '/chefauth' }} />;
+    }
     if (edit) {
       return (
         <ChefAccountForm
