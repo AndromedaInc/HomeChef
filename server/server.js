@@ -36,15 +36,8 @@ const template = _.template(baseTemplate); // returns a function
 const db = require('./../database/database');
 const util = require('./util');
 const auth = require('./auth');
-<<<<<<< HEAD
 const api = require('./api');
-
-/* **** GraphQL Modules **** */
-// const graphqlHTTP = require('express-graphql');
-// const gqlSchema = require('./schema');
-=======
-const gqlResolvers = require('../graphQL/resolvers');
->>>>>>> Add frame for GraphQL schema & resolvers on top of REST API
+const gqlSchema = require('../graphQL/schema');
 
 /* **** Apply universal middleware **** */
 app.use('/public', express.static(`${__dirname}/../public`));
@@ -52,7 +45,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(morgan({ format: 'dev' }));
-app.use('/graphql', graphqlHTTP({ schema: gqlResolvers, graphiql: true }));
+app.use('/graphql', graphqlHTTP({ schema: gqlSchema, graphiql: true }));
 
 /* **** Authentication **** */
 app.post('/signup', auth.signup);
