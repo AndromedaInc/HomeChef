@@ -28,6 +28,7 @@ const db = require('./../database/database');
 const chefs = require('./../database/chefs.js');
 const util = require('./util');
 const auth = require('./auth');
+const api = require('./api');
 
 /* **** GraphQL Modules **** */
 // const graphqlHTTP = require('express-graphql');
@@ -50,29 +51,30 @@ app.use(morgan({ format: 'dev' }));
 app.post('/signup', auth.signup);
 app.post('/login', auth.login);
 
-/* **** **** */
+/* **** API **** */
+app.use('/api', auth.checkIfAuthenticated, api);
 
-app.get('/api/chef/accountInfo', (req, res) => {
-  const { id } = req.query;
-  db.Chef.findOne({ where: { id } })
-    .then((accountInfo) => {
-      res.status(200).send(accountInfo);
-    })
-    .catch(err => console.log(err));
-});
+// app.get('/api/chef/accountInfo', (req, res) => {
+//   const { id } = req.query;
+//   db.Chef.findOne({ where: { id } }) // chefs.getChef(id)
+//     .then((accountInfo) => {
+//       res.status(200).send(accountInfo);
+//     })
+//     .catch(err => console.log(err));
+// });
 
-app.patch('/api/chef/accountInfo', (req, res) => {
-  console.log('incoming patch request to chef/accountInfo is', req);
-  chefs.upsertAccountInfo(req.body.data).then((created) => {
-    if (created) {
-      res.status(200);
-      res.send('Successfully stored');
-    } else {
-      res.status(200);
-      res.send('Successfully inserted');
-    }
-  });
-});
+// app.patch('/api/chef/accountInfo', (req, res) => {
+//   console.log('incoming patch request to chef/accountInfo is', req);
+//   chefs.upsertAccountInfo(req.body.data).then((created) => {
+//     if (created) {
+//       res.status(200);
+//       res.send('Successfully stored');
+//     } else {
+//       res.status(200);
+//       res.send('Successfully inserted');
+//     }
+//   });
+// });
 
 // app.post('/api/user/login', (req, res) => {
 //   const username = req.body.username;
@@ -266,7 +268,6 @@ app.use(auth.checkIfAuthenticated, (req, res) => {
   );
 
   // TODO: read up on context.url and redirection (e.g. Brian Holt frontend masters)
-  // TODO: make sure any error gets error message
   if (context.url) {
     res.redirect(301, context.url);
   }
