@@ -12,8 +12,9 @@ class UpdateMenu extends React.Component {
   }
 
   componentDidMount() {
-    const { chefId } = this.props.location.state;
-    axios.get('/api/chef/menu', { params: { id: chefId } })
+    const { id } = this.props.location.state;
+    axios
+      .get('/api/chef/menu', { params: { id } })
       .then((data) => {
         this.setState({ menuItems: data.data });
       })
@@ -26,23 +27,27 @@ class UpdateMenu extends React.Component {
     return (
       <div>
         <h1>Your Menu</h1>
-        <Link to={{
-          pathname: '/chef/menu/new',
-          state: { chefId },
-        }}
+        <Link
+          to={{
+            pathname: '/chef/menu/new',
+            state: { chefId },
+          }}
         >
           <button type="button">Add New Menu Item</button>
         </Link>
-        <Link to={{
-          pathname: '/chef',
-          state: { chefId },
-        }}
+        <Link
+          to={{
+            pathname: '/chef',
+            state: { chefId },
+          }}
         >
           <button type="button">Back to Schedule</button>
         </Link>
         <br />
         <br />
-        {menuItems.map(item => <UpdateItem item={item} chefId={chefId} />)}
+        {menuItems.map(item => (
+          <UpdateItem item={item} chefId={chefId} />
+        ))}
       </div>
     );
   }

@@ -1,13 +1,11 @@
 import React from 'react';
 import axios from 'axios';
 import ViewChefSchedule from './ViewChefSchedule';
-import MakeReservation from './MakeReservation';
 
 class UsersChefDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
       userDetails: [],
       currentChef: '',
       chefDetails: [],
@@ -21,7 +19,6 @@ class UsersChefDetails extends React.Component {
     const receivedCurrentChef = this.props.location.state.currentChef;
 
     this.setState({
-      username: receivedUsername,
       currentChef: receivedCurrentChef,
     });
     this.getChefDetails(receivedCurrentChef);
@@ -30,7 +27,6 @@ class UsersChefDetails extends React.Component {
 
   getChefDetails(chefUsername) {
     axios.get(`/api/chef/accountInfo?username=${chefUsername}`).then((res) => {
-      // console.log(res.data);
       this.setState({
         chefDetails: res.data,
       });
@@ -46,22 +42,21 @@ class UsersChefDetails extends React.Component {
   }
 
   render() {
+    const { currentChef, chefDetails, userDetails } = this.state;
     return (
       <div>
-        <h3>{`Chef ${this.state.currentChef}`}</h3>
+        <h3>{`Chef ${currentChef}`}</h3>
         <div>
-          {`Address - ${this.state.chefDetails.streetAddress}`}
+          {`Address - ${chefDetails.streetAddress}`}
           {' '}
           <br />
           {' '}
-          {`${this.state.chefDetails.city}, ${this.state.chefDetails.stateName}, ${
-            this.state.chefDetails.zip
-          }`}
+          {`${chefDetails.city}, ${chefDetails.stateName}, ${chefDetails.zip}`}
           <br />
-          {`Description - ${this.state.chefDetails.description}`}
+          {`Description - ${chefDetails.description}`}
         </div>
         <br />
-        <ViewChefSchedule user={this.state.userDetails} chef={this.state.chefDetails} />
+        <ViewChefSchedule user={userDetails} chef={chefDetails} />
       </div>
     );
   }
