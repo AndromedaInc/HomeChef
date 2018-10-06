@@ -8,12 +8,12 @@ import ChefAccountInfo from './ChefAccountInfo';
 class ChefHome extends Component {
   constructor(props) {
     super(props);
-    console.log('ChefHome props are', props);
 
     let id;
     if (this.props.location.state) {
       id = this.props.location.state.chefId;
     }
+
     this.state = {
       city: '',
       description: '',
@@ -128,7 +128,6 @@ class ChefHome extends Component {
 
   render() {
     const { id } = this.state;
-    console.log('state of ChefHome component currently is', this.state);
     return (
       <div>
         <h1>What's Cooking?</h1>
