@@ -7,7 +7,7 @@ const app = express();
 const port = process.env.PORT || 5678;
 const morgan = require('morgan');
 
-/* **** JWT and Passport Modules **** */
+/* **** JWT and Authentication Modules **** */
 const cookieParser = require('cookie-parser');
 
 /* **** Server-side Rendering Modules **** */
@@ -27,6 +27,7 @@ const template = _.template(baseTemplate); // returns a function
 const db = require('./../database/database');
 const chefs = require('./../database/chefs.js');
 const util = require('./util');
+const auth = require('./auth');
 
 /* **** GraphQL Modules **** */
 // const graphqlHTTP = require('express-graphql');
@@ -46,103 +47,17 @@ app.use(morgan({ format: 'dev' }));
 // }));
 
 /* **** Authentication **** */
-// app.use(util.checkIfAuthenticated, (err, req, res, next) => {
-//   if (err.name === 'UnauthorizedError') {
-//     res.status(401);
-//     console.log('req is', req, 'req.headers.host is', req.headers.host);
-//     res.redirect('/');
-//   }
-//   next();
-// }); // this will see if all incoming requests are authenticated
-// if not will redirect to the home page (but not currently working)
-
-/* **** WIP Signup Endpoint ****
-app.post('/signup', (req, res) => {
-  console.log('incoming signup request is', req);
-  const { or } = db.connection.Op;
-  const { username, password, email } = req.body; // for app
-  // const { username, password } = req.query; // for postman
-  if (!username || !password) {
-    return res.status(401).send('no fields');
-  }
-
-  return db.Chef.findOne({
-    where: {
-      [or]: [
-        { username },
-        { email },
-      ],
-    },
-  })
-    .then((result) => {
-      if (result) {
-        return res.status(400).send('that username or email already exists');
-      }
-      return db.Chef.create({ username, password });
-    })
-    .then(() => res.send('ok'));
-});
-*/
-app.post('/api/user/login', (req, res) => {
-  console.log('incoming login request is', req);
-  const { username, password } = req.body; // for app
-  // const { username, password } = req.query; // for postman
-  if (!username || !password) {
-    return res.status(401).send('no fields');
-  }
-  return db.User.findOne({ where: { username } }).then((result) => {
-    if (!result) {
-      return res.status(400).send('user not found');
-    }
-    console.log('found record is', result);
-    // TODO: add bcrypt match here
-    const token = util.createJWTBearerToken(result);
-    // const jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, {
-    //   algorithm: 'RS256',
-    //   expiresIn: 120000000,
-    //   subject: result.id.toString(),
-    // });
-    res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
-    return res.send();
-    // res.send(token);
-  });
-  // .catch(err => res.status(401).send({ err }));
-});
-app.post('/login', (req, res) => {
-  console.log('incoming login request is', req);
-  const { username, password } = req.body; // for app
-  // const { username, password } = req.query; // for postman
-  if (!username || !password) {
-    return res.status(401).send('no fields');
-  }
-  return db.Chef.findOne({ where: { username } })
-    .then((result) => {
-      if (!result) {
-        return res.status(400).send('user not found');
-      }
-      // const { dataValues: { id: userId } } = result;
-      console.log('found record is', result);
-      // TODO: add bcrypt match here
-      const token = util.createJWTBearerToken(result);
-      // const jwtBearerToken = jwt.sign({}, RSA_PRIVATE_KEY, {
-      //   algorithm: 'RS256',
-      //   expiresIn: 120000000,
-      //   subject: result.id.toString(),
-      // });
-      res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
-      return res.send();
-      // res.send(token);
-    });
-  // .catch(err => res.status(401).send({ err }));
-});
+app.post('/signup', auth.signup);
+app.post('/login', auth.login);
 
 /* **** **** */
 
 app.get('/api/chef/accountInfo', (req, res) => {
-  const { username } = req.query;
-  // console.log('id is', id);
-  db.Chef.findOne({ where: { username } })
-    .then(accountInfo => res.status(200).send(accountInfo))
+  const { id } = req.query;
+  db.Chef.findOne({ where: { id } })
+    .then((accountInfo) => {
+      res.status(200).send(accountInfo);
+    })
     .catch(err => console.log(err));
 });
 
@@ -342,7 +257,7 @@ app.post('/api/user/reservation', (req, res) => {
 });
 
 /* **** Catch All - all server requests above here **** */
-app.use(util.checkIfAuthenticated, (req, res) => {
+app.use(auth.checkIfAuthenticated, (req, res) => {
   console.log(req.url);
   const context = {};
   const body = ReactDOMServer.renderToString(
@@ -358,6 +273,14 @@ app.use(util.checkIfAuthenticated, (req, res) => {
 
   res.write(template({ body }));
   res.end();
+});
+
+/* ***** Error Handler ***** */
+app.use((err, req, res, next) => {
+  if (err.status === 401) {
+    return res.redirect('/');
+  }
+  return next();
 });
 
 app.listen(port, () => {

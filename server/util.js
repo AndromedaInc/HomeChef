@@ -1,26 +1,4 @@
-/* **** AUTHENTICATION USING JWT **** */
-const jwt = require('jsonwebtoken');
-const expressJwt = require('express-jwt');
-const fs = require('fs');
-
-const RSA_PRIVATE_KEY = process.env.RSA_PRIVATE_KEY || fs.readFileSync(`${__dirname}/../config/private.key`);
-const RSA_PUBLIC_KEY = process.env.RSA_PUBLIC_KEY || fs.readFileSync(`${__dirname}/../config/public.key`);
-
-const createJWTBearerToken = user => jwt.sign({}, RSA_PRIVATE_KEY, {
-  algorithm: 'RS256',
-  expiresIn: 600000, // 10 min
-  subject: user.id.toString(),
-});
-
-const checkIfAuthenticated = expressJwt({
-  secret: RSA_PUBLIC_KEY,
-  getToken: req => req.cookies.SESSIONID,
-}).unless({ path: ['/', '/chefauth', '/userauth'] });
-
-
 /* **** EXPORTS **** */
-exports.createJWTBearerToken = createJWTBearerToken;
-exports.checkIfAuthenticated = checkIfAuthenticated;
 exports.organizeSchedule = (data) => {
   const schedule = {}; // eventId : { event object }
   data.forEach((itemEvent) => {
