@@ -63,7 +63,7 @@ class MakeReservation extends React.Component {
         <Redirect
           to={{
             pathname: '/user/chefdetails',
-            state: { username: user.username, currentChef: chef.username },
+            state: { username: user.username, chef },
           }}
         />
       );
