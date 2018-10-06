@@ -53,12 +53,9 @@ app.post('/login', auth.login);
 /* **** **** */
 
 app.get('/api/chef/accountInfo', (req, res) => {
-  console.log('req is', req);
   const { id } = req.query;
-  console.log('id is', id);
   db.Chef.findOne({ where: { id } })
     .then((accountInfo) => {
-      console.log('accountInfo is', accountInfo);
       res.status(200).send(accountInfo);
     })
     .catch(err => console.log(err));
