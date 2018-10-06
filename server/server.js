@@ -66,25 +66,6 @@ app.get(
       .catch(err => console.log(err));
   },
 );
-app.get('/api/chef/accountInfo', (req, res) => {
-  const { username } = req.query;
-  // console.log('id is', id);
-  db.Chef.findOne({ where: { username } })
-    .then(accountInfo => res.status(200).send(accountInfo))
-    .catch(err => console.log(err));
-});
-
-app.get(
-  '/api/user/accountInfo',
-  (req, res, next) => console.log('get request to user/accountInfo') || next(),
-  (req, res) => {
-    const { username } = req.query;
-    console.log('username is', username);
-    db.User.findOne({ where: { username } })
-      .then(accountInfo => res.status(200).send(accountInfo))
-      .catch(err => console.log(err));
-  },
-);
 
 app.get('/api/chef/all', (req, res) => {
   db.Chef.findAll()
