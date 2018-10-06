@@ -21,28 +21,30 @@ const createChef = (username, password, email, name) => db.Chef.create({
   name,
 });
 
+const getChef = id => db.Chef.findOne({ where: { id } });
+
 const upsertAccountInfo = ({
-  // id,
-  username,
-  streetAddress,
   city,
-  stateName,
-  zip,
   description,
+  id,
   imageUrl,
   name,
   password,
+  stateName,
+  streetAddress,
+  username,
+  zip,
 }) => db.Chef.upsert({
-  // id,
-  username,
-  streetAddress,
   city,
-  stateName,
-  zip,
   description,
+  id,
   imageUrl,
   name,
   password,
+  stateName,
+  streetAddress,
+  username,
+  zip,
 });
 
 const findChef = username => db.Chef.findOne({ where: { username } });
@@ -50,5 +52,6 @@ const findChef = username => db.Chef.findOne({ where: { username } });
 exports.checkExistingEmailUsername = checkExistingEmailUsername;
 exports.checkUsername = checkUsername;
 exports.createChef = createChef;
+exports.getChef = getChef;
 exports.upsertAccountInfo = upsertAccountInfo;
 exports.findChef = findChef;

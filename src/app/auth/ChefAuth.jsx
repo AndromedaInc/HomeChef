@@ -3,8 +3,6 @@ import { Link, Redirect } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import axios from 'axios';
 import store from '../redux/store';
-// import Posts from '../redux/sampleComponents/Posts';
-// import PostForm from '../redux/sampleComponents/PostForm';
 
 class ChefAuth extends React.Component {
   constructor(props) {
@@ -163,8 +161,6 @@ class ChefAuth extends React.Component {
               <button type="submit">Submit</button>
             </div>
           </form>
-          {/* <PostForm />
-          <Posts /> */}
         </Fragment>
       </Provider>
     );
