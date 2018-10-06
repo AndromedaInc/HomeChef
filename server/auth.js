@@ -25,7 +25,8 @@ const createJWTBearerToken = user => jwt.sign({}, RSA_PRIVATE_KEY, {
 // To protect routes
 const checkIfAuthenticated = expressJwt({
   secret: RSA_PUBLIC_KEY,
-  getToken: req => req.cookies.SESSIONID, // comment out this line if sending postman requests as cookie is retreived differently
+  // comment out following line if sending Postman requests as cookie is retrieved differently
+  getToken: req => req.cookies.SESSIONID,
 }).unless({ path: ['/', '/chefauth', '/userauth'] });
 
 /* ********** LOGIN ********** */

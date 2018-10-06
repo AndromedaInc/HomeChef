@@ -25,7 +25,6 @@ const template = _.template(baseTemplate); // returns a function
 
 /* **** DB Connection modules **** */
 const db = require('./../database/database');
-const chefs = require('./../database/chefs.js');
 const util = require('./util');
 const auth = require('./auth');
 const api = require('./api');

@@ -1,5 +1,5 @@
 const express = require('express');
-const dbChefs = require('./../../database/chefs.js');
+const dbChefs = require('../../database/chefs.js');
 
 const chefRoutes = express.Router();
 

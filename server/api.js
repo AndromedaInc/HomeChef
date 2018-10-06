@@ -1,5 +1,5 @@
 const express = require('express');
-const chefRoutes = require('./api/chef.js');
+const chefRoutes = require('./api/chefRoutes.js');
 // const user = require('./api/users');
 
 const api = express.Router();
