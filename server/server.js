@@ -1,10 +1,17 @@
-require('babel-register');
 require('dotenv').config();
+
+/* **** CODE TO RESOLVE TESTING BUG WITH MYSQL - DO NOT MOVE OR CHANGE **** */
+// relevant StackOverflow: https://stackoverflow.com/questions/46227783/encoding-not-recognized-in-jest-js
+const iconv = require('iconv-lite');
+const encodings = require('iconv-lite/encodings');
+
+iconv.encodings = encodings;
+/* **** END CODE TO DEBUG MYSQL + TEST **** */
+
 /* **** Express modules **** */
 const express = require('express');
 
 const app = express();
-const port = process.env.PORT || 5678;
 const morgan = require('morgan');
 
 /* **** JWT and Authentication Modules **** */
@@ -262,6 +269,4 @@ app.use((err, req, res, next) => {
   return next();
 });
 
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
+module.exports = app;
