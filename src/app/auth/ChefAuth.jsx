@@ -35,46 +35,51 @@ class ChefAuth extends React.Component {
 
   sendLogin() {
     const { username, password } = this.state;
-    axios.post('/login', {
-      username,
-      password,
-    }).then((res) => {
-      console.log('response from login is', res);
-      const { data: { chefId } } = res;
-      this.setState({
-        redirect: true,
-        chefId,
-      });
-    }).catch(err => console.log(err));
+    axios
+      .post('/login', {
+        username,
+        password,
+      })
+      .then((res) => {
+        console.log('response from login is', res);
+        const {
+          data: { chefId },
+        } = res;
+        this.setState({
+          redirect: true,
+          chefId,
+        });
+      })
+      .catch(err => console.log(err));
   }
 
   sendSignup() {
     const {
-      username,
-      password,
-      name,
-      email,
+      username, password, name, email,
     } = this.state;
-    axios.post('/signup', {
-      username,
-      password,
-      name,
-      email,
-    }).then((res) => {
-      console.log('response from signup is', res);
-      const { data: { chefId } } = res;
-      this.setState({
-        redirect: true,
-        chefId,
-      });
-    }).catch(err => console.log(err));
+    axios
+      .post('/signup', {
+        username,
+        password,
+        name,
+        email,
+      })
+      .then((res) => {
+        console.log('response from signup is', res);
+        const {
+          data: { chefId },
+        } = res;
+        this.setState({
+          redirect: true,
+          chefId,
+        });
+      })
+      .catch(err => console.log(err));
   }
 
   handleChange(e) {
-    const { name } = e.target;
-    const { value } = e.target;
     this.setState({
-      [name]: value,
+      [e.target.name]: e.target.value,
     });
   }
 
@@ -88,10 +93,11 @@ class ChefAuth extends React.Component {
     const { redirect, chefId } = this.state;
     if (redirect) {
       return (
-        <Redirect to={{
-          pathname: '/chef',
-          state: { chefId },
-        }}
+        <Redirect
+          to={{
+            pathname: '/chef',
+            state: { chefId },
+          }}
         />
       );
     }
@@ -100,11 +106,7 @@ class ChefAuth extends React.Component {
 
   render() {
     const {
-      signup,
-      username,
-      password,
-      name,
-      email,
+      signup, username, password, name, email,
     } = this.state;
     const hideOrShow = signup ? 'text' : 'hidden';
     return (
@@ -117,18 +119,17 @@ class ChefAuth extends React.Component {
           <form onSubmit={this.handleSubmit}>
             <div className="chef-login">
               <h3>Login as a Chef</h3>
-              <button type="button" onClick={() => this.setLogin()}>Login</button>
-              <button type="button" onClick={() => this.setSignup()}>Signup</button>
+              <button type="button" onClick={() => this.setLogin()}>
+                Login
+              </button>
+              <button type="button" onClick={() => this.setSignup()}>
+                Signup
+              </button>
               <div>
                 <label>Username: </label>
                 {' '}
                 <br />
-                <input
-                  name="username"
-                  value={username}
-                  type="text"
-                  onChange={this.handleChange}
-                />
+                <input name="username" value={username} type="text" onChange={this.handleChange} />
               </div>
               <div>
                 <label>Password: </label>
@@ -142,21 +143,11 @@ class ChefAuth extends React.Component {
               </div>
               <div style={{ visibility: signup ? 'visible' : 'hidden' }}>
                 <label>Name: </label>
-                <input
-                  name="name"
-                  value={name}
-                  type={hideOrShow}
-                  onChange={this.handleChange}
-                />
+                <input name="name" value={name} type={hideOrShow} onChange={this.handleChange} />
               </div>
               <div style={{ visibility: signup ? 'visible' : 'hidden' }}>
                 <label>Email: </label>
-                <input
-                  name="email"
-                  value={email}
-                  type={hideOrShow}
-                  onChange={this.handleChange}
-                />
+                <input name="email" value={email} type={hideOrShow} onChange={this.handleChange} />
               </div>
               <button type="submit">Submit</button>
             </div>

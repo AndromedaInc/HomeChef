@@ -43,7 +43,7 @@ class UserHome extends React.Component {
             <Link
               to={{
                 pathname: '/user/chefdetails',
-                state: { username, currentChef: chef.username },
+                state: { username, chef },
               }}
             >
               <button type="button">Select</button>

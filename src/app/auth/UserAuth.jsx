@@ -8,12 +8,73 @@ class UserAuth extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      name: '',
+      email: '',
       username: '',
       password: '',
+      signup: false,
       redirect: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.sendLogin = this.sendLogin.bind(this);
+    this.sendSignup = this.sendSignup.bind(this);
+  }
+
+  setLogin() {
+    this.setState({
+      signup: false,
+    });
+  }
+
+  setSignup() {
+    this.setState({
+      signup: true,
+    });
+  }
+
+  sendLogin() {
+    const { username, password } = this.state;
+    axios
+      .post('/api/user/login', {
+        username,
+        password,
+      })
+      .then((res) => {
+        console.log('response from login is', res);
+        const {
+          data: { userId },
+        } = res;
+        this.setState({
+          redirect: true,
+          userId,
+        });
+      })
+      .catch(err => console.log(err));
+  }
+
+  sendSignup() {
+    const {
+      username, password, name, email,
+    } = this.state;
+    axios
+      .post('/api/user/signup', {
+        username,
+        password,
+        name,
+        email,
+      })
+      .then((res) => {
+        console.log('response from signup is', res);
+        const {
+          data: { userId },
+        } = res;
+        this.setState({
+          redirect: true,
+          userId,
+        });
+      })
+      .catch(err => console.log(err));
   }
 
   handleChange(e) {
@@ -23,21 +84,9 @@ class UserAuth extends React.Component {
   }
 
   handleSubmit(e) {
-    const { username, password } = this.state;
-
     e.preventDefault();
-    axios
-      .post('/api/user/login', {
-        username,
-        password,
-      })
-      .then((res) => {
-        console.log('response from user login is', res);
-        this.setState({
-          redirect: true,
-        });
-      })
-      .catch(err => console.log(err));
+    const { signup } = this.state;
+    return signup ? this.sendSignup() : this.sendLogin();
   }
 
   renderRedirect() {
@@ -52,21 +101,30 @@ class UserAuth extends React.Component {
         />
       );
     }
+    return null;
   }
 
   render() {
-    const { username, password } = this.state;
+    const {
+      signup, username, password, name, email,
+    } = this.state;
+    const hideOrShow = signup ? 'text' : 'hidden';
     return (
       <Provider store={store}>
         <Fragment>
           {this.renderRedirect()}
-
           <Link to="/chefauth">
             <button type="button">Login as a Chef</button>
           </Link>
           <form onSubmit={this.handleSubmit}>
             <div className="user-login">
               <h3>Login as a User</h3>
+              <button type="button" onClick={() => this.setLogin()}>
+                Login
+              </button>
+              <button type="button" onClick={() => this.setSignup()}>
+                Signup
+              </button>
               <div>
                 <label>Username: </label>
                 {' '}
@@ -83,7 +141,15 @@ class UserAuth extends React.Component {
                   onChange={this.handleChange}
                 />
               </div>
-              <button type="submit">Login</button>
+              <div style={{ visibility: signup ? 'visible' : 'hidden' }}>
+                <label>Name: </label>
+                <input name="name" value={name} type={hideOrShow} onChange={this.handleChange} />
+              </div>
+              <div style={{ visibility: signup ? 'visible' : 'hidden' }}>
+                <label>Email: </label>
+                <input name="email" value={email} type={hideOrShow} onChange={this.handleChange} />
+              </div>
+              <button type="submit">Submit</button>
             </div>
           </form>
         </Fragment>

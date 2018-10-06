@@ -5,32 +5,14 @@ import ViewChefSchedule from './ViewChefSchedule';
 class UsersChefDetails extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      userDetails: [],
-      currentChef: '',
-      chefDetails: [],
-    };
-    this.getChefDetails = this.getChefDetails.bind(this);
+    this.state = {};
     this.getUserDetails = this.getUserDetails.bind(this);
   }
 
   componentDidMount() {
-    const receivedUsername = this.props.location.state.username;
-    const receivedCurrentChef = this.props.location.state.currentChef;
+    const { username } = this.props.location.state;
 
-    this.setState({
-      currentChef: receivedCurrentChef,
-    });
-    this.getChefDetails(receivedCurrentChef);
-    this.getUserDetails(receivedUsername);
-  }
-
-  getChefDetails(chefUsername) {
-    axios.get(`/api/chef/accountInfo?username=${chefUsername}`).then((res) => {
-      this.setState({
-        chefDetails: res.data,
-      });
-    });
+    this.getUserDetails(username);
   }
 
   getUserDetails(username) {
@@ -42,21 +24,22 @@ class UsersChefDetails extends React.Component {
   }
 
   render() {
-    const { currentChef, chefDetails, userDetails } = this.state;
+    const { userDetails } = this.state;
+    const { chef } = this.props.location.state;
     return (
       <div>
-        <h3>{`Chef ${currentChef}`}</h3>
+        <h3>{`Chef ${chef.name}`}</h3>
         <div>
-          {`Address - ${chefDetails.streetAddress}`}
+          {`Address - ${chef.streetAddress}`}
           {' '}
           <br />
           {' '}
-          {`${chefDetails.city}, ${chefDetails.stateName}, ${chefDetails.zip}`}
+          {`${chef.city}, ${chef.stateName}, ${chef.zip}`}
           <br />
-          {`Description - ${chefDetails.description}`}
+          {`Description - ${chef.description}`}
         </div>
         <br />
-        <ViewChefSchedule user={userDetails} chef={chefDetails} />
+        <ViewChefSchedule user={userDetails} chef={chef} />
       </div>
     );
   }

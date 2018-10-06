@@ -49,21 +49,30 @@ app.use(morgan({ format: 'dev' }));
 /* **** Authentication **** */
 app.post('/signup', auth.signup);
 app.post('/login', auth.login);
+app.post('/api/user/login', auth.userLogin);
+app.post('/api/user/signup', auth.userSignup);
 
 /* **** API **** */
 app.use('/api', auth.checkIfAuthenticated, api);
 
-
-// app.post('/api/user/login', (req, res) => {
-//   const username = req.body.username;
-//   const password = req.body.password;
-//   db.User.findOne({ where: { username } }).then((res) => {
-//     if (res.length === 0) {
-//       console.log('username not found');
-//       res.redirect('/api/user/signup');
-//     }
-//   });
-// });
+app.get(
+  '/api/user/accountInfo',
+  (req, res, next) => console.log('get request to user/accountInfo') || next(),
+  (req, res) => {
+    const { username } = req.query;
+    console.log('username is', username);
+    db.User.findOne({ where: { username } })
+      .then(accountInfo => res.status(200).send(accountInfo))
+      .catch(err => console.log(err));
+  },
+);
+app.get('/api/chef/accountInfo', (req, res) => {
+  const { username } = req.query;
+  // console.log('id is', id);
+  db.Chef.findOne({ where: { username } })
+    .then(accountInfo => res.status(200).send(accountInfo))
+    .catch(err => console.log(err));
+});
 
 app.get(
   '/api/user/accountInfo',
@@ -200,23 +209,22 @@ app.post('/api/chef/event/update', (req, res) => {
   )
     .then(() => {
       event.updatedMenuItems.forEach((item) => {
-        db.ItemEvent.count({ where: { eventId: event.id, menuItemId: item.id } })
-          .then((count) => {
-            if (count === 1) {
-              db.ItemEvent.update(
-                { quantity: item.quantity },
-                { where: { eventId: event.id, menuItemId: item.id } },
-              );
-            } else {
-              db.ItemEvent.create({
-                quantity: item.quantity,
-                eventId: event.id,
-                menuItemId: item.id,
-                chefId: event.chefId,
-                reservations: 0,
-              });
-            }
-          });
+        db.ItemEvent.count({ where: { eventId: event.id, menuItemId: item.id } }).then((count) => {
+          if (count === 1) {
+            db.ItemEvent.update(
+              { quantity: item.quantity },
+              { where: { eventId: event.id, menuItemId: item.id } },
+            );
+          } else {
+            db.ItemEvent.create({
+              quantity: item.quantity,
+              eventId: event.id,
+              menuItemId: item.id,
+              chefId: event.chefId,
+              reservations: 0,
+            });
+          }
+        });
       });
     })
     .then(() => res.end())
