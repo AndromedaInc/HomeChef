@@ -100,26 +100,11 @@ const UserType = new GraphQLObjectType({
 const ScheduleType = new GraphQLObjectType({
   name: 'ChefSchedule',
   fields: () => ({
-    eventId: { type: GraphQLID },
-    date: { type: GraphQLString },
-    startTime: { type: GraphQLString },
-    endTime: { type: GraphQLString },
-    // chef: {
-    //   type: ChefType,
-    //   resolve(parent, args) {
-    //     // parent is this chefschedule and has all the same properties
-    //     // return query find chefId form this event
-    //     // return db.Event.findById(args.chefId);
-    //   },
-    // },
-    // menuItems: {
-    //   type: new GraphQLList(MenuType),
-    //   resolve(parent, args) {
-    //     // return all menu items with this event id
-    //     console.log(parent, args);
-    //     return menuItem;
-    //   },
-    // },
+    // eventId: { type: GraphQLID },
+    // date: { type: GraphQLString },
+    // startTime: { type: GraphQLString },
+    // endTime: { type: GraphQLString },
+    // menuItems: new GraphQLList(MenuItemType),
   }),
 });
 
