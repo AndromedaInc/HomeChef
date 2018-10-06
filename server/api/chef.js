@@ -3,6 +3,7 @@ const dbChefs = require('./../../database/chefs.js');
 
 const chefRoutes = express.Router();
 
+// full route is /api/chef/accountInfo
 chefRoutes.route('/accountInfo')
 
   .get((req, res) => {

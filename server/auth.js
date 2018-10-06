@@ -25,24 +25,8 @@ const createJWTBearerToken = user => jwt.sign({}, RSA_PRIVATE_KEY, {
 // To protect routes
 const checkIfAuthenticated = expressJwt({
   secret: RSA_PUBLIC_KEY,
-  getToken: req => req.cookies.SESSIONID,
+  getToken: req => req.cookies.SESSIONID, // comment out this line if sending postman requests as cookie is retreived differently
 }).unless({ path: ['/', '/chefauth', '/userauth'] });
-
-const redirect = (req, res, next) => {
-  expressJwt({
-    secret: RSA_PUBLIC_KEY,
-    getToken: request => request.cookies.SESSIONID,
-  }).unless({ path: ['/', '/chefauth', '/userauth'] });
-
-  console.log('req now reads', req);
-
-  return (req.user) ? next() : res.redirect('/');
-};
-
-const redirectIfNotAuthenticated = (req, res, next) => {
-  console.log('req now looks like', req);
-  return (req.user) ? next() : res.redirect('/');
-};
 
 /* ********** LOGIN ********** */
 const login = (req, res) => {
@@ -121,5 +105,3 @@ const signup = (req, res) => {
 exports.login = login;
 exports.signup = signup;
 exports.checkIfAuthenticated = checkIfAuthenticated;
-exports.redirect = redirect;
-exports.redirectIfNotAuthenticated = redirectIfNotAuthenticated;

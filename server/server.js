@@ -54,27 +54,6 @@ app.post('/login', auth.login);
 /* **** API **** */
 app.use('/api', auth.checkIfAuthenticated, api);
 
-// app.get('/api/chef/accountInfo', (req, res) => {
-//   const { id } = req.query;
-//   db.Chef.findOne({ where: { id } }) // chefs.getChef(id)
-//     .then((accountInfo) => {
-//       res.status(200).send(accountInfo);
-//     })
-//     .catch(err => console.log(err));
-// });
-
-// app.patch('/api/chef/accountInfo', (req, res) => {
-//   console.log('incoming patch request to chef/accountInfo is', req);
-//   chefs.upsertAccountInfo(req.body.data).then((created) => {
-//     if (created) {
-//       res.status(200);
-//       res.send('Successfully stored');
-//     } else {
-//       res.status(200);
-//       res.send('Successfully inserted');
-//     }
-//   });
-// });
 
 // app.post('/api/user/login', (req, res) => {
 //   const username = req.body.username;
