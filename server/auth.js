@@ -31,7 +31,7 @@ const checkIfAuthenticated = expressJwt({
 const redirect = (req, res, next) => {
   expressJwt({
     secret: RSA_PUBLIC_KEY,
-    getToken: req => req.cookies.SESSIONID,
+    getToken: request => request.cookies.SESSIONID,
   }).unless({ path: ['/', '/chefauth', '/userauth'] });
 
   console.log('req now reads', req);
