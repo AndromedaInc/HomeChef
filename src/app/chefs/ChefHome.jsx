@@ -19,12 +19,12 @@ class ChefHome extends Component {
       description: '',
       edit: false,
       id,
-      imageUrl: 'chefimage.com', // may want to remove from here
-      name: 'testchef', // may want to remove from here
-      password: 'chefpass', // may want to remove from here
+      imageUrl: '',
+      name: '',
+      password: '',
       stateName: '',
       streetAddress: '',
-      username: 'chefusername', // will want to change from hardcode
+      username: '',
       zip: null,
     };
 
