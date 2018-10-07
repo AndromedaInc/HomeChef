@@ -12,12 +12,18 @@ require('dotenv').config();
 //   database: `${process.env.DB_DATABASE}`,
 // });
 
+const db = process.env.NODE_ENV === 'test' ? `${process.env.DB_TEST_DATABASE}` : `${process.env.DB_DATABASE}`;
+const user = process.env.NODE_ENV === 'test' ? `${process.env.DB_TEST_USER}` : `${process.env.DB_USER}`;
+const pass = process.env.NODE_ENV === 'test' ? `${process.env.DB_TEST_PASS}` : `${process.env.DB_PASS}`;
+const host = process.env.NODE_ENV === 'test' ? `${process.env.DB_TEST_HOST}` : `${process.env.DB_HOST}`;
+
+
 const orm = new Sequelize(
-  `${process.env.DB_DATABASE}`,
-  `${process.env.DB_USER}`,
-  `${process.env.DB_PASS}`,
+  db,
+  user,
+  pass,
   {
-    host: `${process.env.DB_HOST}`,
+    host,
     dialect: 'mysql',
   },
 );

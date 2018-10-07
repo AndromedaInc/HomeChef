@@ -2,12 +2,13 @@
   "name": "HomeChef",
   "version": "1.0.0",
   "description": "",
+  "main": "server/index.js",
   "scripts": {
     "dev-build": "webpack --mode development --watch",
-    "dev-server": "nodemon --inspect --exec babel-node --presets env server/server.js",
+    "dev-server": "nodemon --inspect --exec babel-node --presets env server/index.js",
     "lint": "eslint 'src/*.jsx' database server",
     "postinstall": "webpack --mode production",
-    "start": "node server/server.js",
+    "start": "node server/index.js",
     "test": "npm run lint",
     "jest": "jest"
   },
@@ -61,6 +62,7 @@
     "redux": "^4.0.0",
     "redux-thunk": "^2.3.0",
     "sequelize": "^4.39.0",
+    "supertest": "^3.3.0",
     "webpack": "^4.20.2"
   },
   "devDependencies": {
