@@ -2,8 +2,9 @@ require('dotenv').config();
 
 /* **** CODE TO RESOLVE TESTING BUG WITH MYSQL - DO NOT MOVE OR CHANGE **** */
 // relevant StackOverflow: https://stackoverflow.com/questions/46227783/encoding-not-recognized-in-jest-js
-const iconv = require('iconv-lite');
-const encodings = require('iconv-lite/encodings');
+
+const iconv = require('iconv-lite'); // eslint-disable-line import/no-extraneous-dependencies
+const encodings = require('iconv-lite/encodings'); // eslint-disable-line import/no-extraneous-dependencies
 
 iconv.encodings = encodings;
 /* **** END CODE TO DEBUG MYSQL + TEST **** */
