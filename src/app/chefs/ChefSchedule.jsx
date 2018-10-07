@@ -11,13 +11,16 @@ class ChefSchedule extends React.Component {
   }
 
   componentDidMount() {
-    this.getSchedule();
+    setTimeout(() => {
+      this.getSchedule();
+    }, 300);
   }
 
   getSchedule() {
     const { chefId } = this.props;
     axios.get('/api/chef/schedule', { params: { id: chefId } })
       .then((data) => {
+        console.log(data.data)
         // save chefId to state to prevent unknown switching to different chefId number in render
         this.setState({ schedule: data.data, chefId });
       })
@@ -26,7 +29,7 @@ class ChefSchedule extends React.Component {
 
   render() {
     // get chefId from state (set in getSchedule) to prevent unknown switch to diff chefId num
-    const { chefId, schedule } = this.state;
+    const { schedule, chefId } = this.state;
     return (
       <div>
         <h3>Schedule</h3>

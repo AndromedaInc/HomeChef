@@ -1,14 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-// import ApolloClient from 'apollo-boost';
-// import { gql } from 'apollo-boost';
-// import { ApolloProvider } from 'react-apollo';
-// import { graphql } from 'react-apollo';
-
-// const client = new ApolloClient({
-//   uri: 'http://localhost:5678/graphql'
-// }); // <ApolloProvider client={client}></ApolloProvider>
 
 class ViewChefSchedule extends React.Component {
   constructor(props) {
@@ -38,31 +30,6 @@ class ViewChefSchedule extends React.Component {
       })
       .catch(err => console.log(err));
   }
-
-  // getSchedule() {
-  //   const chef = { this.props };
-  //   //graphql.get(`/gql/chef/schedule?query={chefSchedule(id:${chef.id}) {
-  //   const schedule = gql`
-  //     {
-  //       chefSchedule {
-  //         eventId
-  //         date ${ /* sort by date? */ }
-  //         startTime ${ /* then by time? */ }
-  //         endTime
-  //         menuItems {
-  //           menuItemId
-  //           name
-  //           description
-  //           imageUrl
-  //           price
-  //           remainingQuantity
-  //         }
-  //       }
-  //     }
-  //   }}`;
-  //   // .then( schedule => this.setState({ schedule }))
-  //   // .catch( err => console.log(err));
-  // }
 
   render() {
     const { schedule, user, chef } = this.state;

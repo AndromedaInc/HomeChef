@@ -57,10 +57,10 @@ const Chef = orm.define('chef', {
 });
 
 const Event = orm.define('event', {
+  // foreign key: chefId
   date: Sequelize.STRING,
   startTime: Sequelize.STRING,
   endTime: Sequelize.STRING,
-  // foreign key auto created: chefId
 });
 
 const ItemEvent = orm.define('itemEvent', {
@@ -88,7 +88,7 @@ const Rating = orm.define('rating', {
 });
 
 const Transaction = orm.define('transaction', {
-  // foreign keys auto added: userId, chefId
+  // foreign keys: userId, chefId
   status: Sequelize.STRING,
   total: Sequelize.INTEGER, // or cached?
   tax: Sequelize.INTEGER, // or cached?

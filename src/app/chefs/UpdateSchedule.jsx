@@ -18,18 +18,21 @@ class UpdateSchedule extends React.Component {
   }
 
   componentDidMount() {
-    // const { location: { state: { chefId, event } } } = this.props;
+    this.getEventDetails();
+  }
+
+  getEventDetails() {
     const { chefId, event } = this.props.location.state;
     if (event) {
       this.setState({
+        redirect: false,
         date: event.date,
         startTime: event.startTime,
         endTime: event.endTime,
         menuItems: event.menuItems,
         newSchedule: false,
-      });
+      }, () => this.render());
     }
-
     axios.get('/api/chef/menu', { params: { id: chefId } })
       .then((data) => {
         this.setState({ availableMenuItems: data.data });
@@ -60,7 +63,6 @@ class UpdateSchedule extends React.Component {
   createNewEvent() {
     const { chefId } = this.props.location.state;
     const {
-      redirect,
       date,
       startTime,
       endTime,
@@ -74,7 +76,7 @@ class UpdateSchedule extends React.Component {
       updatedMenuItems,
     })
       .then(() => {
-        this.setState({ redirect: !redirect });
+        this.setState({ redirect: true });
       })
       .catch(err => console.log(err));
   }
@@ -82,7 +84,6 @@ class UpdateSchedule extends React.Component {
   updateExistingEvent() {
     const { chefId, event } = this.props.location.state;
     const {
-      redirect,
       date,
       startTime,
       endTime,
@@ -97,8 +98,7 @@ class UpdateSchedule extends React.Component {
       updatedMenuItems,
     })
       .then(() => {
-        console.log('will redirect');
-        this.setState({ redirect: !redirect });
+        this.setState({ redirect: true });
       })
       .catch(err => console.log(err));
   }
@@ -115,7 +115,6 @@ class UpdateSchedule extends React.Component {
     } = this.state;
 
     if (redirect) {
-      console.log('in redirect');
       return (
         <Redirect
           push
