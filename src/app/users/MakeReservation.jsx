@@ -6,7 +6,7 @@ class MakeReservation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      quantity: 1,
+      quantity: 0,
       order: {},
       redirect: false,
     };
@@ -39,6 +39,10 @@ class MakeReservation extends React.Component {
   saveReservation() {
     const { chef, event } = this.props.location.state;
     const { quantity } = this.state;
+    // TODO: this should also create:
+    // 1) orders for each item
+    // 2) a transaction (pending)
+    // TODO: open stripe component for payment
     axios
       .post('/api/user/reservation', {
         id: event.eventId,
@@ -87,25 +91,23 @@ class MakeReservation extends React.Component {
         </h2>
         {event.menuItems.map(item => (
           <div key={item.id}>
-            <h3>{item.name}</h3>
             <img width="300px" alt={item.name} src={item.imageUrl} />
+            <h3>{item.name}</h3>
             <p>{item.description}</p>
-
-            {`Price $${item.price}`}
-            <br />
-            {`How many dishes do you want? ${quantity} `}
+            <p>{`Price $${item.price}`}</p>
+            {`How many dishes do you want?  ${quantity} `}
             <button type="button" onClick={this.increaseCount.bind(this, item)}>
               +
             </button>
             <button type="button" onClick={this.decreaseCount.bind(this, item)}>
               -
             </button>
+            <br />
+            <br />
           </div>
         ))}
-        <h2>Save Your Reservation</h2>
-        {/* <p>add date, items, etc</p> */}
         <button type="submit" onClick={this.saveReservation}>
-          Save
+          Save Reservation
         </button>
       </div>
     );
