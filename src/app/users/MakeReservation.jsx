@@ -6,12 +6,22 @@ class MakeReservation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      quantity: 0,
-      order: {},
+      menuItemsWithUserRSVP: [],
       redirect: false,
     };
     this.onChange = this.onChange.bind(this);
     this.saveReservation = this.saveReservation.bind(this);
+  }
+
+  componentDidMount() {
+    const { event } = this.props.location.state;
+    const itemsWithUserRSVP = event.menuItems.slice();
+    for (let i = 0; i < itemsWithUserRSVP.length; i += 1) {
+      const item = itemsWithUserRSVP[i];
+      item.maxOrder = item.quantity - item.reservations;
+      itemsWithUserRSVP[i].userRSVP = 0;
+    }
+    this.setState({ menuItemsWithUserRSVP: itemsWithUserRSVP });
   }
 
   onChange(e) {
@@ -20,28 +30,33 @@ class MakeReservation extends React.Component {
     });
   }
 
-  decreaseCount() {
-    const { quantity } = this.state;
-    if (quantity > 1) {
-      this.setState({
-        quantity: quantity - 1,
-      });
+  decreaseCount(item) {
+    const { menuItemsWithUserRSVP } = this.state;
+    for (let i = 0; i < menuItemsWithUserRSVP.length; i += 1) {
+      if (menuItemsWithUserRSVP[i].id === item.id && menuItemsWithUserRSVP[i].userRSVP > 0) {
+        menuItemsWithUserRSVP[i].userRSVP -= 1;
+      }
     }
+    this.setState({ menuItemsWithUserRSVP });
   }
 
-  increaseCount() {
-    const { quantity } = this.state;
-    this.setState({
-      quantity: quantity + 1,
-    });
+  increaseCount(item) {
+    const { menuItemsWithUserRSVP } = this.state;
+    for (let i = 0; i < menuItemsWithUserRSVP.length; i += 1) {
+      const current = menuItemsWithUserRSVP[i];
+      if (current.id === item.id && current.userRSVP < current.maxOrder) {
+        menuItemsWithUserRSVP[i].userRSVP += 1;
+      }
+    }
+    this.setState({ menuItemsWithUserRSVP });
   }
 
   saveReservation() {
     const { chef, event } = this.props.location.state;
-    const { quantity } = this.state;
-    // TODO: this should also create:
+    // TODO: this should:
     // 1) orders for each item
     // 2) a transaction (pending)
+    // 3) correctly update itemEvent reservations
     // TODO: open stripe component for payment
     axios
       .post('/api/user/reservation', {
@@ -76,7 +91,7 @@ class MakeReservation extends React.Component {
 
   render() {
     const { event, chef } = this.props.location.state;
-    const { quantity } = this.state;
+    const { menuItemsWithUserRSVP } = this.state;
     return (
       <div>
         {this.renderRedirect()}
@@ -89,13 +104,13 @@ class MakeReservation extends React.Component {
           <span> - </span>
           {event.endTime}
         </h2>
-        {event.menuItems.map(item => (
+        {menuItemsWithUserRSVP.map(item => (
           <div key={item.id}>
             <img width="300px" alt={item.name} src={item.imageUrl} />
             <h3>{item.name}</h3>
             <p>{item.description}</p>
             <p>{`Price $${item.price}`}</p>
-            {`How many dishes do you want?  ${quantity} `}
+            {`How many dishes do you want?  ${item.userRSVP} `}
             <button type="button" onClick={this.increaseCount.bind(this, item)}>
               +
             </button>
