@@ -1,37 +1,30 @@
 import React from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { getChefList } from '../redux/actions/chefActions';
 
 class UserHome extends React.Component {
   constructor(props) {
     super(props);
-    console.log(props);
     this.state = {
-      chefs: [],
       username: '',
     };
-    this.getChefList = this.getChefList.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.getChefList();
   }
 
   componentDidMount() {
-    this.getChefList();
     const receivedUsername = this.props.location.state.username;
-
     this.setState({
       username: receivedUsername,
     });
   }
 
-  getChefList() {
-    axios.get('/api/chef/all').then((res) => {
-      this.setState({
-        chefs: res.data,
-      });
-    });
-  }
-
   renderChefList() {
-    const { chefs, username } = this.state;
+    const { username } = this.state;
+    const { chefs } = this.props;
     return chefs.map(chef => (
       <ul>
         <li>
@@ -39,7 +32,6 @@ class UserHome extends React.Component {
             {`Chef: ${chef.username}, Address: ${chef.streetAddress} ${chef.city}, ${
               chef.stateName
             }, ${chef.zip}, Description: ${chef.description}`}
-
             <Link
               to={{
                 pathname: '/user/chefdetails',
@@ -64,4 +56,10 @@ class UserHome extends React.Component {
   }
 }
 
-export default UserHome;
+const mapStateToProps = state => ({
+  chefs: state.chefs.chefsAvailable,
+});
+export default connect(
+  mapStateToProps,
+  { getChefList },
+)(UserHome);

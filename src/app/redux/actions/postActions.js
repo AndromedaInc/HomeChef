@@ -2,7 +2,7 @@ import 'isomorphic-fetch';
 import { FETCH_POSTS, NEW_POSTS } from './types';
 
 export const fetchPosts = () => (dispatch) => {
-  fetch('https://jsonplaceholder.typicode.com/posts')
+  fetch('/api/chef/all')
     .then(res => res.json())
     .then(posts => dispatch({
       type: FETCH_POSTS,
