@@ -28,7 +28,7 @@ const ExampleComponent = () => (
       if (loading) return 'Loading...';
       if (error) return `Error ${error.message}`;
       if (data) console.log(data);
-      
+
       return (
         <div>
           {data.chefs.map((chef) => {
