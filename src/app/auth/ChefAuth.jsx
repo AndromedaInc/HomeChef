@@ -1,8 +1,6 @@
 import React, { Fragment } from 'react';
 import { Link, Redirect } from 'react-router-dom';
-import { Provider } from 'react-redux';
 import axios from 'axios';
-import store from '../redux/store';
 
 class ChefAuth extends React.Component {
   constructor(props) {
@@ -110,50 +108,48 @@ class ChefAuth extends React.Component {
     } = this.state;
     const hideOrShow = signup ? 'text' : 'hidden';
     return (
-      <Provider store={store}>
-        <Fragment>
-          {this.renderRedirect()}
-          <Link to="/userauth">
-            <button type="button">Login as a User</button>
-          </Link>
-          <form onSubmit={this.handleSubmit}>
-            <div className="chef-login">
-              <h3>Login as a Chef</h3>
-              <button type="button" onClick={() => this.setLogin()}>
-                Login
-              </button>
-              <button type="button" onClick={() => this.setSignup()}>
-                Signup
-              </button>
-              <div>
-                <label>Username: </label>
-                {' '}
-                <br />
-                <input name="username" value={username} type="text" onChange={this.handleChange} />
-              </div>
-              <div>
-                <label>Password: </label>
-                <br />
-                <input
-                  name="password"
-                  value={password}
-                  type="password"
-                  onChange={this.handleChange}
-                />
-              </div>
-              <div style={{ visibility: signup ? 'visible' : 'hidden' }}>
-                <label>Name: </label>
-                <input name="name" value={name} type={hideOrShow} onChange={this.handleChange} />
-              </div>
-              <div style={{ visibility: signup ? 'visible' : 'hidden' }}>
-                <label>Email: </label>
-                <input name="email" value={email} type={hideOrShow} onChange={this.handleChange} />
-              </div>
-              <button type="submit">Submit</button>
+      <Fragment>
+        {this.renderRedirect()}
+        <Link to="/userauth">
+          <button type="button">Login as a User</button>
+        </Link>
+        <form onSubmit={this.handleSubmit}>
+          <div className="chef-login">
+            <h3>Login as a Chef</h3>
+            <button type="button" onClick={() => this.setLogin()}>
+              Login
+            </button>
+            <button type="button" onClick={() => this.setSignup()}>
+              Signup
+            </button>
+            <div>
+              <label>Username: </label>
+              {' '}
+              <br />
+              <input name="username" value={username} type="text" onChange={this.handleChange} />
             </div>
-          </form>
-        </Fragment>
-      </Provider>
+            <div>
+              <label>Password: </label>
+              <br />
+              <input
+                name="password"
+                value={password}
+                type="password"
+                onChange={this.handleChange}
+              />
+            </div>
+            <div style={{ visibility: signup ? 'visible' : 'hidden' }}>
+              <label>Name: </label>
+              <input name="name" value={name} type={hideOrShow} onChange={this.handleChange} />
+            </div>
+            <div style={{ visibility: signup ? 'visible' : 'hidden' }}>
+              <label>Email: </label>
+              <input name="email" value={email} type={hideOrShow} onChange={this.handleChange} />
+            </div>
+            <button type="submit">Submit</button>
+          </div>
+        </form>
+      </Fragment>
     );
   }
 }

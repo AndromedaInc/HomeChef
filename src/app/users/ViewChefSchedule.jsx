@@ -12,14 +12,7 @@ class ViewChefSchedule extends React.Component {
   }
 
   componentDidMount() {
-    setTimeout(() => {
-      const { user, chef } = this.props;
-      this.setState({
-        user,
-        chef,
-      });
-      this.getSchedule(chef);
-    }, 400);
+    this.getSchedule(this.props.chef);
   }
 
   getSchedule(chef) {
@@ -32,7 +25,8 @@ class ViewChefSchedule extends React.Component {
   }
 
   render() {
-    const { schedule, user, chef } = this.state;
+    const { schedule } = this.state;
+    const { user, chef } = this.props;
     return (
       <table>
         <tbody>
