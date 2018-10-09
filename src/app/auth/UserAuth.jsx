@@ -88,13 +88,13 @@ class UserAuth extends React.Component {
   }
 
   renderRedirect() {
-    const { redirect, username } = this.state;
+    const { redirect, username, userId } = this.state;
     if (redirect) {
       return (
         <Redirect
           to={{
             pathname: '/user',
-            state: { username },
+            state: { username, userId },
           }}
         />
       );

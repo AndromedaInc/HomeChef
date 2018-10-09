@@ -8,6 +8,7 @@ const {
   GraphQLString,
   GraphQLID,
   GraphQLInt,
+  GraphQLBoolean,
 } = graphql;
 
 const ChefType = new GraphQLObjectType({
@@ -68,7 +69,10 @@ const MenuItemType = new GraphQLObjectType({
 const OrderType = new GraphQLObjectType({
   name: 'Order',
   fields: () => ({
-    // TODO
+    id: { type: GraphQLID },
+    userId: { type: GraphQLID },
+    itemEventId: { type: GraphQLID },
+    transactionId: { type: GraphQLID },
   }),
 });
 
@@ -82,7 +86,15 @@ const RatingType = new GraphQLObjectType({
 const TransactionType = new GraphQLObjectType({
   name: 'Transaction',
   fields: () => ({
-    // TODO
+    id: { type: GraphQLID },
+    userId: { type: GraphQLID },
+    chefId: { type: GraphQLID },
+    status: { type: GraphQLString },
+    total: { type: GraphQLInt },
+    tax: { type: GraphQLInt },
+    fee: { type: GraphQLInt },
+    tip: { type: GraphQLInt },
+    createdAt: { type: GraphQLString },
   }),
 });
 
@@ -178,13 +190,47 @@ const QueryType = new GraphQLObjectType({
       },
     },
 
+    order: {
+      type: OrderType,
+      args: { itemEventId: { type: GraphQLID } },
+      resolve(root, args) {
+        return db.Order.findOne({ where: { itemEventId: args.itemEventId } });
+      },
+    },
+
+    orders: {
+      type: new GraphQLList(OrderType),
+      args: { userId: { type: GraphQLID } },
+      resolve(root, args) {
+        return db.Order.findAll({ where: { userId: args.userId } });
+      },
+    },
+
+    transaction: {
+      type: TransactionType,
+      args: { id: { type: GraphQLID } },
+      resolve(root, args) {
+        return db.Transaction.findOne({ where: { id: args.id } });
+      },
+    },
+
+    transactions: {
+      type: new GraphQLList(TransactionType),
+      args: { userOrChefId: { type: GraphQLID }, userOrChef: { type: GraphQLString } },
+      resolve(root, args) {
+        let result;
+        if (args.userOrChef === 'user') {
+          result = db.Transaction.findAll({ where: { userId: args.userOrChefId } });
+        } else if (args.userOrChef === 'chef') {
+          result = db.Transaction.findAll({ where: { chefId: args.userOrChefId } });
+        }
+        return result;
+      },
+    },
+
     // TODO: add these:
-    // order
-    // orders
     // rating
     // ratings
-    // transaction
-    // transactions
 
     user: {
       type: UserType,
@@ -204,28 +250,53 @@ const QueryType = new GraphQLObjectType({
 });
 
 /* **** Mutations **** */
-// const Mutation = new GraphQLObjectType({
-//   name: 'Mutation',
-//   fields: {
-//     // addChef: {
-//     //   type: ChefType,
-//     //   args: {
-//     //     name: { type: GraphQLString },
-//     //     username: { type: GraphQLString },
-//     //     password: { type: GraphQLString },
-//     //   },
-//     //   // resolve(parent, args) {
-//     //   // },
-//     // },
-//     // addEvent: {
-//     //   // type: EventType,
-//     //   // args: {
-//     //   // },
-//     //   // resolve() {
-//     //   // },
-//     // },
-//   },
-// });
+const Mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: {
+    createTransaction: {
+      type: TransactionType,
+      args: {
+        userId: { type: GraphQLID },
+        chefId: { type: GraphQLID },
+      },
+      resolve(parent, args) {
+        return db.Transaction.create({
+          status: 'pending',
+          userId: args.userId,
+          chefId: args.chefId,
+        });
+      },
+    },
+    createOrder: {
+      type: OrderType,
+      args: {
+        itemEventId: { type: GraphQLID },
+        userId: { type: GraphQLID },
+        transactionId: { type: GraphQLID },
+      },
+      resolve(parent, args) {
+        return db.Order.create({
+          transactionId: args.transactionId,
+          userId: args.userId,
+          itemEventId: args.itemEventId,
+        });
+      },
+    },
+    updateItemEventReservations: {
+      type: ItemEventType,
+      args: {
+        itemEventId: { type: GraphQLID },
+        newReservationCount: { type: GraphQLInt },
+      },
+      resolve(parent, args) {
+        return db.ItemEvent.update(
+          { reservations: args.newReservationCount },
+          { where: { id: args.itemEventId } },
+        );
+      },
+    },
+  },
+});
 
 exports.ChefType = ChefType;
 exports.EventType = EventType;
@@ -238,5 +309,5 @@ exports.UserType = UserType;
 
 module.exports = new GraphQLSchema({
   query: QueryType,
-  // mutation: Mutation,
+  mutation: Mutation,
 });

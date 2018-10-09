@@ -5,6 +5,7 @@ import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
 import { Provider } from 'react-redux';
 import store from './app/redux/store';
+import 'cross-fetch/polyfill';
 
 import App from './app/app';
 
@@ -21,3 +22,5 @@ hydrate(
   </Provider>,
   document.getElementById('app'),
 );
+
+export default client;
