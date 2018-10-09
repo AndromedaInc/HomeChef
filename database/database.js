@@ -52,6 +52,16 @@ const Chef = orm.define('chef', {
   stateName: Sequelize.TEXT,
   streetAddress: Sequelize.TEXT,
   zip: Sequelize.INTEGER,
+  createdAt: {
+    type: 'TIMESTAMP',
+    defaultValue: Sequelize.literal('NOW()'),
+    allowNull: false,
+  },
+  updatedAt: {
+    type: 'TIMESTAMP',
+    defaultValue: Sequelize.literal('NOW()'),
+    allowNull: false,
+  },
   // payment_info: ?
   // rating: cached
 });
@@ -61,12 +71,33 @@ const Event = orm.define('event', {
   date: Sequelize.STRING,
   startTime: Sequelize.STRING,
   endTime: Sequelize.STRING,
+  createdAt: {
+    type: 'TIMESTAMP',
+    defaultValue: Sequelize.literal('NOW()'),
+    allowNull: false,
+  },
+  updatedAt: {
+    type: 'TIMESTAMP',
+    defaultValue: Sequelize.literal('NOW()'),
+    allowNull: false,
+  },
+  // foreign key auto created: chefId
 });
 
 const ItemEvent = orm.define('itemEvent', {
   // foreign keys: eventId, menuItemId, chefId
   quantity: Sequelize.INTEGER,
   reservations: Sequelize.INTEGER,
+  createdAt: {
+    type: 'TIMESTAMP',
+    defaultValue: Sequelize.literal('NOW()'),
+    allowNull: false,
+  },
+  updatedAt: {
+    type: 'TIMESTAMP',
+    defaultValue: Sequelize.literal('NOW()'),
+    allowNull: false,
+  },
 });
 
 const MenuItem = orm.define('menuItem', {
@@ -75,16 +106,46 @@ const MenuItem = orm.define('menuItem', {
   description: Sequelize.TEXT,
   price: Sequelize.FLOAT,
   imageUrl: Sequelize.STRING,
+  createdAt: {
+    type: 'TIMESTAMP',
+    defaultValue: Sequelize.literal('NOW()'),
+    allowNull: false,
+  },
+  updatedAt: {
+    type: 'TIMESTAMP',
+    defaultValue: Sequelize.literal('NOW()'),
+    allowNull: false,
+  },
 });
 
 const Order = orm.define('order', {
   // foreign keys: itemEventId, userId, transactionId
+  createdAt: {
+    type: 'TIMESTAMP',
+    defaultValue: Sequelize.literal('NOW()'),
+    allowNull: false,
+  },
+  updatedAt: {
+    type: 'TIMESTAMP',
+    defaultValue: Sequelize.literal('NOW()'),
+    allowNull: false,
+  },
 });
 
 const Rating = orm.define('rating', {
   // foreign keys: chefId, userId
   stars: Sequelize.INTEGER,
   review: Sequelize.TEXT,
+  createdAt: {
+    type: 'TIMESTAMP',
+    defaultValue: Sequelize.literal('NOW()'),
+    allowNull: false,
+  },
+  updatedAt: {
+    type: 'TIMESTAMP',
+    defaultValue: Sequelize.literal('NOW()'),
+    allowNull: false,
+  },
 });
 
 const Transaction = orm.define('transaction', {
@@ -94,6 +155,16 @@ const Transaction = orm.define('transaction', {
   tax: Sequelize.FLOAT,
   fee: Sequelize.FLOAT,
   tip: Sequelize.FLOAT,
+  createdAt: {
+    type: 'TIMESTAMP',
+    defaultValue: Sequelize.literal('NOW()'),
+    allowNull: false,
+  },
+  updatedAt: {
+    type: 'TIMESTAMP',
+    defaultValue: Sequelize.literal('NOW()'),
+    allowNull: false,
+  },
 });
 
 const User = orm.define('user', {
@@ -102,6 +173,16 @@ const User = orm.define('user', {
   password: Sequelize.STRING,
   email: Sequelize.STRING,
   imageUrl: Sequelize.STRING,
+  createdAt: {
+    type: 'TIMESTAMP',
+    defaultValue: Sequelize.literal('NOW()'),
+    allowNull: false,
+  },
+  updatedAt: {
+    type: 'TIMESTAMP',
+    defaultValue: Sequelize.literal('NOW()'),
+    allowNull: false,
+  },
   // payment_info: ?
 });
 

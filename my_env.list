@@ -1,0 +1,9 @@
+DB_HOST=us-cdbr-gcp-east-01.cleardb.net
+DB_USER=be489e42e91434
+DB_PASS=0465991d
+DB_DATABASE=gcp_2fe7b1ac85cbef2a25af
+DB_TEST_HOST=localhost
+DB_TEST_USER=root
+DB_TEST_PASS=
+DB_TEST_DATABASE=homechef_test
+SECRET=imadethisup
