@@ -8,7 +8,7 @@ chefRoutes
   .route('/accountInfo')
 
   .get((req, res) => {
-    console.log('incoming GET /api/chef/accountInfo request is', req);
+    // console.log('incoming GET /api/chef/accountInfo request is', req);
     dbChefs.getChef(req.query.id)
       .then((accountInfo) => {
         res.status(200).send(accountInfo);
