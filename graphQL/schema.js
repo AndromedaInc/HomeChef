@@ -250,28 +250,53 @@ const QueryType = new GraphQLObjectType({
 });
 
 /* **** Mutations **** */
-// const Mutation = new GraphQLObjectType({
-//   name: 'Mutation',
-//   fields: {
-//     // addChef: {
-//     //   type: ChefType,
-//     //   args: {
-//     //     name: { type: GraphQLString },
-//     //     username: { type: GraphQLString },
-//     //     password: { type: GraphQLString },
-//     //   },
-//     //   // resolve(parent, args) {
-//     //   // },
-//     // },
-//     // addEvent: {
-//     //   // type: EventType,
-//     //   // args: {
-//     //   // },
-//     //   // resolve() {
-//     //   // },
-//     // },
-//   },
-// });
+const Mutation = new GraphQLObjectType({
+  name: 'Mutation',
+  fields: {
+    createTransaction: {
+      type: TransactionType,
+      args: {
+        userId: { type: GraphQLID },
+        chefId: { type: GraphQLID },
+      },
+      resolve(parent, args) {
+        return db.Transaction.create({
+          status: 'pending',
+          userId: args.userId,
+          chefId: args.chefId,
+        });
+      },
+    },
+    createOrder: {
+      type: OrderType,
+      args: {
+        itemEventId: { type: GraphQLID },
+        userId: { type: GraphQLID },
+        transactionId: { type: GraphQLID },
+      },
+      resolve(parent, args) {
+        return db.Order.create({
+          transactionId: args.transactionId,
+          userId: args.userId,
+          itemEventId: args.itemEventId,
+        });
+      },
+    },
+    updateItemEventReservations: {
+      type: ItemEventType,
+      args: {
+        itemEventId: { type: GraphQLID },
+        newReservationCount: { type: GraphQLInt },
+      },
+      resolve(parent, args) {
+        return db.ItemEvent.update(
+          { reservations: args.newReservationCount },
+          { where: { id: args.itemEventId } },
+        );
+      },
+    },
+  },
+});
 
 exports.ChefType = ChefType;
 exports.EventType = EventType;
@@ -284,5 +309,5 @@ exports.UserType = UserType;
 
 module.exports = new GraphQLSchema({
   query: QueryType,
-  // mutation: Mutation,
+  mutation: Mutation,
 });

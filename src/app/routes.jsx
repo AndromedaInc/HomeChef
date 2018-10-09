@@ -63,6 +63,7 @@ const NewItem = props => (<AsyncRoute props={props} loadingPromise={import('./ch
 const UpdateSchedule = props => (<AsyncRoute props={props} loadingPromise={import('./chefs/UpdateSchedule')} />);
 const UserTransactions = props => (<AsyncRoute props={props} loadingPromise={import('./users/UserTransactions')} />);
 const ChefTransactions = props => (<AsyncRoute props={props} loadingPromise={import('./chefs/ChefTransactions')} />);
+const Checkout = props => (<AsyncRoute props={props} loadingPromise={import('./users/Checkout')} />);
 
 
 export default [
@@ -80,4 +81,6 @@ export default [
   { path: '/chef/schedule/update', component: UpdateSchedule, exact: true },
   { path: '/user/transactions', component: UserTransactions, exact: true },
   { path: '/chef/transactions', component: ChefTransactions, exact: true },
+  { path: '/user/checkout', component: Checkout, exact: true },
+
 ];
