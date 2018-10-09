@@ -17,6 +17,7 @@ const user = process.env.NODE_ENV === 'test' ? `${process.env.DB_TEST_USER}` : `
 const pass = process.env.NODE_ENV === 'test' ? `${process.env.DB_TEST_PASS}` : `${process.env.DB_PASS}`;
 const host = process.env.NODE_ENV === 'test' ? `${process.env.DB_TEST_HOST}` : `${process.env.DB_HOST}`;
 
+console.log('process.env.NODE_ENV is', process.env.NODE_ENV);
 
 const orm = new Sequelize(
   db,
@@ -54,12 +55,10 @@ const Chef = orm.define('chef', {
   zip: Sequelize.INTEGER,
   createdAt: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('NOW()'),
     allowNull: false,
   },
   updatedAt: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('NOW()'),
     allowNull: false,
   },
   // payment_info: ?
@@ -73,12 +72,10 @@ const Event = orm.define('event', {
   endTime: Sequelize.STRING,
   createdAt: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('NOW()'),
     allowNull: false,
   },
   updatedAt: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('NOW()'),
     allowNull: false,
   },
   // foreign key auto created: chefId
@@ -90,12 +87,10 @@ const ItemEvent = orm.define('itemEvent', {
   reservations: Sequelize.INTEGER,
   createdAt: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('NOW()'),
     allowNull: false,
   },
   updatedAt: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('NOW()'),
     allowNull: false,
   },
 });
@@ -108,12 +103,10 @@ const MenuItem = orm.define('menuItem', {
   imageUrl: Sequelize.STRING,
   createdAt: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('NOW()'),
     allowNull: false,
   },
   updatedAt: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('NOW()'),
     allowNull: false,
   },
 });
@@ -122,12 +115,10 @@ const Order = orm.define('order', {
   // foreign keys: itemEventId, userId, transactionId
   createdAt: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('NOW()'),
     allowNull: false,
   },
   updatedAt: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('NOW()'),
     allowNull: false,
   },
 });
@@ -138,12 +129,10 @@ const Rating = orm.define('rating', {
   review: Sequelize.TEXT,
   createdAt: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('NOW()'),
     allowNull: false,
   },
   updatedAt: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('NOW()'),
     allowNull: false,
   },
 });
@@ -157,12 +146,10 @@ const Transaction = orm.define('transaction', {
   tip: Sequelize.FLOAT,
   createdAt: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('NOW()'),
     allowNull: false,
   },
   updatedAt: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('NOW()'),
     allowNull: false,
   },
 });
@@ -175,12 +162,10 @@ const User = orm.define('user', {
   imageUrl: Sequelize.STRING,
   createdAt: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('NOW()'),
     allowNull: false,
   },
   updatedAt: {
     type: 'TIMESTAMP',
-    defaultValue: Sequelize.literal('NOW()'),
     allowNull: false,
   },
   // payment_info: ?
