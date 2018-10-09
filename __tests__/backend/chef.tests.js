@@ -1,6 +1,10 @@
 require('dotenv').config();
 const mysql = require('mysql');
 const request = require('supertest');
+// const superagent = require('superagent')
+
+// const agent = superagent.agent('localhost/');
+
 // const fs = require('fs');
 const app = require('./../../server/server');
 const db = require('./../../database/database').connection;
@@ -105,13 +109,35 @@ afterAll(async () => {
 // Super basic test to ensure the test suite is working
 describe('GET /', () => {
   test('it should return a 200 status code', async () => {
-    const response = await request(app).get('/');
+    // console.log('agent is', agent);
+    // console.log('CookieJar is', agent.TestAgent.jar.CookieJar);
+    // console.log('get cookies', agent.TestAgent.jar.CookieJar.getCookies());
+    // await agent
+    //   .post('/chefauth')
+    //   .send({
+    //     username: 'mrchef12',
+    //     password: 'secretpass',
+    //   })
+    //   // .then(() => console.log('agent now is', agent))
+    //   .expect(302)
+    //   .then(() => {
+    //     agent.get('/');
+    //   });
+    // const response = await request(app).get('/');
+    const response = await request(app)
+      .get('/')
+      // .set('Accept-Language', 'en')
+      .set('Authorization', 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MzkwNjAyNTMsImV4cCI6MTUzOTY2MDI1Mywic3ViIjoiMSJ9.E-zmt5dzBvlU7ZfQXeIZVsiLScTqAAdznq_pftCUKliUl2llczdcUmYSDXFwm9Ka2QGlq6RUciLVxfZt_TCASbkTmd8VBC5VVgOEKJrIk0VfrZxlLcTEtYhXTpOf6c0z-mJWNwVwLMNu2oMhP7AmZAkdIlWWljhdSGoCAVrfJHY');
     expect(response.statusCode).toBe(200);
   });
 });
 
 describe('GET /api/chef/accountInfo', async () => {
-  const response = await request(app).get('/api/chef/accountInfo').query({ id: '1' });
+  const response = await request(app)
+    .get('/api/chef/accountInfo')
+    .set('Authorization', 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MzkwNjAyNTMsImV4cCI6MTUzOTY2MDI1Mywic3ViIjoiMSJ9.E-zmt5dzBvlU7ZfQXeIZVsiLScTqAAdznq_pftCUKliUl2llczdcUmYSDXFwm9Ka2QGlq6RUciLVxfZt_TCASbkTmd8VBC5VVgOEKJrIk0VfrZxlLcTEtYhXTpOf6c0z-mJWNwVwLMNu2oMhP7AmZAkdIlWWljhdSGoCAVrfJHY')
+    .query({ id: '1' });
+  // console.log(response);
   expect(response.length).toBe(1);
   expect(response.data.name).toBe('Mr Chef');
 });
