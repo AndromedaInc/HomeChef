@@ -230,14 +230,16 @@ app.post('/api/user/reservation', (req, res) => {
 // STRIPE CHARGE
 // TODO: update this post
 app.post('/charge', async (req, res) => {
+  console.log('in server charge REQ.BODY:', req.body);
   try {
     const { status } = await stripe.charges.create({
-      amount: 2000,
+      amount: req.body.total.amount,
       currency: 'usd',
-      description: 'An example charge',
+      description: 'HomeChef Transaction',
       source: req.body,
     });
     res.json({ status });
+    console.log('in charge RES:', res);
   } catch (err) {
     res.status(500).end();
   }

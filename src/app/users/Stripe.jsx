@@ -35,7 +35,7 @@ class Stripe extends React.Component {
 
   render() {
     const { stripe, subtotal, tax, fee, total } = this.state;
-    const { chef, user, event, menuItemsWithUserRSVP } = this.props.location.state;
+    const { chef, user, event, menuItemsWithUserRSVP, transactionId } = this.props.location.state;
     return (
       <StripeProvider stripe={stripe}>
         <Elements>
@@ -49,6 +49,7 @@ class Stripe extends React.Component {
             tax={tax}
             fee={fee}
             total={total}
+            transactionId={transactionId}
           />
         </Elements>
       </StripeProvider>

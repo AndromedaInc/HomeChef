@@ -265,6 +265,16 @@ const Mutation = new GraphQLObjectType({
         });
       },
     },
+    updateTransaction: {
+      type: TransactionType,
+      args: { id: { type: GraphQLID } },
+      resolve(parent, args) {
+        return db.Transaction.update(
+          { status: 'paid' },
+          { where: { id: args.id } },
+        );
+      },
+    },
     createOrder: {
       type: OrderType,
       args: {

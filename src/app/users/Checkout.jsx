@@ -1,16 +1,28 @@
 import React from 'react';
 import { CardElement, injectStripe } from 'react-stripe-elements';
+import { Redirect } from 'react-router-dom';
+import gql from 'graphql-tag';
+import client from '../../index';
+
+const UPDATE_TRANSACTION = gql`
+  mutation updateTransaction($id: ID!) {
+    updateTransaction(id: $id) {
+      id
+      status
+      total
+    }
+  }
+`;
 
 class Checkout extends React.Component {
   constructor(props) {
     super(props);
-    console.log('props in checkout:', props);
 
     const paymentRequest = props.stripe.paymentRequest({
       country: 'US',
       currency: 'usd',
       total: {
-        label: 'Transaction Total',
+        label: 'HomeChef Transaction Total',
         amount: props.total, // in subunit (aka cents)
       },
       displayItems: [
@@ -31,25 +43,56 @@ class Checkout extends React.Component {
     });
 
     this.state = {
+      redirect: false,
       canMakePayment: false,
       paymentRequest,
     };
   }
 
   handleSubmit() {
-    const { user } = this.props;
+    const { user, transactionId } = this.props;
     const { createToken } = this.props.stripe;
-    createToken({ name: user.name }).then(({ token }) => {
-      console.log('Received Stripe token:', token);
-    });
-    // TODO: link to a confirmation page
-    // TODO: update transaction to 'paid'
+    createToken({ name: user.name })
+      .then(({ token }) => {
+        console.log('Received Stripe token:', token);
+      })
+      .then(() => {
+        // update transaction to status paid
+        console.log('setting transaction status to "paid"');
+        client
+          .mutate({
+            mutation: UPDATE_TRANSACTION,
+            variables: { id: transactionId },
+          });
+      })
+      .then(() => {
+        console.log('setting redirect');
+        this.setState({ redirect: true });
+      })
+      .catch(err => console.log(err));
+  }
+
+  renderRedirect() {
+    const { user } = this.props;
+    const { redirect } = this.state;
+    if (redirect) {
+      return (
+        <Redirect
+          push
+          to={{
+            pathname: '/user/transactions',
+            state: { user },
+          }}
+        />
+      );
+    }
   }
 
   render() {
     const { subtotal, tax, fee, total, menuItems, event } = this.props;
     return (
       <div>
+        {this.renderRedirect()}
         <h1>Your Reservation Summary</h1>
         <h3>
           {event.date}
