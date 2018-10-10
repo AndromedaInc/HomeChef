@@ -31,7 +31,6 @@ const checkIfAuthenticated = expressJwt({
 
 /* ********** LOGIN ********** */
 const userLogin = (req, res) => {
-  console.log('incoming login request is', req);
   const { username, password } = req.body; // needs to be req.query for Postman
 
   let user;

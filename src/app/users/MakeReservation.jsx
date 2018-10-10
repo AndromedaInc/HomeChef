@@ -121,15 +121,15 @@ class MakeReservation extends React.Component {
   }
 
   renderRedirect() {
-    const { redirect } = this.state;
-    const { chef, user } = this.props.location.state;
+    const { redirect, menuItemsWithUserRSVP } = this.state;
+    const { chef, user, event } = this.props.location.state;
     if (redirect) {
       return (
         <Redirect
           push
           to={{
             pathname: '/user/checkout',
-            state: { username: user.username, chef },
+            state: { chef, user, event, menuItemsWithUserRSVP },
           }}
         />
       );

@@ -228,9 +228,7 @@ const QueryType = new GraphQLObjectType({
       },
     },
 
-    // TODO: add these:
-    // rating
-    // ratings
+    // TODO: add rating & ratings
 
     user: {
       type: UserType,
