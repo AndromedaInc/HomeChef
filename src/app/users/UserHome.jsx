@@ -27,7 +27,7 @@ class UserHome extends React.Component {
     const { username } = this.state;
     const { chefs } = this.props;
     return chefs.map(chef => (
-      <ul>
+      <ul key={chef.id}>
         <li>
           <div>
             {`Chef: ${chef.username}, Address: ${chef.streetAddress} ${chef.city}, ${
@@ -48,7 +48,7 @@ class UserHome extends React.Component {
   }
 
   render() {
-    const { userId } = this.state;
+    const { userId } = this.props.location.state;
     return (
       <div>
         <h2>HomeChef</h2>

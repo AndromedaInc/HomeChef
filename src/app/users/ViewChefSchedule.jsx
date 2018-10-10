@@ -37,7 +37,7 @@ class ViewChefSchedule extends React.Component {
             <th>Menu Items</th>
           </tr>
           {schedule.map(event => (
-            <tr key={event.id}>
+            <tr>
               <td>{event.date}</td>
               <td>{event.startTime}</td>
               <td>{event.endTime}</td>
@@ -50,7 +50,7 @@ class ViewChefSchedule extends React.Component {
                       <th>Quantity</th>
                     </tr>
                     {event.menuItems.map(item => (
-                      <tr key={item.id}>
+                      <tr>
                         <td>{item.name}</td>
                         <td>
                           <span>$</span>

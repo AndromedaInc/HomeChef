@@ -15,7 +15,6 @@ class Stripe extends React.Component {
   }
 
   componentWillMount() {
-    console.log('stripe key:', process.env.STRIPE_PUBLISHABLE_KEY_TEST);
     this.setState({ stripe: window.Stripe(process.env.STRIPE_PUBLISHABLE_KEY_TEST) });
     this.getTotals();
   }

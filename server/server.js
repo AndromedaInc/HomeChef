@@ -228,6 +228,7 @@ app.post('/api/user/reservation', (req, res) => {
 });
 
 // STRIPE CHARGE
+// TODO: update this post
 app.post('/charge', async (req, res) => {
   try {
     const { status } = await stripe.charges.create({
@@ -236,7 +237,6 @@ app.post('/charge', async (req, res) => {
       description: 'An example charge',
       source: req.body,
     });
-
     res.json({ status });
   } catch (err) {
     res.status(500).end();
