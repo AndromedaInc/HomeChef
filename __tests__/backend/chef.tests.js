@@ -57,6 +57,8 @@ describe('GET /', () => {
   });
 });
 
+// two problems here: (1) getting past authentication wall and (2) getting supertest to work - .query does not seem to hit the endpoint with the right info
+
 describe('GET /api/chef/accountInfo', async () => {
   const response = await request(app)
     .get('/api/chef/accountInfo')
