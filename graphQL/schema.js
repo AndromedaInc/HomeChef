@@ -8,7 +8,7 @@ const {
   GraphQLString,
   GraphQLID,
   GraphQLInt,
-  GraphQLBoolean,
+  GraphQLFloat,
 } = graphql;
 
 const ChefType = new GraphQLObjectType({
@@ -90,11 +90,18 @@ const TransactionType = new GraphQLObjectType({
     userId: { type: GraphQLID },
     chefId: { type: GraphQLID },
     status: { type: GraphQLString },
-    total: { type: GraphQLInt },
-    tax: { type: GraphQLInt },
-    fee: { type: GraphQLInt },
-    tip: { type: GraphQLInt },
+    total: { type: GraphQLFloat },
+    tax: { type: GraphQLFloat },
+    fee: { type: GraphQLFloat },
+    tip: { type: GraphQLFloat },
     createdAt: { type: GraphQLString },
+    // orders: {
+    //   type: new GraphQLList(OrderType),
+    //   // root (or parent) has the transaction fields
+    //   resolve(root) {
+    //     return db.Order.findAll({ where: { transactionId: root.id } });
+    //   },
+    // },
   }),
 });
 
@@ -220,9 +227,15 @@ const QueryType = new GraphQLObjectType({
       resolve(root, args) {
         let result;
         if (args.userOrChef === 'user') {
-          result = db.Transaction.findAll({ where: { userId: args.userOrChefId } });
+          result = db.Transaction.findAll({
+            where: { userId: args.userOrChefId },
+            order: [['createdAt', 'DESC']],
+          });
         } else if (args.userOrChef === 'chef') {
-          result = db.Transaction.findAll({ where: { chefId: args.userOrChefId } });
+          result = db.Transaction.findAll({
+            where: { chefId: args.userOrChefId },
+            order: [['createdAt', 'DESC']],
+          });
         }
         return result;
       },
@@ -267,10 +280,20 @@ const Mutation = new GraphQLObjectType({
     },
     updateTransaction: {
       type: TransactionType,
-      args: { id: { type: GraphQLID } },
+      args: {
+        id: { type: GraphQLID },
+        total: { type: GraphQLFloat },
+        tax: { type: GraphQLFloat },
+        fee: { type: GraphQLFloat },
+      },
       resolve(parent, args) {
         return db.Transaction.update(
-          { status: 'paid' },
+          {
+            status: 'paid',
+            total: args.total,
+            tax: args.tax,
+            fee: args.fee,
+          },
           { where: { id: args.id } },
         );
       },

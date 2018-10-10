@@ -6,7 +6,6 @@ import { getChefList } from '../redux/actions/chefActions';
 class UserHome extends React.Component {
   constructor(props) {
     super(props);
-    console.log('PROPS: ', props);
     this.state = {
       username: '',
     };
@@ -52,7 +51,13 @@ class UserHome extends React.Component {
     return (
       <div>
         <h2>HomeChef</h2>
-        <Link to="/user/transactions" userId={userId}><button type="button">My Transactions</button></Link>
+        <Link to={{
+          pathname: '/user/transactions',
+          state: { userId },
+        }}
+        >
+          <button type="button">My Transactions</button>
+        </Link>
         {this.renderChefList()}
       </div>
     );

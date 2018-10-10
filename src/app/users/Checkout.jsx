@@ -5,11 +5,13 @@ import gql from 'graphql-tag';
 import client from '../../index';
 
 const UPDATE_TRANSACTION = gql`
-  mutation updateTransaction($id: ID!) {
-    updateTransaction(id: $id) {
+  mutation updateTransaction($id: ID!, $total: Float, $tax: Float, $fee: Float) {
+    updateTransaction(id: $id, total: $total, tax: $tax, fee: $fee) {
       id
       status
       total
+      tax
+      fee
     }
   }
 `;
@@ -50,7 +52,7 @@ class Checkout extends React.Component {
   }
 
   handleSubmit() {
-    const { user, transactionId } = this.props;
+    const { user, transactionId, total, tax, fee } = this.props;
     const { createToken } = this.props.stripe;
     createToken({ name: user.name })
       .then(({ token }) => {
@@ -59,10 +61,18 @@ class Checkout extends React.Component {
       .then(() => {
         // update transaction to status paid
         console.log('setting transaction status to "paid"');
+        const totalInDollars = total / 10;
+        const taxInDollars = tax / 10;
+        const feeInDollars = fee / 10;
         client
           .mutate({
             mutation: UPDATE_TRANSACTION,
-            variables: { id: transactionId },
+            variables: {
+              id: transactionId,
+              total: totalInDollars,
+              tax: taxInDollars,
+              fee: feeInDollars,
+            },
           });
       })
       .then(() => {
@@ -81,7 +91,7 @@ class Checkout extends React.Component {
           push
           to={{
             pathname: '/user/transactions',
-            state: { user },
+            state: { userId: user.id },
           }}
         />
       );
