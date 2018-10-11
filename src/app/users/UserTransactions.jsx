@@ -2,41 +2,53 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 
+const GET_TRANSACTIONS = gql`
+query transactions($userOrChefId: ID!, $userOrChef: String) {
+  transactions(userOrChefId: $userOrChefId , userOrChef: $userOrChef ) {
+    id,
+    status,
+    total,
+    chefId,
+    createdAt,
+  }
+}
+`;
 
-const UserTransactions = () => {
-  const GET_TRANSACTIONS = gql`
-    {
-      transactions(userOrChefId:${this.props.location.state.userId}, userOrChef: "user" ) {
-        id,
-        status,
-      }
-    }
-  `;
-  <Query
-    query={GET_TRANSACTIONS}
-  >
-    {({ loading, error, data }) => {
-      if (loading) return 'Loading...';
-      if (error) return `Error ${error.message}`;
-      if (data) console.log(data);
+class UserTransactions extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
 
-      return (
-        <div>
-          <h1>My Transactions</h1>
-          <h3>Upcoming Events</h3>
-            transactions with future date/time
-            -chef and address
-            -date/time
-            -meals
-            -total cost
-          <h3>Pending Transactions</h3>
-            transactions with pending status
-          <h3>Past Events</h3>
-            transactions with past date/time
-        </div>
-      );
-    }}
-  </Query>
-};
+  render() {
+    const { userId } = this.props.location.state;
+    return (
+      <Query
+        query={GET_TRANSACTIONS}
+        variables={{ userOrChefId: userId, userOrChef: 'user' }}
+      >
+        {({ loading, error, data }) => {
+          if (loading) return 'Loading...';
+          if (error) return `Error ${error.message}`;
+          if (data) console.log('transactions:', data);
+
+          return (
+            <div>
+              <h1>My Transactions</h1>
+              {data.transactions.map((tran) => {
+                return (
+                  <div key={tran.id}>
+                    {`${tran.createdAt} $${tran.total} ${tran.status}`}
+                  </div>
+                );
+              })}
+            </div>
+          );
+          // TODO: Add upcoming with event details
+        }}
+      </Query>
+    );
+  }
+}
 
 export default UserTransactions;

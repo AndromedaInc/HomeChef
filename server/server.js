@@ -15,6 +15,7 @@ const express = require('express');
 const app = express();
 const morgan = require('morgan');
 const graphqlHTTP = require('express-graphql');
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY_TEST);
 
 /* **** JWT and Authentication Modules **** */
 const cookieParser = require('cookie-parser');
@@ -224,6 +225,24 @@ app.post('/api/user/reservation', (req, res) => {
       res.send(data);
     })
     .catch(err => console.log(err));
+});
+
+// STRIPE CHARGE
+// TODO: update this post
+app.post('/charge', async (req, res) => {
+  console.log('in server charge REQ.BODY:', req.body);
+  try {
+    const { status } = await stripe.charges.create({
+      amount: req.body.total.amount,
+      currency: 'usd',
+      description: 'HomeChef Transaction',
+      source: req.body,
+    });
+    res.json({ status });
+    console.log('in charge RES:', res);
+  } catch (err) {
+    res.status(500).end();
+  }
 });
 
 /* **** Catch All - all server requests above here **** */

@@ -131,7 +131,11 @@ class ChefHome extends Component {
     return (
       <div>
         <h1>What's Cooking?</h1>
-        <Link to="/chef/transactions" chefId={id}><button type="button">My Transactions</button></Link>
+        <Link to={{
+          pathname: '/chef/transactions',
+          state: { chefId: id },
+        }}
+        ><button type="button">My Transactions</button></Link>
         {this.renderView()}
         <ChefSchedule chefId={id} />
       </div>

@@ -40,6 +40,7 @@ class MakeReservation extends React.Component {
     this.state = {
       menuItemsWithUserRSVP: [],
       redirect: false,
+      transactionId: '',
     };
     this.saveReservation = this.saveReservation.bind(this);
   }
@@ -90,6 +91,10 @@ class MakeReservation extends React.Component {
       })
       .then((data) => {
         const transaction = data.data.createTransaction;
+        this.setState({ transactionId: transaction.id });
+      })
+      .then(() => {
+        const { transactionId } = this.state;
         menuItemsWithUserRSVP.forEach((item) => {
           const newCount = (item.userRSVP + item.reservations);
           // 2) create orders for each item
@@ -99,7 +104,7 @@ class MakeReservation extends React.Component {
               variables: {
                 itemEventId: item.itemEventId,
                 userId: user.id,
-                transactionId: transaction.id,
+                transactionId: transactionId,
               },
             });
           // 3) correctly update itemEvent reservations
@@ -121,15 +126,15 @@ class MakeReservation extends React.Component {
   }
 
   renderRedirect() {
-    const { redirect } = this.state;
-    const { chef, user } = this.props.location.state;
+    const { redirect, menuItemsWithUserRSVP, transactionId } = this.state;
+    const { chef, user, event } = this.props.location.state;
     if (redirect) {
       return (
         <Redirect
           push
           to={{
             pathname: '/user/checkout',
-            state: { username: user.username, chef },
+            state: { chef, user, event, menuItemsWithUserRSVP, transactionId },
           }}
         />
       );
