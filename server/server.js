@@ -1,5 +1,6 @@
 require('babel-register');
 require('dotenv').config();
+require('babel-register');
 
 /* **** CODE TO RESOLVE TESTING BUG WITH MYSQL - DO NOT MOVE OR CHANGE **** */
 // relevant StackOverflow: https://stackoverflow.com/questions/46227783/encoding-not-recognized-in-jest-js
