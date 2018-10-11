@@ -12,9 +12,9 @@ class UpdateMenu extends React.Component {
   }
 
   componentDidMount() {
-    const { id } = this.props.location.state;
+    const { chefId } = this.props.location.state;
     axios
-      .get('/api/chef/menu', { params: { id } })
+      .get('/api/chef/menu', { params: { id: chefId } })
       .then((data) => {
         this.setState({ menuItems: data.data });
       })

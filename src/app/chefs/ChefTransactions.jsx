@@ -1,6 +1,7 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { Link } from 'react-router-dom';
 
 const GET_TRANSACTIONS = gql`
 query transactions($userOrChefId: ID!, $userOrChef: String) {
@@ -35,6 +36,15 @@ class ChefTransactions extends React.Component {
           return (
             <div>
               <h1>My Transactions</h1>
+              <Link
+                to={{
+                  pathname: '/chef',
+                  state: { chefId },
+                }}
+              >
+                <button type="button">Back</button>
+              </Link>
+              <br />
               {data.transactions.map((tran) => {
                 return (
                   <div key={tran.id}>

@@ -35,24 +35,9 @@ const EventType = new GraphQLObjectType({
     date: { type: GraphQLString },
     startTime: { type: GraphQLString },
     endTime: { type: GraphQLString },
-    // menuItems: {
-    //   type: new GraphQLList(MenuType),
-    //   resolve:
-    // }
   }),
 });
 
-const ItemEventType = new GraphQLObjectType({
-  name: 'ItemEvent',
-  fields: () => ({
-    id: { type: GraphQLID },
-    chefId: { type: GraphQLID },
-    menuItemId: { type: GraphQLID },
-    eventId: { type: GraphQLID },
-    quantity: { type: GraphQLInt },
-    reservations: { type: GraphQLInt },
-  }),
-});
 
 const MenuItemType = new GraphQLObjectType({
   name: 'MenuItem',
@@ -66,6 +51,30 @@ const MenuItemType = new GraphQLObjectType({
   }),
 });
 
+const ItemEventType = new GraphQLObjectType({
+  name: 'ItemEvent',
+  fields: () => ({
+    id: { type: GraphQLID },
+    chefId: { type: GraphQLID },
+    menuItemId: { type: GraphQLID },
+    eventId: { type: GraphQLID },
+    quantity: { type: GraphQLInt },
+    reservations: { type: GraphQLInt },
+    event: {
+      type: EventType,
+      resolve(root) {
+        return db.Event.findById(root.eventId);
+      },
+    },
+    menuItem: {
+      type: MenuItemType,
+      resolve(root) {
+        return db.MenuItem.findById(root.menuItemId);
+      },
+    },
+  }),
+});
+
 const OrderType = new GraphQLObjectType({
   name: 'Order',
   fields: () => ({
@@ -73,6 +82,12 @@ const OrderType = new GraphQLObjectType({
     userId: { type: GraphQLID },
     itemEventId: { type: GraphQLID },
     transactionId: { type: GraphQLID },
+    itemEvent: {
+      type: ItemEventType,
+      resolve(root) {
+        return db.ItemEvent.findById(root.itemEventId);
+      },
+    },
   }),
 });
 
@@ -90,18 +105,23 @@ const TransactionType = new GraphQLObjectType({
     userId: { type: GraphQLID },
     chefId: { type: GraphQLID },
     status: { type: GraphQLString },
-    total: { type: GraphQLFloat },
-    tax: { type: GraphQLFloat },
-    fee: { type: GraphQLFloat },
-    tip: { type: GraphQLFloat },
+    total: { type: GraphQLString },
+    tax: { type: GraphQLString },
+    fee: { type: GraphQLString },
+    tip: { type: GraphQLString },
     createdAt: { type: GraphQLString },
-    // orders: {
-    //   type: new GraphQLList(OrderType),
-    //   // root (or parent) has the transaction fields
-    //   resolve(root) {
-    //     return db.Order.findAll({ where: { transactionId: root.id } });
-    //   },
-    // },
+    chef: {
+      type: ChefType,
+      resolve(root) {
+        return db.Chef.findById(root.chefId);
+      },
+    },
+    orders: {
+      type: new GraphQLList(OrderType),
+      resolve(root) {
+        return db.Order.findAll({ where: { transactionId: root.id } });
+      },
+    },
   }),
 });
 
@@ -113,17 +133,6 @@ const UserType = new GraphQLObjectType({
     username: { type: GraphQLString },
     password: { type: GraphQLString },
     imageUrl: { type: GraphQLString },
-  }),
-});
-
-const ScheduleType = new GraphQLObjectType({
-  name: 'ChefSchedule',
-  fields: () => ({
-    // eventId: { type: GraphQLID },
-    // date: { type: GraphQLString },
-    // startTime: { type: GraphQLString },
-    // endTime: { type: GraphQLString },
-    // menuItems: new GraphQLList(MenuItemType),
   }),
 });
 
@@ -156,7 +165,6 @@ const QueryType = new GraphQLObjectType({
       },
     },
 
-    // Modify this to be schedule?
     events: {
       type: new GraphQLList(EventType),
       resolve() {
