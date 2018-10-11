@@ -1,3 +1,4 @@
+require('babel-register');
 require('dotenv').config();
 
 /* **** CODE TO RESOLVE TESTING BUG WITH MYSQL - DO NOT MOVE OR CHANGE **** */
