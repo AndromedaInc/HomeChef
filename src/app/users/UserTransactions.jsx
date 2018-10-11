@@ -1,24 +1,43 @@
 import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
+import { Link } from 'react-router-dom';
+import UpcomingReservations from './UpcomingReservations';
 
 const GET_TRANSACTIONS = gql`
 query transactions($userOrChefId: ID!, $userOrChef: String) {
   transactions(userOrChefId: $userOrChefId , userOrChef: $userOrChef ) {
-    id,
-    status,
-    total,
-    chefId,
-    createdAt,
+    id
+    status
+    total
+    chefId
+    createdAt
+    chef {
+      name
+      streetAddress
+      city
+      stateName
+      zip
+    }
+    orders {
+      id
+      itemEvent {
+        id
+        menuItem {
+          name
+        }
+        event {
+          date
+          startTime
+          endTime
+        }
+      }
+    }
   }
 }
 `;
 
 class UserTransactions extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
 
   render() {
     const { userId } = this.props.location.state;
@@ -36,14 +55,25 @@ class UserTransactions extends React.Component {
           return (
             <div>
               <h1>My Transactions</h1>
-              {data.transactions.map((tran) => (
+              <Link
+                to={{
+                  pathname: '/user',
+                  state: { userId },
+                }}
+              >
+                <button type="button">Back</button>
+              </Link>
+              <br />
+              <UpcomingReservations data={data.transactions} />
+              <h2>Payment History</h2>
+              {data.transactions.map((tran) => {
+                return (
                   <div key={tran.id}>
                     {`${tran.createdAt} $${tran.total} ${tran.status}`}
                   </div>
                 ))}
             </div>
           );
-          // TODO: Add upcoming with event details
         }}
       </Query>
     );

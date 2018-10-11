@@ -18,6 +18,7 @@ const UPDATE_TRANSACTION = gql`
 
 class Checkout extends React.Component {
   constructor(props) {
+    console.log(props);
     super(props);
 
     const paymentRequest = props.stripe.paymentRequest({
@@ -60,10 +61,10 @@ class Checkout extends React.Component {
       })
       .then(() => {
         // update transaction to status paid
-        console.log('setting transaction status to "paid"');
-        const totalInDollars = total / 10;
-        const taxInDollars = tax / 10;
-        const feeInDollars = fee / 10;
+        const totalInDollars = (total / 10).toFixed(2);
+        const taxInDollars = (tax / 10).toFixed(2);
+        const feeInDollars = (fee / 10).toFixed(2);
+        console.log('setting transaction status to "paid"', taxInDollars, totalInDollars, feeInDollars);
         client
           .mutate({
             mutation: UPDATE_TRANSACTION,
