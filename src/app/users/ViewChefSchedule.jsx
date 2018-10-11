@@ -66,7 +66,9 @@ class ViewChefSchedule extends React.Component {
                 <Link
                   to={{
                     pathname: '/user/chefschedule/reservation',
-                    state: { event, user, chef },
+                    state: {
+                      event, user, chef, userId: user.id,
+                    },
                   }}
                 >
                   <button type="button">Make Reservation</button>

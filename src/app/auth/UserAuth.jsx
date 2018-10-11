@@ -13,10 +13,25 @@ class UserAuth extends React.Component {
       signup: false,
       redirect: false,
     };
+    this.setPosition = this.setPosition.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.sendLogin = this.sendLogin.bind(this);
     this.sendSignup = this.sendSignup.bind(this);
+  }
+
+  componentWillMount() {
+    if (!navigator.geolocation) {
+      this.setState({ statusText: 'Your browser does not support geolocation...' });
+    } else {
+      navigator.geolocation.getCurrentPosition(this.setPosition, this.errorPosition);
+    }
+  }
+
+  setPosition(position) {
+    const latitude = position.coords.latitude;
+    const longitude = position.coords.longitude;
+    this.setState({ longitude, latitude });
   }
 
   setLogin() {
@@ -63,7 +78,6 @@ class UserAuth extends React.Component {
         email,
       })
       .then((res) => {
-        console.log('response from signup is', res);
         const {
           data: { userId },
         } = res;
@@ -88,13 +102,17 @@ class UserAuth extends React.Component {
   }
 
   renderRedirect() {
-    const { redirect, username, userId } = this.state;
+    const {
+      redirect, username, latitude, longitude, userId,
+    } = this.state;
     if (redirect) {
       return (
         <Redirect
           to={{
             pathname: '/user',
-            state: { username, userId },
+            state: {
+              username, userId, latitude, longitude,
+            },
           }}
         />
       );

@@ -1,31 +1,31 @@
 import React from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import ViewChefSchedule from './ViewChefSchedule';
 
 class UsersChefDetails extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    this.getUserDetails = this.getUserDetails.bind(this);
+    // this.getUserDetails = this.getUserDetails.bind(this);
   }
 
-  componentDidMount() {
-    const { username } = this.props.location.state;
+  // componentDidMount() {
+  //   const { username } = this.props.location.state;
 
-    this.getUserDetails(username);
-  }
+  //   this.getUserDetails(username);
+  // }
 
-  getUserDetails(username) {
-    axios.get(`/api/user/accountInfo?username=${username}`).then((res) => {
-      this.setState({
-        userDetails: res.data,
-      });
-    });
-  }
+  // getUserDetails(username) {
+  //   axios.get(`/api/user/accountInfo?username=${username}`).then((res) => {
+  //     this.setState({
+  //       userDetails: res.data,
+  //     });
+  //   });
+  // }
 
   render() {
-    const { userDetails } = this.state;
-    const { chef } = this.props.location.state;
+    // const { userDetails } = this.state;
+    const { chef, user } = this.props.location.state;
     return (
       <div>
         <h3>{`Chef ${chef.name}`}</h3>
@@ -39,7 +39,7 @@ class UsersChefDetails extends React.Component {
           {`Description - ${chef.description}`}
         </div>
         <br />
-        <ViewChefSchedule user={userDetails} chef={chef} />
+        <ViewChefSchedule user={user} chef={chef} />
       </div>
     );
   }
