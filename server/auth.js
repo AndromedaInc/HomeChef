@@ -12,8 +12,8 @@ const users = require('./../database/users.js');
 
 /* ********* AUTHENTICATION USING JWT ********* */
 
-const RSA_PRIVATE_KEY = process.env.RSA_PRIVATE_KEY;
-const RSA_PUBLIC_KEY = process.env.RSA_PUBLIC_KEY;
+const RSA_PRIVATE_KEY = process.env.RSA_PRIVATE_KEY || fs.readFileSync(`${__dirname}/../config/private.key`);
+const RSA_PUBLIC_KEY = process.env.RSA_PUBLIC_KEY || fs.readFileSync(`${__dirname}/../config/public.key`);
 
 // To generate token to be placed in cookie
 const createJWTBearerToken = user => jwt.sign({}, RSA_PRIVATE_KEY, {
