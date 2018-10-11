@@ -3,8 +3,8 @@ node_modules/*
 build
 
 public/
-config/
 
 .env
+my_env.list
 
 cache/

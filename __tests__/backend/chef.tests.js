@@ -51,8 +51,8 @@ afterAll(async () => {
 describe('GET /', () => {
   test('it should return a 200 status code', async () => {
     const response = await request(app)
-      .get('/')
-      .set('Authorization', 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MzkwNjAyNTMsImV4cCI6MTUzOTY2MDI1Mywic3ViIjoiMSJ9.E-zmt5dzBvlU7ZfQXeIZVsiLScTqAAdznq_pftCUKliUl2llczdcUmYSDXFwm9Ka2QGlq6RUciLVxfZt_TCASbkTmd8VBC5VVgOEKJrIk0VfrZxlLcTEtYhXTpOf6c0z-mJWNwVwLMNu2oMhP7AmZAkdIlWWljhdSGoCAVrfJHY');
+      .get('/');
+      // .set('Authorization', 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MzkwNjAyNTMsImV4cCI6MTUzOTY2MDI1Mywic3ViIjoiMSJ9.E-zmt5dzBvlU7ZfQXeIZVsiLScTqAAdznq_pftCUKliUl2llczdcUmYSDXFwm9Ka2QGlq6RUciLVxfZt_TCASbkTmd8VBC5VVgOEKJrIk0VfrZxlLcTEtYhXTpOf6c0z-mJWNwVwLMNu2oMhP7AmZAkdIlWWljhdSGoCAVrfJHY');
     expect(response.statusCode).toBe(200);
   });
 });
@@ -61,10 +61,10 @@ describe('GET /', () => {
 
 describe('GET /api/chef/accountInfo', async () => {
   const response = await request(app)
-    .get('/api/chef/accountInfo')
+    .get('/api/chef/accountInfo?id=1');
     // .set('Authorization', 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1MzkwNjAyNTMsImV4cCI6MTUzOTY2MDI1Mywic3ViIjoiMSJ9.E-zmt5dzBvlU7ZfQXeIZVsiLScTqAAdznq_pftCUKliUl2llczdcUmYSDXFwm9Ka2QGlq6RUciLVxfZt_TCASbkTmd8VBC5VVgOEKJrIk0VfrZxlLcTEtYhXTpOf6c0z-mJWNwVwLMNu2oMhP7AmZAkdIlWWljhdSGoCAVrfJHY')
-    .query({ id: 1 });
-  // console.log(response);
-  expect(response.length).toBe(1);
+    // .query({ id: 1 });
+  console.log('/api/chef/accountInfo response is', response.data);
+  expect(response.data).toBe(1);
   expect(response.data.name).toBe('Mr Chef');
 });

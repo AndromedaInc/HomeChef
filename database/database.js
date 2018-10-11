@@ -24,6 +24,7 @@ const orm = new Sequelize(
   user,
   pass,
   {
+    logging: false,
     host,
     dialect: 'mysql',
   },

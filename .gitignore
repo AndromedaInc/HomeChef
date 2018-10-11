@@ -8,5 +8,6 @@ public/
 config/
 
 .env
+my_env.list
 
 .cache/
