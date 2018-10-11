@@ -28,7 +28,7 @@ const ReactRouter = require('react-router-dom');
 const _ = require('lodash');
 const fs = require('fs');
 const bodyParser = require('body-parser');
-const App = require('../src/app/app').default;
+const App = require('../src/app/app.jsx').default;
 
 const { StaticRouter } = ReactRouter;
 const baseTemplate = fs.readFileSync(`${__dirname}/../src/index.html`);
