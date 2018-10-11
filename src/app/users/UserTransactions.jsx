@@ -71,7 +71,8 @@ class UserTransactions extends React.Component {
                   <div key={tran.id}>
                     {`${tran.createdAt} $${tran.total} ${tran.status}`}
                   </div>
-                ))}
+                );
+              })}
             </div>
           );
         }}
