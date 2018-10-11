@@ -22,6 +22,7 @@ class UserTransactions extends React.Component {
 
   render() {
     const { userId } = this.props.location.state;
+    console.log('THIS IS THE USERTRANSACTIONS PAGE', userId);
     return (
       <Query
         query={GET_TRANSACTIONS}
@@ -35,13 +36,11 @@ class UserTransactions extends React.Component {
           return (
             <div>
               <h1>My Transactions</h1>
-              {data.transactions.map((tran) => {
-                return (
+              {data.transactions.map((tran) => (
                   <div key={tran.id}>
                     {`${tran.createdAt} $${tran.total} ${tran.status}`}
                   </div>
-                );
-              })}
+                ))}
             </div>
           );
           // TODO: Add upcoming with event details

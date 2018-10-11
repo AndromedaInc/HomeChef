@@ -16,7 +16,9 @@ class UserHome extends React.Component {
 
   componentWillMount() {
     this.props.getChefList();
-    this.getUserDetails(this.props.location.state.username);
+    if (!this.state.user.id) {
+      this.getUserDetails(this.props.location.state.username);
+    }
   }
 
 
@@ -56,13 +58,14 @@ class UserHome extends React.Component {
     const { user } = this.state;
     const { chefs } = this.props;
     const { latitude, longitude } = this.props.location.state;
+    // console.log("LINE 59 LOOK AT ME!!!", user)
     return (
       <div>
         <h1>{user.username}</h1>
         <h2>HomeChef</h2>
         <Link to={{
           pathname: '/user/transactions',
-          state: { userId },
+          state: { userId: user.id },
         }}
         >
           <button type="button">My Transactions</button>
