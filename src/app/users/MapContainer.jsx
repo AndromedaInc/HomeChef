@@ -58,7 +58,6 @@ class MapContainer extends React.Component {
       axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${chef.streetAddress},${chef.city},${chef.state}&key=AIzaSyAD7ESQqGeJQ-XQynlrkG-GCTxVww26kN8`)
         .then((res) => {
           const { lat, lng } = res.data.results[0].geometry.location;
-          // const lng = res.data.results[0].geometry.location.lng;
           info.push({
             lat, lng, name: chef.name, description: chef.description,
           });
