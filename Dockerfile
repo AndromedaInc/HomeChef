@@ -6,7 +6,12 @@ WORKDIR /Users/Stephan/Desktop/Hack-Reactor/HomeChef
 # A wildcard is used to ensure both package.json AND package-lock.json are copied where available (npm@5+)
 COPY package*.json ./
 
-RUN npm install
+ENV DB_HOST=us-cdbr-gcp-east-01.cleardb.net \
+    DB_USER=be489e42e91434 \
+    DB_PASS=0465991d \
+    DB_DATABASE=gcp_2fe7b1ac85cbef2a25af
+
+RUN npm install --unsafe-perm
 
 # Bundle app source
 COPY . .
