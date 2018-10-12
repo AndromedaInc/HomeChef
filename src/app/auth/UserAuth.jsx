@@ -30,8 +30,6 @@ class UserAuth extends React.Component {
 
   setPosition(position) {
     const { latitude, longitude } = position.coords;
-    // const latitude = position.coords.latitude;
-    // const longitude = position.coords.longitude;
     this.setState({ longitude, latitude });
   }
 
