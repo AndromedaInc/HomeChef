@@ -7,7 +7,7 @@
     "dev-build": "webpack --mode development --watch",
     "dev-server": "nodemon --inspect --exec babel-node --presets env server/index.js",
     "lint": "eslint 'src/*.jsx' database server",
-    "postinstall": "webpack --mode production",
+    "build": "webpack --mode production",
     "start": "node server/index.js",
     "test": "npm run lint",
     "jest": "jest"
