@@ -38,22 +38,24 @@ class Stripe extends React.Component {
     const { stripe, subtotal, tax, fee, total } = this.state;
     const { chef, user, event, menuItemsWithUserRSVP, transactionId } = this.props.location.state;
     return (
-      <StripeProvider stripe={stripe}>
-        <Elements>
-          <Checkout
-            stripe={stripe}
-            chef={chef}
-            user={user}
-            event={event}
-            menuItems={menuItemsWithUserRSVP}
-            subtotal={subtotal}
-            tax={tax}
-            fee={fee}
-            total={total}
-            transactionId={transactionId}
-          />
-        </Elements>
-      </StripeProvider>
+      <div className="grid-subcontainer">
+        <StripeProvider stripe={stripe}>
+          <Elements>
+            <Checkout
+              stripe={stripe}
+              chef={chef}
+              user={user}
+              event={event}
+              menuItems={menuItemsWithUserRSVP}
+              subtotal={subtotal}
+              tax={tax}
+              fee={fee}
+              total={total}
+              transactionId={transactionId}
+            />
+          </Elements>
+        </StripeProvider>
+      </div>
     );
   }
 }

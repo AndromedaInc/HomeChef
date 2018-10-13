@@ -129,7 +129,8 @@ class ChefHome extends Component {
   render() {
     const { id } = this.state;
     return (
-      <div>
+      <div className="grid-subcontainer">
+        <div className="grid-center">
         <h1>What's Cooking?</h1>
         <Link to={{
           pathname: '/chef/transactions',
@@ -138,6 +139,7 @@ class ChefHome extends Component {
         ><button type="button">My Transactions</button></Link>
         {this.renderView()}
         <ChefSchedule chefId={id} />
+      </div>
       </div>
     );
   }

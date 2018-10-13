@@ -13,13 +13,14 @@ class UsersChefDetails extends React.Component {
       <div>
         <h3>{`Chef ${chef.name}`}</h3>
         <div>
-          {`Address - ${chef.streetAddress}`}
+          {`${chef.streetAddress}`}
           {' '}
           <br />
           {' '}
           {`${chef.city}, ${chef.stateName}, ${chef.zip}`}
           <br />
-          {`Description - ${chef.description}`}
+          <br />
+          {`${chef.description}`}
         </div>
         <br />
         <ViewChefSchedule user={user} chef={chef} />

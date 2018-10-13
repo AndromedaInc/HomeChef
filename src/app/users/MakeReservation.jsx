@@ -1,6 +1,7 @@
 import React from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import gql from 'graphql-tag';
+import moment from 'moment';
 import client from '../../index';
 
 const CREATE_TRANSACTION = gql`
@@ -98,15 +99,17 @@ class MakeReservation extends React.Component {
         menuItemsWithUserRSVP.forEach((item) => {
           const newCount = (item.userRSVP + item.reservations);
           // 2) create orders for each item
-          client
-            .mutate({
-              mutation: CREATE_ORDER,
-              variables: {
-                itemEventId: item.itemEventId,
-                userId: user.id,
-                transactionId: transactionId,
-              },
-            });
+          for (let i = item.userRSVP; i > 0; i -= 1) {
+            client
+              .mutate({
+                mutation: CREATE_ORDER,
+                variables: {
+                  itemEventId: item.itemEventId,
+                  userId: user.id,
+                  transactionId: transactionId,
+                },
+              });
+          }
           // 3) correctly update itemEvent reservations
           client
             .mutate({
@@ -150,27 +153,30 @@ class MakeReservation extends React.Component {
         
         <h1>{`${chef.name}`}</h1>
         <h2>
-          {`${event.date}  ${event.startTime} - ${event.endTime}`}
+          {moment(event.date).format('ddd, MMM. DD, YYYY')}
+          <br />
+          {`${moment(event.startTime, 'HH:mm').format('h:mm a')} - ${moment(event.endTime, 'HH:mm').format('h:mm a')}`}
         </h2>
         {menuItemsWithUserRSVP.map(item => (
           <div key={item.id}>
             <img width="300px" alt={item.name} src={item.imageUrl} />
             <h3>{item.name}</h3>
             <p>{item.description}</p>
-            <p>{`Price $${item.price}`}</p>
+            <p>{`Price $${(item.price).toFixed(2)}`}</p>
             <p>{`Quantity Available: ${item.maxOrder}`}</p>
-            {`How many dishes do you want?  ${item.userRSVP} `}
-            <button type="button" onClick={this.increaseCount.bind(this, item)}>
+            {'How many dishes do you want?   '}
+            <strong>{item.userRSVP}</strong>
+            <button className="adjustCount" type="button" onClick={this.increaseCount.bind(this, item)}>
               +
             </button>
-            <button type="button" onClick={this.decreaseCount.bind(this, item)}>
+            <button className="adjustCount" type="button" onClick={this.decreaseCount.bind(this, item)}>
               -
             </button>
             <br />
             <br />
           </div>
         ))}
-        <button type="submit" onClick={this.saveReservation}>
+        <button className="highlight" type="submit" onClick={this.saveReservation}>
           Save Reservation
         </button>
         <Link

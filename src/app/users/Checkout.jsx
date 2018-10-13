@@ -2,6 +2,7 @@ import React from 'react';
 import { CardElement, injectStripe } from 'react-stripe-elements';
 import { Redirect } from 'react-router-dom';
 import gql from 'graphql-tag';
+import moment from 'moment';
 import client from '../../index';
 
 const UPDATE_TRANSACTION = gql`
@@ -50,6 +51,8 @@ class Checkout extends React.Component {
       canMakePayment: false,
       paymentRequest,
     };
+    console.log('in checkout state', this.state);
+    console.log('in checkout props', this.props);
   }
 
   handleSubmit() {
@@ -64,7 +67,6 @@ class Checkout extends React.Component {
         const totalInDollars = (total / 10).toFixed(2);
         const taxInDollars = (tax / 10).toFixed(2);
         const feeInDollars = (fee / 10).toFixed(2);
-        console.log('setting transaction status to "paid"', taxInDollars, totalInDollars, feeInDollars);
         client
           .mutate({
             mutation: UPDATE_TRANSACTION,
@@ -102,14 +104,14 @@ class Checkout extends React.Component {
   render() {
     const { subtotal, tax, fee, total, menuItems, event } = this.props;
     return (
-      <div>
+      <div className="grid-wide">
         {this.renderRedirect()}
         <h1>Your Reservation Summary</h1>
-        <h3>
-          {event.date}
+        <h2>
+          {moment(event.date).format('ddd, MMM. DD, YYYY')}
           <br />
-          {`${event.startTime} - ${event.endTime}`}
-        </h3>
+          {`${moment(event.startTime, 'HH:mm').format('h:mm a')} - ${moment(event.endTime, 'HH:mm').format('h:mm a')}`}
+        </h2>
         {menuItems.map((item) => {
           if (item.userRSVP > 0) {
             return (
@@ -127,12 +129,13 @@ class Checkout extends React.Component {
         <br />
         {`Fee   $${(fee / 10).toFixed(2)}`}
         <h3>{`Total   $${(total / 10).toFixed(2)}`}</h3>
-        <h1>Checkout</h1>
+        <h2>Checkout</h2>
         <p>Please submit payment to save your reservation.</p>
         <form>
           <CardElement style={{ base: { fontSize: '18px' } }} />
           <br />
           <button
+            className="highlight"
             type="button"
             onClick={this.handleSubmit.bind(this)}
           >

@@ -1,0 +1,42 @@
+.grid-container { /* contains header and app in index.jsx */
+  width: 100vw;
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: 100px auto;
+  grid-template-areas:
+    "header"
+    "subcontainer";
+  justify-content: stretch; /* stretch grid to fill grid container horizontally */
+  align-content: stretch; /* stretch grid to fill grid container vertically */
+}
+
+.grid-header { /* holds the logo in Header.jsx */
+  grid-area: header;
+  justify-self: stretch;
+  align-self: stretch;
+}
+
+.grid-subcontainer { /* used as container in components */
+  width: 100vw;
+  grid-area: subcontainer;
+  display: grid;
+  grid-template-columns: 1fr [start-wide] 2fr 3fr 2fr [end-wide] 1fr;
+  grid-template-rows: auto;
+  grid-gap: 10px;
+  grid-template-areas:
+    "left left center right right";
+  justify-content: stretch; /* stretch grid to fill grid container horizontally */
+  align-content: stretch; /* stretch grid to fill grid container vertically */
+}
+
+.grid-center {
+  grid-column: center;
+  justify-self: stretch;
+  text-align: center;
+}
+
+.grid-wide {
+  grid-column-start: start-wide;
+  grid-column-end: end-wide;
+  justify-self: left;
+}

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import moment from 'moment';
 
 class ViewChefSchedule extends React.Component {
   constructor(props) {
@@ -38,25 +39,25 @@ class ViewChefSchedule extends React.Component {
           </tr>
           {schedule.map(event => (
             <tr>
-              <td>{event.date}</td>
-              <td>{event.startTime}</td>
-              <td>{event.endTime}</td>
+              <td>{moment(event.date).format('ddd MMM. DD, YYYY')}</td>
+              <td>{moment(event.startTime, 'HH:mm').format('h:mm a')}</td>
+              <td>{moment(event.endTime, 'HH:mm').format('h:mm a')}</td>
               <td>
                 <table>
                   <tbody>
                     <tr>
-                      <th>Dish</th>
-                      <th>Price</th>
-                      <th>Quantity</th>
+                      <th className="sub-table">Dish</th>
+                      <th className="sub-table">Price</th>
+                      <th className="sub-table">Quantity</th>
                     </tr>
                     {event.menuItems.map(item => (
                       <tr>
-                        <td>{item.name}</td>
-                        <td>
+                        <td className="sub-table">{item.name}</td>
+                        <td className="sub-table">
                           <span>$</span>
-                          {item.price}
+                          {(item.price).toFixed(2)}
                         </td>
-                        <td>{item.quantity - item.reservations}</td>
+                        <td className="sub-table">{item.quantity - item.reservations}</td>
                       </tr>
                     ))}
                   </tbody>

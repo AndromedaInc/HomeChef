@@ -2,6 +2,7 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 import UpcomingReservations from './UpcomingReservations';
 
 const GET_TRANSACTIONS = gql`
@@ -41,7 +42,6 @@ class UserTransactions extends React.Component {
 
   render() {
     const { userId } = this.props.location.state;
-    console.log('THIS IS THE USERTRANSACTIONS PAGE', userId);
     return (
       <Query
         query={GET_TRANSACTIONS}
@@ -49,12 +49,11 @@ class UserTransactions extends React.Component {
       >
         {({ loading, error, data }) => {
           if (loading) return 'Loading...';
-          if (error) return `Error ${error.message}`;
+          if (error) return 'Oops! Try refreshing.';
           if (data) console.log('transactions:', data);
 
           return (
-            <div>
-              <h1>My Transactions</h1>
+            <div className="grid-wide">
               <Link
                 to={{
                   pathname: '/user',
@@ -68,8 +67,8 @@ class UserTransactions extends React.Component {
               <h2>Payment History</h2>
               {data.transactions.map((tran) => {
                 return (
-                  <div key={tran.id}>
-                    {`${tran.createdAt} $${tran.total} ${tran.status}`}
+                  <div className="transactions" key={tran.id}>
+                    {`${moment(tran.createdAt).format('ddd MMM. DD, YYYY')}  |  $${tran.total}  |  ${tran.status}`}
                   </div>
                 );
               })}
