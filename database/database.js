@@ -90,10 +90,10 @@ const Rating = orm.define('rating', {
 const Transaction = orm.define('transaction', {
   // foreign keys: userId, chefId
   status: Sequelize.STRING,
-  total: Sequelize.INTEGER, // or cached?
-  tax: Sequelize.INTEGER, // or cached?
-  fee: Sequelize.INTEGER, // or cached?
-  tip: Sequelize.INTEGER, // or cached?
+  total: Sequelize.FLOAT,
+  tax: Sequelize.FLOAT,
+  fee: Sequelize.FLOAT,
+  tip: Sequelize.FLOAT,
 });
 
 const User = orm.define('user', {

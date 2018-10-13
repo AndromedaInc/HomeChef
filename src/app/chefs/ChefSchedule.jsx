@@ -81,7 +81,7 @@ class ChefSchedule extends React.Component {
                               <td className="sub-table">{item.name}</td>
                               <td className="sub-table">
                                 <span>$</span>
-                                {item.price}
+                                {(item.price).toFixed(2)}
                               </td>
                               <td className="sub-table">{item.quantity}</td>
                               <td className="sub-table">{item.reservations}</td>

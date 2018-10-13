@@ -2,8 +2,8 @@ import React from 'react';
 import { CardElement, injectStripe } from 'react-stripe-elements';
 import { Redirect } from 'react-router-dom';
 import gql from 'graphql-tag';
-import client from '../../index';
 import moment from 'moment';
+import client from '../../index';
 
 const UPDATE_TRANSACTION = gql`
   mutation updateTransaction($id: ID!, $total: Float, $tax: Float, $fee: Float) {
@@ -51,6 +51,8 @@ class Checkout extends React.Component {
       canMakePayment: false,
       paymentRequest,
     };
+    console.log('in checkout state', this.state);
+    console.log('in checkout props', this.props);
   }
 
   handleSubmit() {
@@ -65,7 +67,6 @@ class Checkout extends React.Component {
         const totalInDollars = (total / 10).toFixed(2);
         const taxInDollars = (tax / 10).toFixed(2);
         const feeInDollars = (fee / 10).toFixed(2);
-        console.log('setting transaction status to "paid"', taxInDollars, totalInDollars, feeInDollars);
         client
           .mutate({
             mutation: UPDATE_TRANSACTION,
@@ -103,11 +104,11 @@ class Checkout extends React.Component {
   render() {
     const { subtotal, tax, fee, total, menuItems, event } = this.props;
     return (
-      <div className="grid-center">
+      <div className="grid-wide">
         {this.renderRedirect()}
         <h1>Your Reservation Summary</h1>
         <h2>
-          {moment(event.date).format('ddd, MMM. DD YYY')}
+          {moment(event.date).format('ddd, MMM. DD, YYYY')}
           <br />
           {`${moment(event.startTime, 'HH:mm').format('h:mm a')} - ${moment(event.endTime, 'HH:mm').format('h:mm a')}`}
         </h2>

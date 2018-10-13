@@ -2,8 +2,8 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
-import UpcomingReservations from './UpcomingReservations';
 import moment from 'moment';
+import UpcomingReservations from './UpcomingReservations';
 
 const GET_TRANSACTIONS = gql`
 query transactions($userOrChefId: ID!, $userOrChef: String) {
@@ -42,7 +42,6 @@ class UserTransactions extends React.Component {
 
   render() {
     const { userId } = this.props.location.state;
-    console.log('THIS IS THE USERTRANSACTIONS PAGE', userId);
     return (
       <Query
         query={GET_TRANSACTIONS}

@@ -55,7 +55,7 @@ class ViewChefSchedule extends React.Component {
                         <td className="sub-table">{item.name}</td>
                         <td className="sub-table">
                           <span>$</span>
-                          {item.price}
+                          {(item.price).toFixed(2)}
                         </td>
                         <td className="sub-table">{item.quantity - item.reservations}</td>
                       </tr>
