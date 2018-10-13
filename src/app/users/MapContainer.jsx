@@ -46,6 +46,7 @@ class MapContainer extends React.Component {
       <Marker
         onClick={this.onMarkerClick}
         name={place.name}
+        description={place.description}
         position={{ lat: place.lat, lng: place.lng }}
       />
     ));
@@ -54,11 +55,12 @@ class MapContainer extends React.Component {
   markerMaker() {
     const info = [];
     this.props.chefs.map((chef) => {
-      axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${chef.streetAddress},${chef.city},${chef.state}&key=AIzaSyCvT4Z0YLE6vtaJkEtY44m14cBQevtXCkg`)
+      axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${chef.streetAddress},${chef.city},${chef.state}&key=AIzaSyAD7ESQqGeJQ-XQynlrkG-GCTxVww26kN8`)
         .then((res) => {
-          const lat = res.data.results[0].geometry.location.lat;
-          const lng = res.data.results[0].geometry.location.lng;
-          info.push({ lat, lng, name: chef.name });
+          const { lat, lng } = res.data.results[0].geometry.location;
+          info.push({
+            lat, lng, name: chef.name, description: chef.description,
+          });
         })
         .then(() => {
           this.setState({
@@ -74,8 +76,15 @@ class MapContainer extends React.Component {
       width: '70%',
       height: '50%',
     };
-
-    const { latitude, longitude } = this.props;
+    let latitude;
+    let longitude;
+    if (this.props.latitude && this.props.longitude) {
+      latitude = this.props.latitude;
+      longitude = this.props.longitude;
+    } else {
+      latitude = 0;
+      longitude = 0;
+    }
     return (
       <div>
         <Map
@@ -104,6 +113,7 @@ class MapContainer extends React.Component {
           >
             <div>
               <h1>{this.state.selectedPlace.name}</h1>
+              <p>{this.state.selectedPlace.description}</p>
             </div>
           </InfoWindow>
         </Map>
@@ -113,5 +123,5 @@ class MapContainer extends React.Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: ('AIzaSyCvT4Z0YLE6vtaJkEtY44m14cBQevtXCkg'),
+  apiKey: ('AIzaSyAD7ESQqGeJQ-XQynlrkG-GCTxVww26kN8'),
 })(MapContainer);

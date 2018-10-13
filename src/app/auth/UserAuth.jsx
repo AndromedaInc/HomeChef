@@ -22,15 +22,14 @@ class UserAuth extends React.Component {
 
   componentWillMount() {
     if (!navigator.geolocation) {
-      this.setState({ statusText: 'Your browser does not support geolocation...' });
+      console.log('Cannot retrieve location');
     } else {
       navigator.geolocation.getCurrentPosition(this.setPosition, this.errorPosition);
     }
   }
 
   setPosition(position) {
-    const latitude = position.coords.latitude;
-    const longitude = position.coords.longitude;
+    const { latitude, longitude } = position.coords;
     this.setState({ longitude, latitude });
   }
 

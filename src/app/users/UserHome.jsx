@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { getChefList } from '../redux/actions/chefActions';
-import MapContainer from '../redux/sampleComponents/MapContainer';
+import MapContainer from './MapContainer';
 
 class UserHome extends React.Component {
   constructor(props) {
@@ -58,11 +58,10 @@ class UserHome extends React.Component {
     const { user } = this.state;
     const { chefs } = this.props;
     const { latitude, longitude } = this.props.location.state;
-    // console.log("LINE 59 LOOK AT ME!!!", user)
     return (
       <div>
-        <h1>{user.username}</h1>
         <h2>HomeChef</h2>
+        <h1>{`Welcome ${user.username}`}</h1>
         <Link to={{
           pathname: '/user/transactions',
           state: { userId: user.id },
@@ -70,6 +69,7 @@ class UserHome extends React.Component {
         >
           <button type="button">My Transactions</button>
         </Link>
+        <h5>What's Cooking</h5>
         {this.renderChefList()}
         <MapContainer
           latitude={latitude}
