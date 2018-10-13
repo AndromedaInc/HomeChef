@@ -159,18 +159,19 @@ class MakeReservation extends React.Component {
             <p>{item.description}</p>
             <p>{`Price $${item.price}`}</p>
             <p>{`Quantity Available: ${item.maxOrder}`}</p>
-            {`How many dishes do you want?  ${item.userRSVP} `}
-            <button type="button" onClick={this.increaseCount.bind(this, item)}>
+            {'How many dishes do you want?   '}
+            <strong>{item.userRSVP}</strong>
+            <button className="adjustCount" type="button" onClick={this.increaseCount.bind(this, item)}>
               +
             </button>
-            <button type="button" onClick={this.decreaseCount.bind(this, item)}>
+            <button className="adjustCount" type="button" onClick={this.decreaseCount.bind(this, item)}>
               -
             </button>
             <br />
             <br />
           </div>
         ))}
-        <button type="submit" onClick={this.saveReservation}>
+        <button className="highlight" type="submit" onClick={this.saveReservation}>
           Save Reservation
         </button>
         <Link

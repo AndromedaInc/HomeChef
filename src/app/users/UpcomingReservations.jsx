@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 
 class UpcomingReservations extends React.Component {
   constructor(props) {
@@ -39,16 +40,15 @@ class UpcomingReservations extends React.Component {
           const { chef } = transaction;
           return (
             <div key={transaction.id}>
-              {event.date}
+              {moment(event.date).format('ddd, MMM. DD, YYYY')}
               <br />
-              {`${event.startTime} - ${event.endTime}`}
+              {`${moment(event.startTime, 'HH:mm').format('h:mm a')} - ${moment(event.endTime, 'HH:mm').format('h:mm a')}`}
               <br />
               {chef.name}
               <br />
               {`${chef.streetAddress}, ${chef.city}, ${chef.stateName} ${chef.zip}`}
               <br />
               Your Order:
-              <br />
               <ul>
                 {transaction.orders.map((order) => {
                   return (

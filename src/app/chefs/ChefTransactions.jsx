@@ -2,6 +2,7 @@ import React from 'react';
 import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 const GET_TRANSACTIONS = gql`
 query transactions($userOrChefId: ID!, $userOrChef: String) {
@@ -35,7 +36,7 @@ class ChefTransactions extends React.Component {
 
           return (
             <div>
-              <h1>My Transactions</h1>
+              <h2>My Transactions</h2>
               <Link
                 to={{
                   pathname: '/chef',
@@ -47,8 +48,8 @@ class ChefTransactions extends React.Component {
               <br />
               {data.transactions.map((tran) => {
                 return (
-                  <div key={tran.id}>
-                    {`${tran.createdAt} $${tran.total} ${tran.status}`}
+                  <div className="transactions" key={tran.id}>
+                    {`${moment(tran.createdAt).format('MMM. DD, YYYY')}  |  $${tran.total}  |  ${tran.status}`}
                   </div>
                 );
               })}

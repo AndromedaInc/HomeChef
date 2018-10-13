@@ -11,25 +11,13 @@ const ChefAccountInfo = ({ state }) => {
 
   return (
     <div>
-      <h3>Address</h3>
       <div>
-        Street Address:
+        <h2>Address</h2>
         {streetAddress}
+        {`${city}, ${stateName} ${zip}`}
       </div>
       <div>
-        City:
-        {city}
-      </div>
-      <div>
-        State:
-        {stateName}
-      </div>
-      <div>
-        Zip:
-        {zip}
-      </div>
-      <div>
-        <h3>Cuisine</h3>
+        <h2>Cuisine</h2>
         {description}
       </div>
     </div>

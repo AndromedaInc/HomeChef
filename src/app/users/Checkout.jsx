@@ -3,6 +3,7 @@ import { CardElement, injectStripe } from 'react-stripe-elements';
 import { Redirect } from 'react-router-dom';
 import gql from 'graphql-tag';
 import client from '../../index';
+import moment from 'moment';
 
 const UPDATE_TRANSACTION = gql`
   mutation updateTransaction($id: ID!, $total: Float, $tax: Float, $fee: Float) {
@@ -102,14 +103,14 @@ class Checkout extends React.Component {
   render() {
     const { subtotal, tax, fee, total, menuItems, event } = this.props;
     return (
-      <div>
+      <div className="grid-center">
         {this.renderRedirect()}
         <h1>Your Reservation Summary</h1>
-        <h3>
-          {event.date}
+        <h2>
+          {moment(event.date).format('ddd, MMM. DD YYY')}
           <br />
-          {`${event.startTime} - ${event.endTime}`}
-        </h3>
+          {`${moment(event.startTime, 'HH:mm').format('h:mm a')} - ${moment(event.endTime, 'HH:mm').format('h:mm a')}`}
+        </h2>
         {menuItems.map((item) => {
           if (item.userRSVP > 0) {
             return (
@@ -127,12 +128,13 @@ class Checkout extends React.Component {
         <br />
         {`Fee   $${(fee / 10).toFixed(2)}`}
         <h3>{`Total   $${(total / 10).toFixed(2)}`}</h3>
-        <h1>Checkout</h1>
+        <h2>Checkout</h2>
         <p>Please submit payment to save your reservation.</p>
         <form>
           <CardElement style={{ base: { fontSize: '18px' } }} />
           <br />
           <button
+            className="highlight"
             type="button"
             onClick={this.handleSubmit.bind(this)}
           >

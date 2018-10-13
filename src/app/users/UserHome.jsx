@@ -59,23 +59,26 @@ class UserHome extends React.Component {
     const { chefs } = this.props;
     const { latitude, longitude } = this.props.location.state;
     return (
-      <div>
-        <h2>HomeChef</h2>
-        <h1>{`Welcome ${user.username}`}</h1>
-        <Link to={{
-          pathname: '/user/transactions',
-          state: { userId: user.id },
-        }}
-        >
-          <button type="button">My Transactions</button>
-        </Link>
-        <h5>What's Cooking</h5>
-        {this.renderChefList()}
-        <MapContainer
-          latitude={latitude}
-          longitude={longitude}
-          chefs={chefs}
-        />
+      <div className="grid-subcontainer">
+        <div className="grid-wide">
+        <h2>{`Welcome ${user.username}`}</h2>
+          <Link to={{
+            pathname: '/user/transactions',
+            state: { userId: user.id },
+          }}
+          >
+            <button type="button">My Transactions</button>
+          </Link>
+          <h3>What's Cooking?</h3>
+          {this.renderChefList()}
+          <br />
+          <br />
+          <MapContainer
+            latitude={latitude}
+            longitude={longitude}
+            chefs={chefs}
+          />
+        </div>
       </div>
     );
   }

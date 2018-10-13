@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
 
 class ChefSchedule extends React.Component {
   constructor({ chefId }) {
@@ -34,8 +35,8 @@ class ChefSchedule extends React.Component {
     console.log('2 chefId', chefId);
 
     return (
-      <div>
-        <h3>Schedule</h3>
+      <div className="grid-wide">
+        <h2>Schedule</h2>
         <Link to={{
           pathname: '/chef/schedule/update',
           state: { chefId },
@@ -62,28 +63,28 @@ class ChefSchedule extends React.Component {
             {schedule.map((event) => {
               return (
                 <tr key={event.eventId}>
-                  <td>{event.date}</td>
-                  <td>{event.startTime}</td>
-                  <td>{event.endTime}</td>
+                  <td>{moment(event.date).format('ddd. MMM. DD, YYYY')}</td>
+                  <td>{moment(event.startTime, 'HH:mm').format('h:mm a')}</td>
+                  <td>{moment(event.endTime, 'HH:mm').format('h:mm a')}</td>
                   <td>
                     <table>
                       <tbody>
                         <tr>
-                          <th>Dish</th>
-                          <th>Price</th>
-                          <th>Total Quantity</th>
-                          <th>Reservations</th>
+                          <th className="sub-table">Dish</th>
+                          <th className="sub-table">Price</th>
+                          <th className="sub-table">Total Quantity</th>
+                          <th className="sub-table">Reservations</th>
                         </tr>
                         {event.menuItems.map((item) => {
                           return (
-                            <tr key={item.id}>
-                              <td>{item.name}</td>
-                              <td>
+                            <tr key={item.id} >
+                              <td className="sub-table">{item.name}</td>
+                              <td className="sub-table">
                                 <span>$</span>
                                 {item.price}
                               </td>
-                              <td>{item.quantity}</td>
-                              <td>{item.reservations}</td>
+                              <td className="sub-table">{item.quantity}</td>
+                              <td className="sub-table">{item.reservations}</td>
                             </tr>
                           );
                         })}
