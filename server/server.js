@@ -1,5 +1,6 @@
 require('babel-register');
 require('dotenv').config();
+require('babel-register');
 
 /* **** CODE TO RESOLVE TESTING BUG WITH MYSQL - DO NOT MOVE OR CHANGE **** */
 // relevant StackOverflow: https://stackoverflow.com/questions/46227783/encoding-not-recognized-in-jest-js
@@ -28,7 +29,7 @@ const ReactRouter = require('react-router-dom');
 const _ = require('lodash');
 const fs = require('fs');
 const bodyParser = require('body-parser');
-const App = require('../src/app/app').default;
+const App = require('../src/app/app.jsx').default;
 
 const { StaticRouter } = ReactRouter;
 const baseTemplate = fs.readFileSync(`${__dirname}/../src/index.html`);
@@ -56,7 +57,8 @@ app.post('/api/user/login', auth.userLogin);
 app.post('/api/user/signup', auth.userSignup);
 
 /* **** API **** */
-app.use('/api', auth.checkIfAuthenticated, api);
+// app.use('/api', auth.checkIfAuthenticated, api);
+app.use('/api', api);
 
 app.get(
   '/api/user/accountInfo',

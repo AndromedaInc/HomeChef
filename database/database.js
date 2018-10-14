@@ -17,12 +17,14 @@ const user = process.env.NODE_ENV === 'test' ? `${process.env.DB_TEST_USER}` : `
 const pass = process.env.NODE_ENV === 'test' ? `${process.env.DB_TEST_PASS}` : `${process.env.DB_PASS}`;
 const host = process.env.NODE_ENV === 'test' ? `${process.env.DB_TEST_HOST}` : `${process.env.DB_HOST}`;
 
+console.log('process.env.NODE_ENV is', process.env.NODE_ENV);
 
 const orm = new Sequelize(
   db,
   user,
   pass,
   {
+    logging: false,
     host,
     dialect: 'mysql',
   },
@@ -52,6 +54,14 @@ const Chef = orm.define('chef', {
   stateName: Sequelize.TEXT,
   streetAddress: Sequelize.TEXT,
   zip: Sequelize.INTEGER,
+  createdAt: {
+    type: 'TIMESTAMP',
+    allowNull: false,
+  },
+  updatedAt: {
+    type: 'TIMESTAMP',
+    allowNull: false,
+  },
   // payment_info: ?
   // rating: cached
 });
@@ -61,12 +71,29 @@ const Event = orm.define('event', {
   date: Sequelize.STRING,
   startTime: Sequelize.STRING,
   endTime: Sequelize.STRING,
+  createdAt: {
+    type: 'TIMESTAMP',
+    allowNull: false,
+  },
+  updatedAt: {
+    type: 'TIMESTAMP',
+    allowNull: false,
+  },
+  // foreign key auto created: chefId
 });
 
 const ItemEvent = orm.define('itemEvent', {
   // foreign keys: eventId, menuItemId, chefId
   quantity: Sequelize.INTEGER,
   reservations: Sequelize.INTEGER,
+  createdAt: {
+    type: 'TIMESTAMP',
+    allowNull: false,
+  },
+  updatedAt: {
+    type: 'TIMESTAMP',
+    allowNull: false,
+  },
 });
 
 const MenuItem = orm.define('menuItem', {
@@ -75,16 +102,40 @@ const MenuItem = orm.define('menuItem', {
   description: Sequelize.TEXT,
   price: Sequelize.FLOAT,
   imageUrl: Sequelize.STRING,
+  createdAt: {
+    type: 'TIMESTAMP',
+    allowNull: false,
+  },
+  updatedAt: {
+    type: 'TIMESTAMP',
+    allowNull: false,
+  },
 });
 
 const Order = orm.define('order', {
   // foreign keys: itemEventId, userId, transactionId
+  createdAt: {
+    type: 'TIMESTAMP',
+    allowNull: false,
+  },
+  updatedAt: {
+    type: 'TIMESTAMP',
+    allowNull: false,
+  },
 });
 
 const Rating = orm.define('rating', {
   // foreign keys: chefId, userId
   stars: Sequelize.INTEGER,
   review: Sequelize.TEXT,
+  createdAt: {
+    type: 'TIMESTAMP',
+    allowNull: false,
+  },
+  updatedAt: {
+    type: 'TIMESTAMP',
+    allowNull: false,
+  },
 });
 
 const Transaction = orm.define('transaction', {
@@ -94,6 +145,14 @@ const Transaction = orm.define('transaction', {
   tax: Sequelize.FLOAT,
   fee: Sequelize.FLOAT,
   tip: Sequelize.FLOAT,
+  createdAt: {
+    type: 'TIMESTAMP',
+    allowNull: false,
+  },
+  updatedAt: {
+    type: 'TIMESTAMP',
+    allowNull: false,
+  },
 });
 
 const User = orm.define('user', {
@@ -102,6 +161,14 @@ const User = orm.define('user', {
   password: Sequelize.STRING,
   email: Sequelize.STRING,
   imageUrl: Sequelize.STRING,
+  createdAt: {
+    type: 'TIMESTAMP',
+    allowNull: false,
+  },
+  updatedAt: {
+    type: 'TIMESTAMP',
+    allowNull: false,
+  },
   // payment_info: ?
 });
 

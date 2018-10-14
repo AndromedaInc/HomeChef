@@ -1,0 +1,11 @@
+node_modules/*
+npm-debug.log
+.git
+build
+
+public/
+
+.env
+my_env.list
+
+cache/
