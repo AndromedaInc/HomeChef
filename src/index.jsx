@@ -8,6 +8,7 @@ import store from './app/redux/store';
 import 'cross-fetch/polyfill';
 import styles from './style/main.css';
 import Header from './Header';
+
 import App from './app/app';
 
 const client = new ApolloClient();
