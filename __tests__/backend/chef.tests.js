@@ -44,7 +44,6 @@ afterAll(async () => {
   await db.close();
 });
 
-
 /* **** TESTING SUITE **** */
 
 // Super basic test to ensure the test suite is working
@@ -68,3 +67,14 @@ describe('GET /api/chef/accountInfo', async () => {
   expect(response.data).toBe(1);
   expect(response.data.name).toBe('Mr Chef');
 });
+
+// describe('Database Tests', () => {
+//   it('should find at least one user', async () => {
+//     const users = await db.User.findAll();
+//     expect(users).toBeGreaterThan(0);
+//   });
+//   it('should find at least one chef', async () => {
+//     const chefs = await db.Chef.findAll();
+//     expect(chefs).toBeGreaterThan(0);
+//   });
+// });
