@@ -12,6 +12,8 @@ iconv.encodings = encodings;
 
 /* **** Express modules **** */
 const express = require('express');
+const request = require('request');
+const axios = require('axios');
 
 const app = express();
 const morgan = require('morgan');
@@ -57,6 +59,19 @@ app.post('/api/user/signup', auth.userSignup);
 
 /* **** API **** */
 app.use('/api', auth.checkIfAuthenticated, api);
+
+app.get('/api/user/map', (req, res) => {
+  const chef = req.query;
+  console.log('this is chef from server ln 65', req.query);
+
+  axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${chef.streetAddress},${chef.city},${chef.state}&key=${process.env.MAP_KEY}`)
+    .then((data) => {
+      const { lat, lng } = data.data.results[0].geometry.location;
+      res.send({
+        lat, lng, name: chef.name, description: chef.description,
+      });
+    });
+});
 
 app.get(
   '/api/user/accountInfo',

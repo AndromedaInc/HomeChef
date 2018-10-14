@@ -1,4 +1,6 @@
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
+
 const path = require('path');
 
 const SRC_DIR = path.join(__dirname, './src');
@@ -45,5 +47,6 @@ module.exports = {
   },
   plugins: [
     new CleanWebpackPlugin(['public']),
+    new Dotenv(),
   ],
 };

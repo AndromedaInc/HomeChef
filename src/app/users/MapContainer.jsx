@@ -55,18 +55,21 @@ class MapContainer extends React.Component {
   markerMaker() {
     const info = [];
     this.props.chefs.map((chef) => {
-      axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${chef.streetAddress},${chef.city},${chef.state}&key=AIzaSyAD7ESQqGeJQ-XQynlrkG-GCTxVww26kN8`)
-        .then((res) => {
-          const { lat, lng } = res.data.results[0].geometry.location;
-          info.push({
-            lat, lng, name: chef.name, description: chef.description,
-          });
-        })
-        .then(() => {
-          this.setState({
-            chefMapInfo: info,
-          });
-        })
+      axios.get('/api/user/map', {
+        params: {
+          streetAddress: chef.streetAddress,
+          city: chef.city,
+          stateName: chef.stateName,
+          name: chef.name,
+          description: chef.description,
+        },
+      }).then((res) => {
+        info.push(res.data);
+      }).then(() => {
+        this.setState({
+          chefMapInfo: info,
+        });
+      })
         .catch(err => console.log(err));
     });
   }
@@ -76,21 +79,33 @@ class MapContainer extends React.Component {
       width: '70%',
       height: '50%',
     };
+    let icon;
+    let curName;
+    let zoom;
     let latitude;
     let longitude;
     if (this.props.latitude && this.props.longitude) {
+      icon = {
+        url: 'http://www.robotwoods.com/dev/misc/bluecircle.png',
+
+      };
+      curName = 'Current Location';
+      zoom = 14;
       latitude = this.props.latitude;
       longitude = this.props.longitude;
     } else {
-      latitude = 0;
-      longitude = 0;
+      icon = null;
+      curName = 'US';
+      zoom = 3;
+      latitude = 39.8283;
+      longitude = -98.5795;
     }
     return (
       <div>
         <Map
           google={this.props.google}
           onClick={this.onMapClicked}
-          zoom={14}
+          zoom={zoom}
           style={style}
           initialCenter={{
             lat: latitude,
@@ -100,11 +115,9 @@ class MapContainer extends React.Component {
         >
           <Marker
             onClick={this.onMarkerClick}
-            name="Current Location"
+            name={curName}
             position={{ lat: latitude, lng: longitude }}
-            icon={{
-              url: 'http://www.robotwoods.com/dev/misc/bluecircle.png',
-            }}
+            icon={icon}
           />
           {this.mapMarkers()}
           <InfoWindow
@@ -123,5 +136,5 @@ class MapContainer extends React.Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: ('AIzaSyAD7ESQqGeJQ-XQynlrkG-GCTxVww26kN8'),
+  apiKey: (`${process.env.MAP_KEY}`),
 })(MapContainer);
