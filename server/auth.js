@@ -6,6 +6,7 @@ const salt = bcrypt.genSaltSync(10);
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
 const fs = require('fs');
+const axios = require('axios');
 
 const chefs = require('./../database/chefs.js');
 const users = require('./../database/users.js');
@@ -32,6 +33,21 @@ const checkIfAuthenticated = expressJwt({
 /* ********** LOGIN ********** */
 const userLogin = (req, res) => {
   const { username, password } = req.body; // needs to be req.query for Postman
+
+  // console.log('inside login and about to axios.post with this username', username, 'and this password', password);
+  // axios
+  //   .post('localhost:2560/login', {
+  //     username,
+  //     password,
+  //   })
+  //   .then((response) => {
+  //     console.log('response from host 2560 is', res);
+  //     const {
+  //       data: { userId },
+  //     } = response;
+  //     return res.status(200).send({ userId });
+  //   })
+  //   .catch(err => console.log(err));
 
   let user;
   if (!username || !password) {
@@ -77,44 +93,64 @@ const login = (req, res) => {
   console.log('incoming login request is', req);
   const { username, password } = req.body; // needs to be req.query for Postman
 
-  let chef;
-  if (!username || !password) {
-    return res.status(401).send('incomplete fields');
-  }
-  return chefs
-    .checkUsername(username)
+  console.log('inside login and about to axios.post with this username', username, 'and this password', password);
+  const target = axios.create({
+    baseURL: 'http://demo-1417720944.us-east-2.elb.amazonaws.com/',
+    proxy: false,
+  });
 
-    .then((chefRecord) => {
-      if (!chefRecord) {
-        return res.status(400).send('user not found');
-      }
-      chef = chefRecord;
-      console.log('found record is', chef);
-      const {
-        dataValues: { password: hash },
-      } = chef;
-      console.log('password match boolean is', bcrypt.compare(password, hash));
-      return bcrypt.compare(password, hash);
+  target
+    .post('/login', {
+      username,
+      password,
     })
-
-    .then((match) => {
-      console.log('match status is', match);
-      if (match) {
-        return createJWTBearerToken(chef);
-      }
-      throw new Error({ message: 'that password does not match' });
-    })
-
-    .then((token) => {
-      console.log('weve got a token and are ready to send!', token);
-      res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
+    .then((response) => {
+      console.log('response from host 2560 is', res);
       const {
-        dataValues: { id: chefId },
-      } = chef;
+        data: { chefId },
+      } = response;
       return res.status(200).send({ chefId });
     })
+    .catch(err => console.log(err));
 
-    .catch(err => res.status(401).send(err));
+  // let chef;
+  // if (!username || !password) {
+  //   return res.status(401).send('incomplete fields');
+  // }
+  // return chefs
+  //   .checkUsername(username)
+
+  //   .then((chefRecord) => {
+  //     if (!chefRecord) {
+  //       return res.status(400).send('user not found');
+  //     }
+  //     chef = chefRecord;
+  //     console.log('found record is', chef);
+  //     const {
+  //       dataValues: { password: hash },
+  //     } = chef;
+  //     console.log('password match boolean is', bcrypt.compare(password, hash));
+  //     return bcrypt.compare(password, hash);
+  //   })
+
+  //   .then((match) => {
+  //     console.log('match status is', match);
+  //     if (match) {
+  //       return createJWTBearerToken(chef);
+  //     }
+  //     throw new Error({ message: 'that password does not match' });
+  //   })
+
+  //   .then((token) => {
+  //     console.log('weve got a token and are ready to send!', token);
+  //     res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
+  //     const {
+  //       dataValues: { id: chefId },
+  //     } = chef;
+  //     return res.status(200).send({ chefId });
+  //   })
+
+  //   .catch(err => res.status(401).send(err));
 };
 
 /* ********** SIGNUP ********** */
