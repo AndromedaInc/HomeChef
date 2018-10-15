@@ -57,9 +57,12 @@ class MapContainer extends React.Component {
     this.props.chefs.map((chef) => {
       axios.get('/api/user/map', {
         params: {
+          chefId: chef.id,
           streetAddress: chef.streetAddress,
           city: chef.city,
           stateName: chef.stateName,
+          zip: chef.zip,
+          username: chef.username,
           name: chef.name,
           description: chef.description,
         },
