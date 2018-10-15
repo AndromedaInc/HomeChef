@@ -73,8 +73,8 @@ app.get('/api/user/map', (req, res) => {
       description: chef.description,
     },
   })
-    .then((res2) => {
-      const info = res2.data[0];
+    .then((data) => {
+      const info = data.data[0];
       res.send({
         lat: info.lat,
         lng: info.lng,
