@@ -39,7 +39,7 @@ class UserHome extends React.Component {
           <div>
             {`Chef: ${chef.username}, Address: ${chef.streetAddress} ${chef.city}, ${
               chef.stateName
-              }, ${chef.zip}, Description: ${chef.description}`}
+            }, ${chef.zip}, Description: ${chef.description}`}
             <Link
               to={{
                 pathname: '/user/chefdetails',
@@ -61,10 +61,10 @@ class UserHome extends React.Component {
     return (
       <div className="grid-subcontainer">
         <div className="grid-wide">
-        <h2>{`Welcome ${user.username}`}</h2>
+          <h2>{`Welcome ${user.username}`}</h2>
           <Link to={{
             pathname: '/user/transactions',
-            state: { userId: user.id },
+            state: { user },
           }}
           >
             <button type="button">My Transactions</button>

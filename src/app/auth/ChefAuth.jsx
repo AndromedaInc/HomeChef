@@ -67,6 +67,7 @@ class ChefAuth extends React.Component {
         const {
           data: { chefId },
         } = res;
+        console.log('chefId is', chefId);
         this.setState({
           redirect: true,
           chefId,

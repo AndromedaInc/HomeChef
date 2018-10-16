@@ -4,21 +4,18 @@ const checkExistingEmailUsername = (username, email) => {
   const { or } = db.connection.Op;
   return db.Chef.findOne({
     where: {
-      [or]: [
-        { username },
-        { email },
-      ],
+      [or]: [{ username }, { email }],
     },
   });
 };
 
 const checkUsername = username => db.Chef.findOne({ where: { username } });
 
-const createChef = (username, password, email, name) => db.Chef.create({
+const createChef = (username, email, name, authId) => db.Chef.create({
   username,
-  password,
   email,
   name,
+  authId,
 });
 
 const getChef = id => db.Chef.findOne({ where: { id } });
@@ -49,9 +46,12 @@ const upsertAccountInfo = ({
 
 const findChef = username => db.Chef.findOne({ where: { username } });
 
+const findChefByAuthId = authId => db.Chef.findOne({ where: { authId } });
+
 exports.checkExistingEmailUsername = checkExistingEmailUsername;
 exports.checkUsername = checkUsername;
 exports.createChef = createChef;
 exports.getChef = getChef;
 exports.upsertAccountInfo = upsertAccountInfo;
 exports.findChef = findChef;
+exports.findChefByAuthId = findChefByAuthId;
