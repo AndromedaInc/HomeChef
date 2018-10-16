@@ -63,13 +63,25 @@ app.use('/api', api);
 
 app.get('/api/user/map', (req, res) => {
   const chef = req.query;
-  console.log('this is chef from server ln 65', req.query);
-
-  axios.get(`https://maps.googleapis.com/maps/api/geocode/json?address=${chef.streetAddress},${chef.city},${chef.state}&key=${process.env.MAP_KEY}`)
+  axios.get('https://andromedachef-map.herokuapp.com/ms/user/map', {
+    params: {
+      chefId: chef.id,
+      streetAddress: chef.streetAddress,
+      city: chef.city,
+      stateName: chef.stateName,
+      zip: chef.zip,
+      username: chef.username,
+      name: chef.name,
+      description: chef.description,
+    },
+  })
     .then((data) => {
-      const { lat, lng } = data.data.results[0].geometry.location;
+      const info = data.data[0];
       res.send({
-        lat, lng, name: chef.name, description: chef.description,
+        lat: info.lat,
+        lng: info.lng,
+        name: info.name,
+        description: info.description,
       });
     });
 });
