@@ -158,7 +158,7 @@ const Transaction = orm.define('transaction', {
 const User = orm.define('user', {
   name: Sequelize.STRING,
   username: Sequelize.STRING,
-  password: Sequelize.STRING,
+  authId: Sequelize.INTEGER,
   email: Sequelize.STRING,
   imageUrl: Sequelize.STRING,
   createdAt: {
