@@ -49,8 +49,8 @@ const Chef = orm.define('chef', {
   email: Sequelize.STRING,
   imageUrl: Sequelize.STRING,
   name: Sequelize.STRING,
-  password: Sequelize.STRING,
-  username: Sequelize.STRING,
+  authId: Sequelize.INTEGER,
+  username: Sequelize.STRING, // could take out and leave in authentication microservice
   stateName: Sequelize.TEXT,
   streetAddress: Sequelize.TEXT,
   zip: Sequelize.INTEGER,

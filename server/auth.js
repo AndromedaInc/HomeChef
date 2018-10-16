@@ -32,81 +32,99 @@ const checkIfAuthenticated = expressJwt({
 
 /* ********** LOGIN ********** */
 const userLogin = (req, res) => {
-  const { username, password } = req.body; // needs to be req.query for Postman
-
-  // console.log('inside login and about to axios.post with this username', username, 'and this password', password);
-  // axios
-  //   .post('localhost:2560/login', {
-  //     username,
-  //     password,
-  //   })
-  //   .then((response) => {
-  //     console.log('response from host 2560 is', res);
-  //     const {
-  //       data: { userId },
-  //     } = response;
-  //     return res.status(200).send({ userId });
-  //   })
-  //   .catch(err => console.log(err));
-
-  let user;
-  if (!username || !password) {
-    return res.status(401).send('incomplete fields');
-  }
-  return users
-    .checkUsername(username)
-
-    .then((userRecord) => {
-      if (!userRecord) {
-        return res.status(400).send('user not found');
-      }
-      user = userRecord;
-      console.log('found record is', user);
-      const {
-        dataValues: { password: hash },
-      } = user;
-      console.log('password match boolean is', bcrypt.compare(password, hash));
-      return bcrypt.compare(password, hash);
-    })
-
-    .then((match) => {
-      console.log('match status is', match);
-      if (match) {
-        return createJWTBearerToken(user);
-      }
-      throw new Error({ message: 'that password does not match' });
-    })
-
-    .then((token) => {
-      console.log('weve got a token and are ready to send!', token);
-      res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
-      const {
-        dataValues: { id: userId },
-      } = user;
-      return res.status(200).send({ userId });
-    })
-
-    .catch(err => res.status(401).send(err));
-};
-
-const login = (req, res) => {
-  console.log('incoming login request is', req);
-  const { username, password } = req.body; // needs to be req.query for Postman
+  const { username, password } = req.body;
 
   console.log('inside login and about to axios.post with this username', username, 'and this password', password);
 
   axios
-    .post('http://demo-1417720944.us-east-2.elb.amazonaws.com/login', {
+    .post('https://andromeda-chef-authentication.herokuapp.com/api/user/login', {
       username,
       password,
     })
     .then((response) => {
-      console.log('response from host 2560 is', res);
+      // console.log('response from /api/chef/login is', response);
       const {
-        data: { chefId },
+        data: { authId },
       } = response;
+      // console.log('authId is', authId);
+      return chefs.findChefByAuthId(authId);
+    })
+    .then((chefRecord) => {
+      // console.log('chefRecord is', chefRecord);
+      const { dataValues: { id: userId } } = chefRecord;
+      // console.log('userId is', userId);
+      return res.status(200).send({ userId });
+    })
+
+    .catch(err => console.log(err));
+
+
+  // const { username, password } = req.body;
+  // let user;
+  // if (!username || !password) {
+  //   return res.status(401).send('incomplete fields');
+  // }
+  // return users
+  //   .checkUsername(username)
+
+  //   .then((userRecord) => {
+  //     if (!userRecord) {
+  //       return res.status(400).send('user not found');
+  //     }
+  //     user = userRecord;
+  //     console.log('found record is', user);
+  //     const {
+  //       dataValues: { password: hash },
+  //     } = user;
+  //     console.log('password match boolean is', bcrypt.compare(password, hash));
+  //     return bcrypt.compare(password, hash);
+  //   })
+
+  //   .then((match) => {
+  //     console.log('match status is', match);
+  //     if (match) {
+  //       return createJWTBearerToken(user);
+  //     }
+  //     throw new Error({ message: 'that password does not match' });
+  //   })
+
+  //   .then((token) => {
+  //     console.log('weve got a token and are ready to send!', token);
+  //     res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
+  //     const {
+  //       dataValues: { id: userId },
+  //     } = user;
+  //     return res.status(200).send({ userId });
+  //   })
+
+  //   .catch(err => res.status(401).send(err));
+};
+
+const login = (req, res) => {
+  const { username, password } = req.body;
+
+  console.log('inside login and about to axios.post with this username', username, 'and this password', password);
+
+  axios
+    .post('https://andromeda-chef-authentication.herokuapp.com/api/chef/login', {
+      username,
+      password,
+    })
+    .then((response) => {
+      // console.log('response from /api/chef/login is', response);
+      const {
+        data: { authId },
+      } = response;
+      // console.log('authId is', authId);
+      return chefs.findChefByAuthId(authId);
+    })
+    .then((chefRecord) => {
+      // console.log('chefRecord is', chefRecord);
+      const { dataValues: { id: chefId } } = chefRecord;
+      // console.log('chefId is', chefId);
       return res.status(200).send({ chefId });
     })
+
     .catch(err => console.log(err));
 
   // let chef;
@@ -154,56 +172,93 @@ const userSignup = (req, res) => {
   console.log('incoming signup request is', req);
   const {
     username, password, email, name,
-  } = req.body; // needs to be req.query for Postman
-
-  if (!username || !password || !email || !name) {
-    return res.status(401).send('incomplete fields');
-  }
-
-  return users
-    .checkExistingEmailUsername(username, password)
-
-    .then((result) => {
-      if (result) {
-        return res.status(400).send('that username or email already exists');
-      }
-      return bcrypt.hash(password, salt);
+  } = req.body;
+  axios
+    .post('https://andromeda-chef-authentication.herokuapp.com/api/user/signup', {
+      username,
+      password,
+      name,
+      email,
     })
 
-    .then(hash => users.createUser(username, hash, email, name))
+    .then(({ data: { authId } }) => console.log('received authId as', authId) || users.createUser(username, email, name, authId))
 
-    .then((record) => {
-      const { dataValues: { id: userId } } = record;
-      res.send({ userId });
-    });
+    .then(({ dataValues: { id: userId } }) => console.log('got userId as', userId) || res.send({ userId }))
+
+    .catch(err => console.log(err));
+
+  // console.log('incoming signup request is', req);
+  // const {
+  //   username, password, email, name,
+  // } = req.body;
+
+  // if (!username || !password || !email || !name) {
+  //   return res.status(401).send('incomplete fields');
+  // }
+
+  // return users
+  //   .checkExistingEmailUsername(username, password)
+
+  //   .then((result) => {
+  //     if (result) {
+  //       return res.status(400).send('that username or email already exists');
+  //     }
+  //     return bcrypt.hash(password, salt);
+  //   })
+
+  //   .then(hash => users.createUser(username, hash, email, name))
+
+  //   .then((record) => {
+  //     const { dataValues: { id: userId } } = record;
+  //     res.send({ userId });
+  //   });
 };
 
 const signup = (req, res) => {
   console.log('incoming signup request is', req);
   const {
     username, password, email, name,
-  } = req.body; // needs to be req.query for Postman
-
-  if (!username || !password || !email || !name) {
-    return res.status(401).send('incomplete fields');
-  }
-
-  return chefs
-    .checkExistingEmailUsername(username, password)
-
-    .then((result) => {
-      if (result) {
-        return res.status(400).send('that username or email already exists');
-      }
-      return bcrypt.hash(password, salt);
+  } = req.body;
+  axios
+    .post('https://andromeda-chef-authentication.herokuapp.com/api/chef/signup', {
+      username,
+      password,
+      name,
+      email,
     })
 
-    .then(hash => chefs.createChef(username, hash, email, name))
+    .then(({ data: { authId } }) => console.log('received authId as', authId) || chefs.createChef(username, email, name, authId))
 
-    .then((record) => {
-      const { dataValues: { id: chefId } } = record;
-      res.send({ chefId });
-    });
+    .then(({ dataValues: { id: chefId } }) => console.log('got chefId as', chefId) || res.send({ chefId }))
+
+    .catch(err => console.log(err));
+
+
+  // console.log('incoming signup request is', req);
+  // const {
+  //   username, password, email, name,
+  // } = req.body;
+
+  // if (!username || !password || !email || !name) {
+  //   return res.status(401).send('incomplete fields');
+  // }
+
+  // return chefs
+  //   .checkExistingEmailUsername(username, password)
+
+  //   .then((result) => {
+  //     if (result) {
+  //       return res.status(400).send('that username or email already exists');
+  //     }
+  //     return bcrypt.hash(password, salt);
+  //   })
+
+  //   .then(hash => chefs.createChef(username, hash, email, name))
+
+  //   .then((record) => {
+  //     const { dataValues: { id: chefId } } = record;
+  //     res.send({ chefId });
+  //   });
 };
 
 exports.login = login;
