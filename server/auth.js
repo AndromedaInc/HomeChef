@@ -172,7 +172,10 @@ const userSignup = (req, res) => {
 
     .then(hash => users.createUser(username, hash, email, name))
 
-    .then(() => res.send('ok'));
+    .then((record) => {
+      const { dataValues: { id: userId } } = record;
+      res.send({ userId });
+    });
 };
 
 const signup = (req, res) => {
