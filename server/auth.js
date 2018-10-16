@@ -57,47 +57,6 @@ const userLogin = (req, res) => {
     })
 
     .catch(err => console.log(err));
-
-
-  // const { username, password } = req.body;
-  // let user;
-  // if (!username || !password) {
-  //   return res.status(401).send('incomplete fields');
-  // }
-  // return users
-  //   .checkUsername(username)
-
-  //   .then((userRecord) => {
-  //     if (!userRecord) {
-  //       return res.status(400).send('user not found');
-  //     }
-  //     user = userRecord;
-  //     console.log('found record is', user);
-  //     const {
-  //       dataValues: { password: hash },
-  //     } = user;
-  //     console.log('password match boolean is', bcrypt.compare(password, hash));
-  //     return bcrypt.compare(password, hash);
-  //   })
-
-  //   .then((match) => {
-  //     console.log('match status is', match);
-  //     if (match) {
-  //       return createJWTBearerToken(user);
-  //     }
-  //     throw new Error({ message: 'that password does not match' });
-  //   })
-
-  //   .then((token) => {
-  //     console.log('weve got a token and are ready to send!', token);
-  //     res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
-  //     const {
-  //       dataValues: { id: userId },
-  //     } = user;
-  //     return res.status(200).send({ userId });
-  //   })
-
-  //   .catch(err => res.status(401).send(err));
 };
 
 const login = (req, res) => {
@@ -126,45 +85,6 @@ const login = (req, res) => {
     })
 
     .catch(err => console.log(err));
-
-  // let chef;
-  // if (!username || !password) {
-  //   return res.status(401).send('incomplete fields');
-  // }
-  // return chefs
-  //   .checkUsername(username)
-
-  //   .then((chefRecord) => {
-  //     if (!chefRecord) {
-  //       return res.status(400).send('user not found');
-  //     }
-  //     chef = chefRecord;
-  //     console.log('found record is', chef);
-  //     const {
-  //       dataValues: { password: hash },
-  //     } = chef;
-  //     console.log('password match boolean is', bcrypt.compare(password, hash));
-  //     return bcrypt.compare(password, hash);
-  //   })
-
-  //   .then((match) => {
-  //     console.log('match status is', match);
-  //     if (match) {
-  //       return createJWTBearerToken(chef);
-  //     }
-  //     throw new Error({ message: 'that password does not match' });
-  //   })
-
-  //   .then((token) => {
-  //     console.log('weve got a token and are ready to send!', token);
-  //     res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
-  //     const {
-  //       dataValues: { id: chefId },
-  //     } = chef;
-  //     return res.status(200).send({ chefId });
-  //   })
-
-  //   .catch(err => res.status(401).send(err));
 };
 
 /* ********** SIGNUP ********** */
@@ -186,32 +106,6 @@ const userSignup = (req, res) => {
     .then(({ dataValues: { id: userId } }) => console.log('got userId as', userId) || res.send({ userId }))
 
     .catch(err => console.log(err));
-
-  // console.log('incoming signup request is', req);
-  // const {
-  //   username, password, email, name,
-  // } = req.body;
-
-  // if (!username || !password || !email || !name) {
-  //   return res.status(401).send('incomplete fields');
-  // }
-
-  // return users
-  //   .checkExistingEmailUsername(username, password)
-
-  //   .then((result) => {
-  //     if (result) {
-  //       return res.status(400).send('that username or email already exists');
-  //     }
-  //     return bcrypt.hash(password, salt);
-  //   })
-
-  //   .then(hash => users.createUser(username, hash, email, name))
-
-  //   .then((record) => {
-  //     const { dataValues: { id: userId } } = record;
-  //     res.send({ userId });
-  //   });
 };
 
 const signup = (req, res) => {
@@ -232,33 +126,6 @@ const signup = (req, res) => {
     .then(({ dataValues: { id: chefId } }) => console.log('got chefId as', chefId) || res.send({ chefId }))
 
     .catch(err => console.log(err));
-
-
-  // console.log('incoming signup request is', req);
-  // const {
-  //   username, password, email, name,
-  // } = req.body;
-
-  // if (!username || !password || !email || !name) {
-  //   return res.status(401).send('incomplete fields');
-  // }
-
-  // return chefs
-  //   .checkExistingEmailUsername(username, password)
-
-  //   .then((result) => {
-  //     if (result) {
-  //       return res.status(400).send('that username or email already exists');
-  //     }
-  //     return bcrypt.hash(password, salt);
-  //   })
-
-  //   .then(hash => chefs.createChef(username, hash, email, name))
-
-  //   .then((record) => {
-  //     const { dataValues: { id: chefId } } = record;
-  //     res.send({ chefId });
-  //   });
 };
 
 exports.login = login;
