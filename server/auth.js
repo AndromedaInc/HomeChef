@@ -94,13 +94,9 @@ const login = (req, res) => {
   const { username, password } = req.body; // needs to be req.query for Postman
 
   console.log('inside login and about to axios.post with this username', username, 'and this password', password);
-  const target = axios.create({
-    baseURL: 'http://demo-1417720944.us-east-2.elb.amazonaws.com/',
-    proxy: false,
-  });
 
-  target
-    .post('/login', {
+  axios
+    .post('http://demo-1417720944.us-east-2.elb.amazonaws.com/login', {
       username,
       password,
     })
@@ -201,7 +197,10 @@ const signup = (req, res) => {
 
     .then(hash => chefs.createChef(username, hash, email, name))
 
-    .then(() => res.send('ok'));
+    .then((record) => {
+      const { dataValues: { id: chefId } } = record;
+      res.send({ chefId });
+    });
 };
 
 exports.login = login;

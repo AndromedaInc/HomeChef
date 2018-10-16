@@ -58,8 +58,8 @@ app.post('/api/user/login', auth.userLogin);
 app.post('/api/user/signup', auth.userSignup);
 
 /* **** API **** */
-// app.use('/api', auth.checkIfAuthenticated, api);
-app.use('/api', api);
+app.use('/api', auth.checkIfAuthenticated, api);
+// app.use('/api', api);
 
 app.get('/api/user/map', (req, res) => {
   const chef = req.query;
