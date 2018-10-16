@@ -1,9 +1,5 @@
 require('dotenv').config();
-const bcrypt = require('bcrypt');
 
-const salt = bcrypt.genSaltSync(10);
-
-const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
 const fs = require('fs');
 const axios = require('axios');
@@ -11,26 +7,21 @@ const axios = require('axios');
 const chefs = require('./../database/chefs.js');
 const users = require('./../database/users.js');
 
-/* ********* AUTHENTICATION USING JWT ********* */
+/* ********* ************************ ********* */
+/* ********* PROTECT ROUTES USING JWT ********* */
+/* ********* ************************ ********* */
 
-const RSA_PRIVATE_KEY = process.env.RSA_PRIVATE_KEY || fs.readFileSync(`${__dirname}/../config/private.key`);
 const RSA_PUBLIC_KEY = process.env.RSA_PUBLIC_KEY || fs.readFileSync(`${__dirname}/../config/public.key`);
 
-// To generate token to be placed in cookie
-const createJWTBearerToken = user => jwt.sign({}, RSA_PRIVATE_KEY, {
-  algorithm: 'RS256',
-  expiresIn: 600000, // 10 min is 600000
-  subject: user.id.toString(),
-});
-
-// To protect routes
 const checkIfAuthenticated = expressJwt({
   secret: RSA_PUBLIC_KEY,
   // comment out following line if sending Postman requests as cookie is retrieved differently
   getToken: req => req.cookies.SESSIONID,
 }).unless({ path: ['/', '/chefauth', '/userauth'] });
 
-/* ********** LOGIN ********** */
+/* ********* ************************ ********* */
+/* ********* ********* LOGIN ******** ********* */
+/* ********* ************************ ********* */
 const userLogin = (req, res) => {
   const { username, password } = req.body;
 
@@ -87,7 +78,9 @@ const login = (req, res) => {
     .catch(err => console.log(err));
 };
 
-/* ********** SIGNUP ********** */
+/* ********* ************************ ********* */
+/* ********* ******** SIGNUP ******** ********* */
+/* ********* ************************ ********* */
 const userSignup = (req, res) => {
   console.log('incoming signup request is', req);
   const {
