@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "server/index.js",
+  "engines": {
+    "node": "8.11.3"
+  },
   "scripts": {
     "dev-build": "webpack --mode development --watch",
     "dev-server": "nodemon --inspect --exec babel-node --presets env server/index.js",
