@@ -33,16 +33,16 @@ const userLogin = (req, res) => {
       password,
     })
     .then((response) => {
-      // console.log('response from /api/chef/login is', response);
+      console.log('response from /api/user/login is', response);
       const {
         data: { authId },
       } = response;
       // console.log('authId is', authId);
-      return chefs.findChefByAuthId(authId);
+      return users.findUserByAuthId(authId);
     })
-    .then((chefRecord) => {
-      // console.log('chefRecord is', chefRecord);
-      const { dataValues: { id: userId } } = chefRecord;
+    .then((userRecord) => {
+      // console.log('userRecord is', userRecord);
+      const { dataValues: { id: userId } } = userRecord;
       // console.log('userId is', userId);
       return res.status(200).send({ userId });
     })
@@ -61,7 +61,8 @@ const login = (req, res) => {
       password,
     })
     .then((response) => {
-      // console.log('response from /api/chef/login is', response);
+      console.log('response from /api/chef/login is', response);
+      console.log('cookie is', response.headers['set-cookie'][0]);
       const {
         data: { authId },
       } = response;

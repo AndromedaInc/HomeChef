@@ -4,10 +4,7 @@ const checkExistingEmailUsername = (username, email) => {
   const { or } = db.connection.Op;
   return db.Chef.findOne({
     where: {
-      [or]: [
-        { username },
-        { email },
-      ],
+      [or]: [{ username }, { email }],
     },
   });
 };

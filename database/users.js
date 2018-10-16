@@ -11,11 +11,11 @@ const checkExistingEmailUsername = (username, email) => {
 
 const checkUsername = username => db.User.findOne({ where: { username } });
 
-const createUser = (username, password, email, name) => db.User.create({
+const createUser = (username, email, name, authId) => db.User.create({
   username,
-  password,
   email,
   name,
+  authId,
 });
 
 const getUser = id => db.User.findOne({ where: { id } });
@@ -46,9 +46,12 @@ const upsertAccountInfo = ({
 
 const findUser = username => db.User.findOne({ where: { username } });
 
+const findUserByAuthId = authId => db.User.findOne({ where: { authId } });
+
 exports.checkExistingEmailUsername = checkExistingEmailUsername;
 exports.checkUsername = checkUsername;
 exports.createUser = createUser;
 exports.getUser = getUser;
 exports.upsertAccountInfo = upsertAccountInfo;
 exports.findUser = findUser;
+exports.findUserByAuthId = findUserByAuthId;

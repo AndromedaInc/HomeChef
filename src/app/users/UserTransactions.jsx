@@ -39,13 +39,16 @@ query transactions($userOrChefId: ID!, $userOrChef: String) {
 `;
 
 class UserTransactions extends React.Component {
-
   render() {
-    const { userId } = this.props.location.state;
+    console.log('state is', this.state);
+    console.log('this.props is', this.props);
+
+    // const { user, user: { id: userId } } = this.props.location.state;
+    const { user } = this.props.location.state;
     return (
       <Query
         query={GET_TRANSACTIONS}
-        variables={{ userOrChefId: userId, userOrChef: 'user' }}
+        variables={{ userOrChefId: user.id, userOrChef: 'user' }}
       >
         {({ loading, error, data }) => {
           if (loading) return 'Loading...';
@@ -57,7 +60,7 @@ class UserTransactions extends React.Component {
               <Link
                 to={{
                   pathname: '/user',
-                  state: { userId },
+                  state: { user },
                 }}
               >
                 <button type="button">Back</button>
@@ -65,13 +68,11 @@ class UserTransactions extends React.Component {
               <br />
               <UpcomingReservations data={data.transactions} />
               <h2>Payment History</h2>
-              {data.transactions.map((tran) => {
-                return (
-                  <div className="transactions" key={tran.id}>
-                    {`${moment(tran.createdAt).format('ddd MMM. DD, YYYY')}  |  $${tran.total}  |  ${tran.status}`}
-                  </div>
-                );
-              })}
+              {data.transactions.map(tran => (
+                <div className="transactions" key={tran.id}>
+                  {`${moment(tran.createdAt).format('ddd MMM. DD, YYYY')}  |  $${tran.total}  |  ${tran.status}`}
+                </div>
+              ))}
             </div>
           );
         }}
