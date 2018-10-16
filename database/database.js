@@ -33,7 +33,7 @@ const orm = new Sequelize(
 orm
   .authenticate()
   .then(() => {
-    console.log('Connection has been established successfully.');
+    console.log('Database connection has been established successfully.');
   })
   .catch((err) => {
     console.error('Unable to connect to the database:', err);
@@ -112,48 +112,48 @@ const MenuItem = orm.define('menuItem', {
   },
 });
 
-const Order = orm.define('order', {
-  // foreign keys: itemEventId, userId, transactionId
-  createdAt: {
-    type: 'TIMESTAMP',
-    allowNull: false,
-  },
-  updatedAt: {
-    type: 'TIMESTAMP',
-    allowNull: false,
-  },
-});
+// const Order = orm.define('order', {
+//   // foreign keys: itemEventId, userId, transactionId
+//   createdAt: {
+//     type: 'TIMESTAMP',
+//     allowNull: false,
+//   },
+//   updatedAt: {
+//     type: 'TIMESTAMP',
+//     allowNull: false,
+//   },
+// });
 
-const Rating = orm.define('rating', {
-  // foreign keys: chefId, userId
-  stars: Sequelize.INTEGER,
-  review: Sequelize.TEXT,
-  createdAt: {
-    type: 'TIMESTAMP',
-    allowNull: false,
-  },
-  updatedAt: {
-    type: 'TIMESTAMP',
-    allowNull: false,
-  },
-});
+// const Rating = orm.define('rating', {
+//   // foreign keys: chefId, userId
+//   stars: Sequelize.INTEGER,
+//   review: Sequelize.TEXT,
+//   createdAt: {
+//     type: 'TIMESTAMP',
+//     allowNull: false,
+//   },
+//   updatedAt: {
+//     type: 'TIMESTAMP',
+//     allowNull: false,
+//   },
+// });
 
-const Transaction = orm.define('transaction', {
-  // foreign keys: userId, chefId
-  status: Sequelize.STRING,
-  total: Sequelize.FLOAT,
-  tax: Sequelize.FLOAT,
-  fee: Sequelize.FLOAT,
-  tip: Sequelize.FLOAT,
-  createdAt: {
-    type: 'TIMESTAMP',
-    allowNull: false,
-  },
-  updatedAt: {
-    type: 'TIMESTAMP',
-    allowNull: false,
-  },
-});
+// const Transaction = orm.define('transaction', {
+//   // foreign keys: userId, chefId
+//   status: Sequelize.STRING,
+//   total: Sequelize.FLOAT,
+//   tax: Sequelize.FLOAT,
+//   fee: Sequelize.FLOAT,
+//   tip: Sequelize.FLOAT,
+//   createdAt: {
+//     type: 'TIMESTAMP',
+//     allowNull: false,
+//   },
+//   updatedAt: {
+//     type: 'TIMESTAMP',
+//     allowNull: false,
+//   },
+// });
 
 const User = orm.define('user', {
   name: Sequelize.STRING,
@@ -183,15 +183,15 @@ ItemEvent.belongsTo(Chef);
 
 MenuItem.belongsTo(Chef);
 
-Order.belongsTo(ItemEvent);
-Order.belongsTo(Transaction);
-Order.belongsTo(User);
+// Order.belongsTo(ItemEvent);
+// Order.belongsTo(Transaction);
+// Order.belongsTo(User);
 
-Rating.belongsTo(Chef);
-Rating.belongsTo(User);
+// Rating.belongsTo(Chef);
+// Rating.belongsTo(User);
 
-Transaction.belongsTo(Chef);
-Transaction.belongsTo(User);
+// Transaction.belongsTo(Chef);
+// Transaction.belongsTo(User);
 
 // /* ///////////// */
 // /* Create Tables */
@@ -203,9 +203,9 @@ exports.Chef = Chef;
 exports.Event = Event;
 exports.ItemEvent = ItemEvent;
 exports.MenuItem = MenuItem;
-exports.Order = Order;
-exports.Rating = Rating;
-exports.Transaction = Transaction;
+// exports.Order = Order;
+// exports.Rating = Rating;
+// exports.Transaction = Transaction;
 exports.User = User;
 
 // try {

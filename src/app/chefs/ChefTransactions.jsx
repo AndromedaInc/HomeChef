@@ -49,13 +49,12 @@ class ChefTransactions extends React.Component {
               {data.transactions.map((tran) => {
                 return (
                   <div className="transactions" key={tran.id}>
-                    {`${moment(tran.createdAt).format('MMM. DD, YYYY')}  |  $${tran.total}  |  ${tran.status}`}
+                    {`${moment(tran.createdAt).format('MMM. DD, YYYY')}  |  $${(+tran.total).toFixed(2)}  |  ${tran.status}`}
                   </div>
                 );
               })}
             </div>
           );
-          // TODO: Add upcoming with event details
         }}
       </Query>
     );
