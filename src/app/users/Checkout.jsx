@@ -56,9 +56,7 @@ class Checkout extends React.Component {
   }
 
   handleSubmit() {
-    const {
-      user, transactionId, total, tax, fee,
-    } = this.props;
+    const { user, transactionId, total, tax, fee } = this.props;
     const { createToken } = this.props.stripe;
     createToken({ name: user.name })
       .then(({ token }) => {
@@ -96,7 +94,7 @@ class Checkout extends React.Component {
           push
           to={{
             pathname: '/user/transactions',
-            state: { user },
+            state: { userId: user.id },
           }}
         />
       );
@@ -104,9 +102,7 @@ class Checkout extends React.Component {
   }
 
   render() {
-    const {
-      subtotal, tax, fee, total, menuItems, event,
-    } = this.props;
+    const { subtotal, tax, fee, total, menuItems, event } = this.props;
     return (
       <div className="grid-wide">
         {this.renderRedirect()}

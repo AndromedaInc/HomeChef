@@ -19,10 +19,6 @@ class UserHome extends React.Component {
     if (!this.state.user.id) {
       this.getUserDetails(this.props.location.state.username);
     }
-    this.setState({
-      latitude: this.props.latitude,
-      longitude: this.props.longitude,
-    });
   }
 
 

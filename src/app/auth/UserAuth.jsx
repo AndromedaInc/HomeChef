@@ -20,7 +20,7 @@ class UserAuth extends React.Component {
     this.sendSignup = this.sendSignup.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     if (!navigator.geolocation) {
       console.log('Cannot retrieve location');
     } else {

@@ -68,7 +68,7 @@ class ViewChefSchedule extends React.Component {
                   to={{
                     pathname: '/user/chefschedule/reservation',
                     state: {
-                      event, user, chef, // userId: user.id,
+                      event, user, chef, userId: user.id,
                     },
                   }}
                 >

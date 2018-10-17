@@ -56,7 +56,7 @@ class UserTransactions extends React.Component {
               <Link
                 to={{
                   pathname: '/user',
-                  state: { username: user.username },
+                  state: { user },
                 }}
               >
                 <button type="button">Back</button>

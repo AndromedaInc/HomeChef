@@ -66,7 +66,7 @@ app.get('/api/user/map', (req, res) => {
   const chef = req.query;
   axios.get('https://andromedachef-map.herokuapp.com/ms/user/map', {
     params: {
-      chefId: chef.chefId,
+      chefId: chef.id,
       streetAddress: chef.streetAddress,
       city: chef.city,
       stateName: chef.stateName,
