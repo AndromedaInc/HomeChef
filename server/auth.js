@@ -47,7 +47,7 @@ const userLogin = (req, res) => {
       return res.status(200).send({ userId });
     })
 
-    .catch(err => console.log(err));
+    .catch(err => console.log(err) || res.status(500).send(err));
 };
 
 const login = (req, res) => {
@@ -75,7 +75,7 @@ const login = (req, res) => {
       return res.status(200).send({ chefId });
     })
 
-    .catch(err => console.log(err));
+    .catch(err => console.log(err) || res.status(500).send(err));
 };
 
 /* ********* ************************ ********* */
