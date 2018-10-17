@@ -40,10 +40,6 @@ query transactions($userOrChefId: ID!, $userOrChef: String) {
 
 class UserTransactions extends React.Component {
   render() {
-    console.log('state is', this.state);
-    console.log('this.props is', this.props);
-
-    // const { user, user: { id: userId } } = this.props.location.state;
     const { user } = this.props.location.state;
     return (
       <Query

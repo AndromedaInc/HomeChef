@@ -41,7 +41,7 @@ const db = require('./../database/database');
 const util = require('./util');
 const auth = require('./auth');
 const api = require('./api');
-const gqlSchema = require('../graphQL/oldSchema');
+const gqlSchema = require('../graphQL/schema');
 
 /* **** Apply universal middleware **** */
 app.use('/public', express.static(`${__dirname}/../public`));

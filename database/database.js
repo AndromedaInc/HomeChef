@@ -62,8 +62,6 @@ const Chef = orm.define('chef', {
     type: 'TIMESTAMP',
     allowNull: false,
   },
-  // payment_info: ?
-  // rating: cached
 });
 
 const Event = orm.define('event', {
@@ -79,7 +77,6 @@ const Event = orm.define('event', {
     type: 'TIMESTAMP',
     allowNull: false,
   },
-  // foreign key auto created: chefId
 });
 
 const ItemEvent = orm.define('itemEvent', {

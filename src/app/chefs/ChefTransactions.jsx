@@ -7,11 +7,26 @@ import moment from 'moment';
 const GET_TRANSACTIONS = gql`
 query transactions($userOrChefId: ID!, $userOrChef: String) {
   transactions(userOrChefId: $userOrChefId , userOrChef: $userOrChef ) {
-    id,
-    status,
-    total,
-    chefId,
-    createdAt,
+    id
+    status
+    total
+    chefId
+    createdAt
+    user {
+      name
+    }
+    orders {
+      id
+      itemEvent {
+        id
+        menuItem {
+          name
+        }
+        event {
+          date
+        }
+      }
+    }
   }
 }
 `;
@@ -31,7 +46,7 @@ class ChefTransactions extends React.Component {
       >
         {({ loading, error, data }) => {
           if (loading) return 'Loading...';
-          if (error) return `Error ${error.message}`;
+          if (error) return 'Oops! Try refreshing.';
           if (data) console.log('transactions:', data);
 
           return (
@@ -46,13 +61,42 @@ class ChefTransactions extends React.Component {
                 <button type="button">Back</button>
               </Link>
               <br />
-              {data.transactions.map((tran) => {
-                return (
-                  <div className="transactions" key={tran.id}>
-                    {`${moment(tran.createdAt).format('MMM. DD, YYYY')}  |  $${(+tran.total).toFixed(2)}  |  ${tran.status}`}
-                  </div>
-                );
-              })}
+              <table>
+                <tbody>
+                  <tr>
+                    <th>Date</th>
+                    <th>Transaction ID</th>
+                    <th>Amount</th>
+                    <th>Payment Status</th>
+                    <th>Event Date</th>
+                    <th>Purchased By</th>
+                    <th>Items</th>
+                  </tr>
+                  {data.transactions.map((tran) => {
+                    return (
+                      <tr className="transactions" key={tran.id}>
+                        <td>{moment(tran.createdAt).format('MMM. DD, YYYY')}</td>
+                        <td>{tran.id}</td>
+                        <td>{`$${(+tran.total).toFixed(2)}`}</td>
+                        <td>{tran.status}</td>
+                        <td><span> - </span></td>
+                        {/* <td>{tran.orders[0].itemEvent.event.date}</td> */}
+                        <td>{tran.user.name}</td>
+                        <td><span> - </span>
+                          {/* {tran.orders.map((order) => {
+                            return (
+                              <span>
+                                {order.itemEvent.menuItem.name}
+                                <br />
+                              </span>
+                            );
+                          })} */}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
           );
         }}
