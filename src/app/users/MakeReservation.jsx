@@ -79,7 +79,7 @@ class MakeReservation extends React.Component {
   }
 
   saveReservation() {
-    const { chef, user} = this.props.location.state;
+    const { chef, user } = this.props.location.state;
     const { menuItemsWithUserRSVP } = this.state;
     // 1) create a transaction(pending)
     client
@@ -106,7 +106,7 @@ class MakeReservation extends React.Component {
                 variables: {
                   itemEventId: item.itemEventId,
                   userId: user.id,
-                  transactionId: transactionId,
+                  transactionId,
                 },
               });
           }
@@ -137,7 +137,9 @@ class MakeReservation extends React.Component {
           push
           to={{
             pathname: '/user/checkout',
-            state: { chef, user, event, menuItemsWithUserRSVP, transactionId },
+            state: {
+              chef, user, event, menuItemsWithUserRSVP, transactionId,
+            },
           }}
         />
       );
@@ -150,7 +152,7 @@ class MakeReservation extends React.Component {
     return (
       <div>
         {this.renderRedirect()}
-        
+
         <h1>{`${chef.name}`}</h1>
         <h2>
           {moment(event.date).format('ddd, MMM. DD, YYYY')}
@@ -182,7 +184,7 @@ class MakeReservation extends React.Component {
         <Link
           to={{
             pathname: '/user/chefdetails',
-            state: { username: user.username, chef },
+            state: { user, chef },
           }}
         >
           <button type="submit">
