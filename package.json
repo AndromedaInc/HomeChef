@@ -13,7 +13,7 @@
     "launch": "node server/index.js",
     "lint": "eslint 'src/*.jsx' database server",
     "postinstall": "webpack --mode production",
-    "start": "webpack --mode production && node server/index.js",
+    "start": "node server/index.js",
     "test": "npm run lint",
     "jest": "jest"
   },

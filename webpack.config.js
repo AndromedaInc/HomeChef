@@ -1,6 +1,6 @@
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
-const webpack = require('webpack');
+// const webpack = require('webpack');
 
 const path = require('path');
 
@@ -52,13 +52,13 @@ module.exports = {
       path: path.resolve(__dirname, './.env'),
       systemvars: true,
     }),
-    new webpack.DefinePlugin({ // <-- key to reducing React's size
-      'process.env': {
-        NODE_ENV: JSON.stringify('production'),
-      },
-    }),
-    new webpack.optimize.DedupePlugin(), // dedupe similar code
-    new webpack.optimize.UglifyJsPlugin(), // minify everything
-    new webpack.optimize.AggressiveMergingPlugin(),// Merge chunks
+    // new webpack.DefinePlugin({ // <-- key to reducing React's size
+    //   'process.env': {
+    //     NODE_ENV: JSON.stringify('production'),
+    //   },
+    // }),
+    // new webpack.optimize.DedupePlugin(), // dedupe similar code
+    // new webpack.optimize.UglifyJsPlugin(), // minify everything
+    // new webpack.optimize.AggressiveMergingPlugin(), // Merge chunks
   ],
 };
