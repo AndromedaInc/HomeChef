@@ -82,7 +82,7 @@ class UserTransactions extends React.Component {
                         <td>{tran.id}</td>
                         <td>{`$${(+tran.total).toFixed(2)}`}</td>
                         <td>{tran.status}</td>
-                        <td>{tran.orders[0].itemEvent.event.date}</td>
+                        <td>{moment(tran.orders[0].itemEvent.event.date).format('MMM. DD, YYYY')}</td>
                         <td>{tran.chef.name}</td>
                         <td>
                           {tran.orders.map((order) => {
