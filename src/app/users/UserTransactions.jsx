@@ -64,11 +64,41 @@ class UserTransactions extends React.Component {
               <br />
               <UpcomingReservations data={data.transactions} />
               <h2>Payment History</h2>
-              {data.transactions.map(tran => (
-                <div className="transactions" key={tran.id}>
-                  {`${moment(tran.createdAt).format('ddd MMM. DD, YYYY')}  |  $${tran.total}  |  ${tran.status}`}
-                </div>
-              ))}
+              <table>
+                <tbody>
+                  <tr>
+                    <th>Date</th>
+                    <th>Transaction ID</th>
+                    <th>Amount</th>
+                    <th>Payment Status</th>
+                    <th>Event Date</th>
+                    <th>Purchased From</th>
+                    <th>Items</th>
+                  </tr>
+                  {data.transactions.map((tran) => {
+                    return (
+                      <tr className="transactions" key={tran.id}>
+                        <td>{moment(tran.createdAt).format('MMM. DD, YYYY')}</td>
+                        <td>{tran.id}</td>
+                        <td>{`$${(+tran.total).toFixed(2)}`}</td>
+                        <td>{tran.status}</td>
+                        <td>{moment(tran.orders[0].itemEvent.event.date).format('MMM. DD, YYYY')}</td>
+                        <td>{tran.chef.name}</td>
+                        <td>
+                          {tran.orders.map((order) => {
+                            return (
+                              <span>
+                                {order.itemEvent.menuItem.name}
+                                <br />
+                              </span>
+                            );
+                          })}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
             </div>
           );
         }}

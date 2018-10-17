@@ -33,7 +33,6 @@ const userLogin = (req, res) => {
       password,
     })
     .then((response) => {
-      console.log('response from /api/user/login is', response);
       const {
         data: { authId },
       } = response;
@@ -61,7 +60,6 @@ const login = (req, res) => {
       password,
     })
     .then((response) => {
-      console.log('response from /api/chef/login is', response);
       console.log('cookie is', response.headers['set-cookie'][0]);
       const {
         data: { authId },

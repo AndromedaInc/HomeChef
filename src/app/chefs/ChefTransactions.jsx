@@ -79,18 +79,17 @@ class ChefTransactions extends React.Component {
                         <td>{tran.id}</td>
                         <td>{`$${(+tran.total).toFixed(2)}`}</td>
                         <td>{tran.status}</td>
-                        <td><span> - </span></td>
-                        {/* <td>{tran.orders[0].itemEvent.event.date}</td> */}
+                        <td>{moment(tran.orders[0].itemEvent.event.date).format('MMM. DD, YYYY')}</td>
                         <td>{tran.user.name}</td>
-                        <td><span> - </span>
-                          {/* {tran.orders.map((order) => {
+                        <td>
+                          {tran.orders.map((order) => {
                             return (
                               <span>
                                 {order.itemEvent.menuItem.name}
                                 <br />
                               </span>
                             );
-                          })} */}
+                          })}
                         </td>
                       </tr>
                     );

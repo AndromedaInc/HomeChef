@@ -8,8 +8,6 @@ const {
   GraphQLID,
 } = graphql;
 
-console.log('I AM IN EVENTS! RIGHT NOW!');
-
 const EventType = new GraphQLObjectType({
   name: 'Event',
   fields: () => ({

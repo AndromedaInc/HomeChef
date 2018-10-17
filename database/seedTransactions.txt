@@ -1,0 +1,2 @@
+INSERT INTO transactions () VALUES ();
+INSERT INTO orders () VALUES ();

@@ -9,8 +9,6 @@ const {
   GraphQLInt,
 } = graphql;
 
-console.log('I AM IN USERS! RIGHT NOW!');
-
 const UserType = new GraphQLObjectType({
   name: 'User',
   fields: () => ({

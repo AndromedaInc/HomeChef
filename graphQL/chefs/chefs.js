@@ -9,8 +9,6 @@ const {
   GraphQLList,
 } = graphql;
 
-console.log('I AM IN CHEF! RIGHT NOW!');
-
 const ChefType = new GraphQLObjectType({
   name: 'Chef',
   fields: () => ({
