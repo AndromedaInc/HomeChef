@@ -246,7 +246,6 @@ app.post('/api/chef/event/update', (req, res) => {
 
 app.post('/api/user/reservation', (req, res) => {
   const event = req.body;
-  // console.log('ln 230 server!!!!#$#$!', req.body);
   db.ItemEvent.update(
     { reservations: event.menuItem.reservations + event.quantity },
     { where: { eventId: event.id, menuItemId: event.menuItem.id } },

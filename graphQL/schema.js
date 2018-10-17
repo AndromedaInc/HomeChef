@@ -1,5 +1,17 @@
+// import  { ChefType } from './chef/chefSchema';
+// import  { chefQuery, chefsQuery } from './chef/chefQuery';
+import { ChefType, chefQuery, chefsQuery } from './chefs/chefs';
+import  { EventType, eventQuery, eventsQuery } from './events/events';
+import { UserType, userQuery, usersQuery } from './users/users';
+import { MenuItemType, menuItemQuery, menuItemsQuery } from './menuItems/menuItems';
+// import { itemEventQuery, itemEventsQuery, updateItemEventReservations } from './itemEvents/itemEvents';
+// import { orderQuery, ordersQuery, createOrder } from './orders/orders';
+// import { transactionQuery, transactionsQuery, createTransaction, updateTransaction } from './transactions/transactions';
+
+
 const graphql = require('graphql');
 const db = require('../database/database');
+const trans = require('../database/transactions');
 
 const {
   GraphQLSchema,
@@ -10,46 +22,6 @@ const {
   GraphQLInt,
   GraphQLFloat,
 } = graphql;
-
-const ChefType = new GraphQLObjectType({
-  name: 'Chef',
-  fields: () => ({
-    id: { type: GraphQLID },
-    name: { type: GraphQLString },
-    username: { type: GraphQLString },
-    password: { type: GraphQLString },
-    streetAddress: { type: GraphQLString },
-    city: { type: GraphQLString },
-    stateName: { type: GraphQLString },
-    zip: { type: GraphQLInt },
-    description: { type: GraphQLString },
-    imageUrl: { type: GraphQLString },
-  }),
-});
-
-const EventType = new GraphQLObjectType({
-  name: 'Event',
-  fields: () => ({
-    id: { type: GraphQLID },
-    chefId: { type: GraphQLID },
-    date: { type: GraphQLString },
-    startTime: { type: GraphQLString },
-    endTime: { type: GraphQLString },
-  }),
-});
-
-
-const MenuItemType = new GraphQLObjectType({
-  name: 'MenuItem',
-  fields: () => ({
-    id: { type: GraphQLID },
-    chefId: { type: GraphQLID },
-    name: { type: GraphQLString },
-    description: { type: GraphQLString },
-    price: { type: GraphQLInt },
-    imageUrl: { type: GraphQLString },
-  }),
-});
 
 const ItemEventType = new GraphQLObjectType({
   name: 'ItemEvent',
@@ -91,13 +63,6 @@ const OrderType = new GraphQLObjectType({
   }),
 });
 
-const RatingType = new GraphQLObjectType({
-  name: 'Rating',
-  fields: () => ({
-    // TODO
-  }),
-});
-
 const TransactionType = new GraphQLObjectType({
   name: 'Transaction',
   fields: () => ({
@@ -119,20 +84,15 @@ const TransactionType = new GraphQLObjectType({
     orders: {
       type: new GraphQLList(OrderType),
       resolve(root) {
-        return db.Order.findAll({ where: { transactionId: root.id } });
+        return trans.Order.findAll({ where: { transactionId: root.id } });
       },
     },
-  }),
-});
-
-const UserType = new GraphQLObjectType({
-  name: 'User',
-  fields: () => ({
-    id: { type: GraphQLID },
-    name: { type: GraphQLString },
-    username: { type: GraphQLString },
-    password: { type: GraphQLString },
-    imageUrl: { type: GraphQLString },
+    user: {
+      type: UserType,
+      resolve(root) {
+        return db.User.findById(root.userId);
+      },
+    },
   }),
 });
 
@@ -141,36 +101,20 @@ const QueryType = new GraphQLObjectType({
   name: 'Query',
   description: 'All GraphQL queries live here',
   fields: () => ({
-
-    chef: {
-      type: ChefType,
-      args: { id: { type: GraphQLID } },
-      resolve(root, args) {
-        return db.Chef.findOne({ where: { id: args.id } });
-      },
-    },
-
-    chefs: {
-      type: new GraphQLList(ChefType),
-      resolve() {
-        return db.Chef.findAll();
-      },
-    },
-
-    event: {
-      type: EventType,
-      args: { id: { type: GraphQLID } },
-      resolve(root, args) {
-        return db.Event.findOne({ where: { id: args.id } });
-      },
-    },
-
-    events: {
-      type: new GraphQLList(EventType),
-      resolve() {
-        return db.Event.findAll();
-      },
-    },
+    chef: chefQuery,
+    chefs: chefsQuery,
+    event: eventQuery,
+    events: eventsQuery,
+    menuItem: menuItemQuery,
+    menuItems: menuItemsQuery,
+    user: userQuery,
+    users: usersQuery,
+    // itemEvent: itemEventQuery,
+    // itemEvents: itemEventsQuery,
+    // order: orderQuery,
+    // orders: ordersQuery,
+    // transaction: transactionQuery,
+    // transactions: transactionsQuery,
 
     itemEvent: {
       type: ItemEventType,
@@ -189,27 +133,11 @@ const QueryType = new GraphQLObjectType({
       },
     },
 
-    menuItem: {
-      type: MenuItemType,
-      args: { id: { type: GraphQLID } },
-      resolve(root, args) {
-        return db.MenuItem.findOne({ where: { id: args.id } });
-      },
-    },
-
-    menu: {
-      type: new GraphQLList(MenuItemType),
-      args: { chefId: { type: GraphQLID } },
-      resolve(root, args) {
-        return db.MenuItem.findAll({ where: { chefId: args.chefId } });
-      },
-    },
-
     order: {
       type: OrderType,
       args: { itemEventId: { type: GraphQLID } },
       resolve(root, args) {
-        return db.Order.findOne({ where: { itemEventId: args.itemEventId } });
+        return trans.Order.findOne({ where: { itemEventId: args.itemEventId } });
       },
     },
 
@@ -217,7 +145,7 @@ const QueryType = new GraphQLObjectType({
       type: new GraphQLList(OrderType),
       args: { userId: { type: GraphQLID } },
       resolve(root, args) {
-        return db.Order.findAll({ where: { userId: args.userId } });
+        return trans.Order.findAll({ where: { userId: args.userId } });
       },
     },
 
@@ -225,7 +153,7 @@ const QueryType = new GraphQLObjectType({
       type: TransactionType,
       args: { id: { type: GraphQLID } },
       resolve(root, args) {
-        return db.Transaction.findOne({ where: { id: args.id } });
+        return trans.Transaction.findOne({ where: { id: args.id } });
       },
     },
 
@@ -235,33 +163,17 @@ const QueryType = new GraphQLObjectType({
       resolve(root, args) {
         let result;
         if (args.userOrChef === 'user') {
-          result = db.Transaction.findAll({
+          result = trans.Transaction.findAll({
             where: { userId: args.userOrChefId },
             order: [['createdAt', 'DESC']],
           });
         } else if (args.userOrChef === 'chef') {
-          result = db.Transaction.findAll({
+          result = trans.Transaction.findAll({
             where: { chefId: args.userOrChefId },
             order: [['createdAt', 'DESC']],
           });
         }
         return result;
-      },
-    },
-
-    // TODO: add rating & ratings
-
-    user: {
-      type: UserType,
-      args: { id: { type: GraphQLID } },
-      resolve(root, args) {
-        return db.User.findOne({ where: { id: args.id } });
-      },
-    },
-    users: {
-      type: new GraphQLList(UserType),
-      resolve() {
-        return db.User.findAll();
       },
     },
 
@@ -272,6 +184,11 @@ const QueryType = new GraphQLObjectType({
 const Mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
+    // updateItemEventReservations,
+    // createOrder,
+    // createTransaction,
+    // updateTransaction,
+
     createTransaction: {
       type: TransactionType,
       args: {
@@ -279,7 +196,7 @@ const Mutation = new GraphQLObjectType({
         chefId: { type: GraphQLID },
       },
       resolve(parent, args) {
-        return db.Transaction.create({
+        return trans.Transaction.create({
           status: 'pending',
           userId: args.userId,
           chefId: args.chefId,
@@ -295,7 +212,7 @@ const Mutation = new GraphQLObjectType({
         fee: { type: GraphQLFloat },
       },
       resolve(parent, args) {
-        return db.Transaction.update(
+        return trans.Transaction.update(
           {
             status: 'paid',
             total: args.total,
@@ -306,6 +223,7 @@ const Mutation = new GraphQLObjectType({
         );
       },
     },
+
     createOrder: {
       type: OrderType,
       args: {
@@ -314,7 +232,7 @@ const Mutation = new GraphQLObjectType({
         transactionId: { type: GraphQLID },
       },
       resolve(parent, args) {
-        return db.Order.create({
+        return trans.Order.create({
           transactionId: args.transactionId,
           userId: args.userId,
           itemEventId: args.itemEventId,
@@ -336,15 +254,6 @@ const Mutation = new GraphQLObjectType({
     },
   },
 });
-
-exports.ChefType = ChefType;
-exports.EventType = EventType;
-exports.ItemEventType = ItemEventType;
-exports.MenuItemType = MenuItemType;
-exports.OrderType = OrderType;
-exports.RatingType = RatingType;
-exports.TransactionType = TransactionType;
-exports.UserType = UserType;
 
 module.exports = new GraphQLSchema({
   query: QueryType,

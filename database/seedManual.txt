@@ -5,10 +5,7 @@ INSERT INTO events (date, startTime, endTime, chefId) VALUES ('2018-10-31', '17:
 INSERT INTO menuItems (name, description, price, imageUrl, chefId) VALUES ('Pad Thai', 'Tasty thai food!', 10.50, 'https://www.recipetineats.com/wp-content/uploads/2018/05/Chicken-Pad-Thai_9-landscape.jpg', 1);
 INSERT INTO menuItems (name, description, price, imageUrl, chefId) VALUES ('Pad See Ew', 'Fat noodles are good.', 10, 'https://thewoksoflife.com/wp-content/uploads/2017/02/pad-see-ew-9.jpg', 1);
 INSERT INTO itemEvents (quantity, reservations, eventId, menuItemId, chefId) VALUES (20, 5, 1, 1, 1);
-INSERT INTO transactions (status, total, tax, fee, tip, userId, chefId) VALUES ('complete', 20, 2, 2, 2, 1, 1);
-INSERT INTO orders (itemEventId, userId, transactionId) VALUES (1, 1, 1);
-INSERT INTO ratings (stars, review, userId, chefId) VALUES (4, 'really nice chef. super good food.', 1, 1);
 INSERT INTO events (date, startTime, endTime, chefId) VALUES ('2018-10-31', '17:00', '20:00', 1);
 INSERT INTO menuItems (name, description, price, imageUrl, chefId) VALUES ('Pad See Ew', 'Fat noodles are good.', 10, 'https://thewoksoflife.com/wp-content/uploads/2017/02/pad-see-ew-9.jpg', 1);
-INSERT INTO itemEvents (quantity, reservations, eventId, menuItemId, chefId) VALUES (20, 2, 1, 2, 1);
-INSERT INTO itemEvents (quantity, reservations, eventId, menuItemId, chefId) VALUES (15, 5, 2, 1, 1);
+INSERT INTO itemEvents (quantity, reservations, eventId, menuItemId, chefId) VALUES (20, 2, 1, 21, 1);
+INSERT INTO itemEvents (quantity, reservations, eventId, menuItemId, chefId) VALUES (15, 5, 21, 1, 1);
