@@ -19,8 +19,14 @@ class MapContainer extends React.Component {
     this.mapMarkers = this.mapMarkers.bind(this);
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.markerMaker();
+    if (!this.state.latitude || !this.state.longitude) {
+      this.setState({
+        latitude: this.props.latitude,
+        longitude: this.props.longitude,
+      })
+    }
   }
 
 
@@ -82,33 +88,34 @@ class MapContainer extends React.Component {
       width: '70%',
       height: '50%',
     };
-    let icon;
-    let curName;
-    let zoom;
-    let latitude;
-    let longitude;
-    if (this.props.latitude && this.props.longitude) {
-      icon = {
-        url: 'http://www.robotwoods.com/dev/misc/bluecircle.png',
+    const { latitude, longitude } = this.state;
+    // let icon;
+    // let curName;
+    // let zoom;
+    // let latitude;
+    // let longitude;
+    // if (this.state.latitude && this.state.longitude) {
+    //   icon = {
+    //     url: 'http://www.robotwoods.com/dev/misc/bluecircle.png',
 
-      };
-      curName = 'Current Location';
-      zoom = 14;
-      latitude = this.props.latitude;
-      longitude = this.props.longitude;
-    } else {
-      icon = null;
-      curName = 'US';
-      zoom = 3;
-      latitude = 39.8283;
-      longitude = -98.5795;
-    }
+    //   };
+    //   curName = 'Current Location';
+    //   zoom = 14;
+    //   latitude = this.state.latitude;
+    //   longitude = this.state.longitude;
+    // } else {
+    //   icon = null;
+    //   curName = 'US';
+    //   zoom = 3;
+    //   latitude = 39.8283;
+    //   longitude = -98.5795;
+    // }
     return (
       <div>
         <Map
           google={this.props.google}
           onClick={this.onMapClicked}
-          zoom={zoom}
+          zoom={14}
           style={style}
           initialCenter={{
             lat: latitude,
@@ -118,9 +125,9 @@ class MapContainer extends React.Component {
         >
           <Marker
             onClick={this.onMarkerClick}
-            name={curName}
+            name={"Current Location"}
             position={{ lat: latitude, lng: longitude }}
-            icon={icon}
+            icon={{ url: 'http://www.robotwoods.com/dev/misc/bluecircle.png', }}
           />
           {this.mapMarkers()}
           <InfoWindow
