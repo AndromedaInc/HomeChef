@@ -11,8 +11,6 @@
 //   GraphQLID,
 // } = graphql;
 
-// console.log('I AM IN ORDERS! RIGHT NOW!');
-
 // const OrderType = new GraphQLObjectType({
 //   name: 'Order',
 //   fields: () => ({

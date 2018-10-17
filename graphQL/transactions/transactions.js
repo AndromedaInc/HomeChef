@@ -14,8 +14,6 @@
 //   GraphQLFloat,
 // } = graphql;
 
-// console.log('I AM IN TRANSACTIONS! RIGHT NOW!');
-
 // const TransactionType = new GraphQLObjectType({
 //   name: 'Transaction',
 //   fields: () => ({

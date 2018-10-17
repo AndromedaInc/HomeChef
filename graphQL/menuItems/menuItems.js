@@ -9,8 +9,6 @@ const {
   GraphQLInt,
 } = graphql;
 
-console.log('I AM IN MENU ITEMS! RIGHT NOW!');
-
 const MenuItemType = new GraphQLObjectType({
   name: 'MenuItem',
   fields: () => ({

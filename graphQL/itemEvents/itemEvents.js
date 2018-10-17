@@ -11,8 +11,6 @@
 //   GraphQLInt,
 // } = graphql;
 
-// console.log('I AM IN ITEM EVENTS! RIGHT NOW!');
-
 // const ItemEventType = new GraphQLObjectType({
 //   name: 'ItemEvent',
 //   fields: () => ({

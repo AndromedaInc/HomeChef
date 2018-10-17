@@ -92,7 +92,6 @@ app.get(
   (req, res, next) => console.log('get request to user/accountInfo') || next(),
   (req, res) => {
     const { username } = req.query;
-    console.log('username is', username);
     db.User.findOne({ where: { username } })
       .then(accountInfo => res.status(200).send(accountInfo))
       .catch(err => console.log(err));
@@ -102,7 +101,6 @@ app.get(
 app.get('/api/chef/all', (req, res) => {
   db.Chef.findAll()
     .then((data) => {
-      console.log(data);
       res.send(data);
     })
     .catch(err => console.log(err));
@@ -191,7 +189,6 @@ app.post('/api/chef/event/create', (req, res) => {
     chefId: event.chefId,
   })
     .then((data) => {
-      console.log('create event data', data);
       event.updatedMenuItems.forEach((item) => {
         db.ItemEvent.create({
           quantity: item.quantity,
@@ -203,7 +200,6 @@ app.post('/api/chef/event/create', (req, res) => {
       });
     })
     .then((data) => {
-      console.log('create itemEvent data', data);
       res.send(data);
     })
     .catch(err => console.log(err));
