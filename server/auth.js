@@ -28,17 +28,18 @@ const userLogin = (req, res) => {
   console.log('inside login and about to axios.post with this username', username, 'and this password', password);
 
   axios
-    .post('https://andromeda-chef-authentication.herokuapp.com/api/user/login', {
+    .post('https://andromeda-chef-auth-stephen.herokuapp.com/api/user/login', {
       username,
       password,
     })
-    .then((response) => {
-      const {
-        data: { authId },
-      } = response;
-      // console.log('authId is', authId);
+
+    .then(({ data: { authId, token } }) => {
+      console.log('received authId as', authId);
+      console.log('received token as', token);
+      res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
       return users.findUserByAuthId(authId);
     })
+
     .then((userRecord) => {
       // console.log('userRecord is', userRecord);
       const { dataValues: { id: userId } } = userRecord;
@@ -55,18 +56,18 @@ const login = (req, res) => {
   console.log('inside login and about to axios.post with this username', username, 'and this password', password);
 
   axios
-    .post('https://andromeda-chef-authentication.herokuapp.com/api/chef/login', {
+    .post('https://andromeda-chef-auth-stephen.herokuapp.com/api/chef/login', {
       username,
       password,
     })
-    .then((response) => {
-      console.log('cookie is', response.headers['set-cookie'][0]);
-      const {
-        data: { authId },
-      } = response;
-      // console.log('authId is', authId);
+
+    .then(({ data: { authId, token } }) => {
+      console.log('received authId as', authId);
+      console.log('received token as', token);
+      res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
       return chefs.findChefByAuthId(authId);
     })
+
     .then((chefRecord) => {
       // console.log('chefRecord is', chefRecord);
       const { dataValues: { id: chefId } } = chefRecord;
@@ -86,14 +87,19 @@ const userSignup = (req, res) => {
     username, password, email, name,
   } = req.body;
   axios
-    .post('https://andromeda-chef-authentication.herokuapp.com/api/user/signup', {
+    .post('https://andromeda-chef-auth-stephen.herokuapp.com/api/user/signup', {
       username,
       password,
       name,
       email,
     })
 
-    .then(({ data: { authId } }) => console.log('received authId as', authId) || users.createUser(username, email, name, authId))
+    .then(({ data: { authId, token } }) => {
+      console.log('received authId as', authId);
+      console.log('received token as', token);
+      res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
+      return users.createUser(username, email, name, authId);
+    })
 
     .then(({ dataValues: { id: userId } }) => console.log('got userId as', userId) || res.send({ userId }))
 
@@ -106,14 +112,19 @@ const signup = (req, res) => {
     username, password, email, name,
   } = req.body;
   axios
-    .post('https://andromeda-chef-authentication.herokuapp.com/api/chef/signup', {
+    .post('https://andromeda-chef-auth-stephen.herokuapp.com/api/chef/signup', {
       username,
       password,
       name,
       email,
     })
 
-    .then(({ data: { authId } }) => console.log('received authId as', authId) || chefs.createChef(username, email, name, authId))
+    .then(({ data: { authId, token } }) => {
+      console.log('received authId as', authId);
+      console.log('received token as', token);
+      res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
+      return chefs.createChef(username, email, name, authId);
+    })
 
     .then(({ dataValues: { id: chefId } }) => console.log('got chefId as', chefId) || res.send({ chefId }))
 
