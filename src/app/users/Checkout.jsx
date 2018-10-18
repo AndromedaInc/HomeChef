@@ -5,14 +5,51 @@ import gql from 'graphql-tag';
 import moment from 'moment';
 import client from '../../index';
 
-const UPDATE_TRANSACTION = gql`
-  mutation updateTransaction($id: ID!, $total: Float, $tax: Float, $fee: Float) {
-    updateTransaction(id: $id, total: $total, tax: $tax, fee: $fee) {
+const CREATE_TRANSACTION = gql`
+  mutation createTransaction(
+    $userId: ID!, 
+    $chefId: ID!, 
+    $total: Float, 
+    $tax: Float, 
+    $fee: Float, 
+    $status: String
+  ) {
+    createTransaction(
+      userId: $userId, 
+      chefId: $chefId,
+      total: $total,
+      tax: $tax,
+      fee: $fee, 
+      status: $status,
+    ) {
       id
-      status
+      userId
+      chefId
       total
       tax
       fee
+      status
+    }
+  }
+`;
+const CREATE_ORDER = gql`
+  mutation createOrder($itemEventId: ID!, $userId: ID!, $transactionId: ID!) {
+    createOrder(itemEventId: $itemEventId, userId: $userId, transactionId: $transactionId) {
+      id
+      userId
+      itemEventId
+      transactionId
+    }
+  }
+`;
+const UPDATE_RESERVATIONS = gql`
+  mutation updateItemEventReservations($itemEventId: ID!, $newReservationCount: Int) {
+    updateItemEventReservations(itemEventId: $itemEventId, newReservationCount: $newReservationCount) {
+      id
+      reservations
+      quantity
+      eventId
+      menuItemId
     }
   }
 `;
@@ -56,26 +93,62 @@ class Checkout extends React.Component {
   }
 
   handleSubmit() {
-    const { user, transactionId, total, tax, fee } = this.props;
+    const {
+      menuItems,
+      chef,
+      user,
+      total,
+      tax,
+      fee,
+    } = this.props;
     const { createToken } = this.props.stripe;
     createToken({ name: user.name })
       .then(({ token }) => {
         console.log('Received Stripe token:', token);
       })
       .then(() => {
-        // update transaction to status paid
         const totalInDollars = (total / 10).toFixed(2);
         const taxInDollars = (tax / 10).toFixed(2);
         const feeInDollars = (fee / 10).toFixed(2);
+        // 1) create a transaction
         client
           .mutate({
-            mutation: UPDATE_TRANSACTION,
+            mutation: CREATE_TRANSACTION,
             variables: {
-              id: transactionId,
+              userId: user.id,
+              chefId: chef.id,
               total: totalInDollars,
               tax: taxInDollars,
               fee: feeInDollars,
+              status: 'paid',
             },
+          })
+          .then((data) => {
+            const transaction = data.data.createTransaction;
+            menuItems.forEach((item) => {
+              const newCount = (item.userRSVP + item.reservations);
+              // 2) create orders for each item
+              for (let i = item.userRSVP; i > 0; i -= 1) {
+                client
+                  .mutate({
+                    mutation: CREATE_ORDER,
+                    variables: {
+                      itemEventId: item.itemEventId,
+                      userId: user.id,
+                      transactionId: transaction.id,
+                    },
+                  });
+              }
+              // 3) update itemEvent reservations
+              client
+                .mutate({
+                  mutation: UPDATE_RESERVATIONS,
+                  variables: {
+                    itemEventId: item.itemEventId,
+                    newReservationCount: newCount,
+                  },
+                });
+            });
           });
       })
       .then(() => {

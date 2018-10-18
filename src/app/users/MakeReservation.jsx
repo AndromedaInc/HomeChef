@@ -1,47 +1,13 @@
 import React from 'react';
 import { Redirect, Link } from 'react-router-dom';
-import gql from 'graphql-tag';
 import moment from 'moment';
-import client from '../../index';
 
-const CREATE_TRANSACTION = gql`
-  mutation createTransaction($userId: ID!, $chefId: ID!) {
-    createTransaction(userId: $userId, chefId: $chefId) {
-      id
-      status
-      userId
-      chefId
-    }
-  }
-`;
-const CREATE_ORDER = gql`
-  mutation createOrder($itemEventId: ID!, $userId: ID!, $transactionId: ID!) {
-    createOrder(itemEventId: $itemEventId, userId: $userId, transactionId: $transactionId) {
-      id
-      userId
-      itemEventId
-      transactionId
-    }
-  }
-`;
-const UPDATE_RESERVATIONS = gql`
-  mutation updateItemEventReservations($itemEventId: ID!, $newReservationCount: Int) {
-    updateItemEventReservations(itemEventId: $itemEventId, newReservationCount: $newReservationCount) {
-      id
-      reservations
-      quantity
-      eventId
-      menuItemId
-    }
-  }
-`;
 class MakeReservation extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       menuItemsWithUserRSVP: [],
       redirect: false,
-      transactionId: '',
     };
     this.saveReservation = this.saveReservation.bind(this);
   }
@@ -79,57 +45,11 @@ class MakeReservation extends React.Component {
   }
 
   saveReservation() {
-    const { chef, user} = this.props.location.state;
-    const { menuItemsWithUserRSVP } = this.state;
-    // 1) create a transaction(pending)
-    client
-      .mutate({
-        mutation: CREATE_TRANSACTION,
-        variables: {
-          userId: user.id,
-          chefId: chef.id,
-        },
-      })
-      .then((data) => {
-        const transaction = data.data.createTransaction;
-        this.setState({ transactionId: transaction.id });
-      })
-      .then(() => {
-        const { transactionId } = this.state;
-        menuItemsWithUserRSVP.forEach((item) => {
-          const newCount = (item.userRSVP + item.reservations);
-          // 2) create orders for each item
-          for (let i = item.userRSVP; i > 0; i -= 1) {
-            client
-              .mutate({
-                mutation: CREATE_ORDER,
-                variables: {
-                  itemEventId: item.itemEventId,
-                  userId: user.id,
-                  transactionId: transactionId,
-                },
-              });
-          }
-          // 3) correctly update itemEvent reservations
-          client
-            .mutate({
-              mutation: UPDATE_RESERVATIONS,
-              variables: {
-                itemEventId: item.itemEventId,
-                newReservationCount: newCount,
-              },
-            });
-        });
-      })
-      .then(() => {
-        // 4) open stripe checkout component for payment
-        this.setState({ redirect: true });
-      })
-      .catch(err => console.log(err));
+    this.setState({ redirect: true });
   }
 
   renderRedirect() {
-    const { redirect, menuItemsWithUserRSVP, transactionId } = this.state;
+    const { redirect, menuItemsWithUserRSVP } = this.state;
     const { chef, user, event } = this.props.location.state;
     if (redirect) {
       return (
@@ -137,7 +57,7 @@ class MakeReservation extends React.Component {
           push
           to={{
             pathname: '/user/checkout',
-            state: { chef, user, event, menuItemsWithUserRSVP, transactionId },
+            state: { chef, user, event, menuItemsWithUserRSVP },
           }}
         />
       );

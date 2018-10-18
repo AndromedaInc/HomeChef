@@ -64,10 +64,10 @@ const TransactionType = new GraphQLObjectType({
     userId: { type: GraphQLID },
     chefId: { type: GraphQLID },
     status: { type: GraphQLString },
-    total: { type: GraphQLString },
-    tax: { type: GraphQLString },
-    fee: { type: GraphQLString },
-    tip: { type: GraphQLString },
+    total: { type: GraphQLFloat },
+    tax: { type: GraphQLFloat },
+    fee: { type: GraphQLFloat },
+    tip: { type: GraphQLFloat },
     createdAt: { type: GraphQLString },
     chef: {
       type: ChefType,
@@ -177,12 +177,19 @@ const Mutation = new GraphQLObjectType({
       args: {
         userId: { type: GraphQLID },
         chefId: { type: GraphQLID },
+        total: { type: GraphQLFloat },
+        tax: { type: GraphQLFloat },
+        fee: { type: GraphQLFloat },
+        status: { type: GraphQLString },
       },
       resolve(parent, args) {
         return trans.Transaction.create({
-          status: 'pending',
           userId: args.userId,
           chefId: args.chefId,
+          total: args.total,
+          tax: args.tax,
+          fee: args.fee,
+          status: args.status,
         });
       },
     },
