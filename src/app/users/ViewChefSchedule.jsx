@@ -13,7 +13,8 @@ class ViewChefSchedule extends React.Component {
   }
 
   componentDidMount() {
-    this.getSchedule(this.props.chef);
+    const { chef } = this.props;
+    this.getSchedule(chef);
   }
 
   getSchedule(chef) {

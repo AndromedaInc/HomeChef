@@ -63,18 +63,18 @@ class ChefHome extends Component {
           zip,
         },
       }) => (
-          this.setState({
-            description,
-            streetAddress,
-            city,
-            stateName,
-            zip,
-            imageUrl,
-            name,
-            password,
-            username,
-          })
-        ));
+        this.setState({
+          description,
+          streetAddress,
+          city,
+          stateName,
+          zip,
+          imageUrl,
+          name,
+          password,
+          username,
+        })
+      ));
   }
 
   handleSubmit(e) {
