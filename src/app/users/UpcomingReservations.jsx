@@ -50,7 +50,7 @@ class UpcomingReservations extends React.Component {
 
   getUpcomingEvents() {
     const { transactions } = this.state;
-    const userEvents = [];
+    let userEvents = [];
     for (let i = 0; i < transactions.length; i += 1) {
       const today = new Date();
       let eventDate = transactions[i].orders[0].itemEvent.event.date;
@@ -59,6 +59,9 @@ class UpcomingReservations extends React.Component {
       if (date >= today) {
         userEvents.push(transactions[i]);
       }
+      userEvents = userEvents.sort((a, b) => {
+        return new Date(a.orders[0].itemEvent.event.date) - new Date(b.orders[0].itemEvent.event.date);
+      });
     }
     this.setState({ upcomingEvents: userEvents });
   }

@@ -100,7 +100,7 @@ class ChefHome extends Component {
 
   renderView() {
     const { edit, id } = this.state;
-    const editButton = edit ? 'Save' : 'Edit your account';
+    const editButton = edit ? 'Save' : 'Edit My account';
     if (!id) {
       return <Redirect to={{ pathname: '/chefauth' }} />;
     }

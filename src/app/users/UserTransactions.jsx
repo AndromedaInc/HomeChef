@@ -77,11 +77,11 @@ class UserTransactions extends React.Component {
                       <td>{tran.chef.name}</td>
                       <td>
                         {tran.orders.map((order) => (
-                            <span>
-                              {order.itemEvent.menuItem.name}
-                              <br />
-                            </span>
-                          ))}
+                          <span>
+                            {order.itemEvent.menuItem.name}
+                            <br />
+                          </span>
+                        ))}
                       </td>
                     </tr>
                   ))}

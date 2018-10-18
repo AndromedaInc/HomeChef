@@ -20,10 +20,11 @@ class ViewChefSchedule extends React.Component {
     axios
       .get('/api/chef/schedule', { params: { id: chef.id } })
       .then((data) => {
-        const sched = data.data.filter((event) => {
+        let sched = data.data.filter((event) => {
           const date = new Date(event.date.split('-').join(','));
           return date >= new Date();
         });
+        sched = sched.sort((a, b) => new Date(a.date) - new Date(b.date));
         this.setState({ schedule: sched });
       })
       .catch(err => console.log(err));
