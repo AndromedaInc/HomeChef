@@ -12,9 +12,10 @@
 
 .grid-header { /* holds the logo in Header.jsx */
   grid-area: header;
+    padding-right: 10%;
+
   justify-self: stretch;
   align-self: stretch;
-  margin-right: 8%;
 }
 
 .grid-subcontainer { /* used as container in components */

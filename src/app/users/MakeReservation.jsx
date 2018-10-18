@@ -50,14 +50,18 @@ class MakeReservation extends React.Component {
 
   renderRedirect() {
     const { redirect, menuItemsWithUserRSVP } = this.state;
-    const { chef, user, event } = this.props.location.state;
+    const {
+      chef, user, event, latitude, longitude,
+    } = this.props.location.state;
     if (redirect) {
       return (
         <Redirect
           push
           to={{
             pathname: '/user/checkout',
-            state: { chef, user, event, menuItemsWithUserRSVP },
+            state: {
+              chef, user, event, menuItemsWithUserRSVP, latitude, longitude,
+            },
           }}
         />
       );
@@ -65,7 +69,9 @@ class MakeReservation extends React.Component {
   }
 
   render() {
-    const { event, chef, user } = this.props.location.state;
+    const {
+      event, chef, user, latitude, longitude,
+    } = this.props.location.state;
     const { menuItemsWithUserRSVP } = this.state;
     return (
       <div>
@@ -102,7 +108,9 @@ class MakeReservation extends React.Component {
         <Link
           to={{
             pathname: '/user/chefdetails',
-            state: { username: user.username, chef },
+            state: {
+              user, chef, latitude, longitude,
+            },
           }}
         >
           <button type="submit">

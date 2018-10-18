@@ -53,14 +53,6 @@ class ChefTransactions extends React.Component {
           return (
             <div>
               <h2>My Transactions</h2>
-              <Link
-                to={{
-                  pathname: '/chef',
-                  state: { chefId },
-                }}
-              >
-                <button type="button">Back</button>
-              </Link>
               <br />
               <table>
                 <tbody>
@@ -73,30 +65,34 @@ class ChefTransactions extends React.Component {
                     <th>Purchased By</th>
                     <th>Items</th>
                   </tr>
-                  {data.transactions.map((tran) => {
-                    return (
-                      <tr className="transactions" key={tran.id}>
-                        <td>{moment(tran.createdAt).format('MMM. DD, YYYY')}</td>
-                        <td>{tran.id}</td>
-                        <td>{`$${(+tran.total).toFixed(2)}`}</td>
-                        <td>{tran.status}</td>
-                        <td>{moment(tran.orders[0].itemEvent.event.date).format('MMM. DD, YYYY')}</td>
-                        <td>{tran.user.name}</td>
-                        <td>
-                          {tran.orders.map((order) => {
-                            return (
-                              <span>
-                                {order.itemEvent.menuItem.name}
-                                <br />
-                              </span>
-                            );
-                          })}
-                        </td>
-                      </tr>
-                    );
-                  })}
+                  {data.transactions.map(tran => (
+                    <tr className="transactions" key={tran.id}>
+                      <td>{moment(tran.createdAt).format('MMM. DD, YYYY')}</td>
+                      <td>{tran.id}</td>
+                      <td>{`$${(+tran.total).toFixed(2)}`}</td>
+                      <td>{tran.status}</td>
+                      <td>{moment(tran.orders[0].itemEvent.event.date).format('MMM. DD, YYYY')}</td>
+                      <td>{tran.user.name}</td>
+                      <td>
+                        {tran.orders.map((order) => (
+                            <span>
+                              {order.itemEvent.menuItem.name}
+                              <br />
+                            </span>
+                          ))}
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
+              <Link
+                to={{
+                  pathname: '/chef',
+                  state: { chefId },
+                }}
+              >
+                <button type="button">Back</button>
+              </Link>
             </div>
           );
         }}

@@ -25,7 +25,7 @@ class MapContainer extends React.Component {
       this.setState({
         latitude: this.props.latitude,
         longitude: this.props.longitude,
-      })
+      });
     }
   }
 
@@ -125,9 +125,9 @@ class MapContainer extends React.Component {
         >
           <Marker
             onClick={this.onMarkerClick}
-            name={"Current Location"}
+            name="Current Location"
             position={{ lat: latitude, lng: longitude }}
-            icon={{ url: 'http://www.robotwoods.com/dev/misc/bluecircle.png', }}
+            icon={{ url: 'http://www.robotwoods.com/dev/misc/bluecircle.png' }}
           />
           {this.mapMarkers()}
           <InfoWindow

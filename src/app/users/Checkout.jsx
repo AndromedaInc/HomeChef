@@ -8,19 +8,19 @@ import { GET_TRANSACTIONS } from './UserTransactions';
 
 const CREATE_TRANSACTION = gql`
   mutation createTransaction(
-    $userId: ID!, 
-    $chefId: ID!, 
-    $total: Float, 
-    $tax: Float, 
-    $fee: Float, 
+    $userId: ID!,
+    $chefId: ID!,
+    $total: Float,
+    $tax: Float,
+    $fee: Float,
     $status: String
   ) {
     createTransaction(
-      userId: $userId, 
+      userId: $userId,
       chefId: $chefId,
       total: $total,
       tax: $tax,
-      fee: $fee, 
+      fee: $fee,
       status: $status,
     ) {
       id
@@ -161,7 +161,7 @@ class Checkout extends React.Component {
   }
 
   renderRedirect() {
-    const { user } = this.props;
+    const { user, latitude, longitude } = this.props;
     const { redirect } = this.state;
     if (redirect) {
       return (
@@ -169,7 +169,7 @@ class Checkout extends React.Component {
           push
           to={{
             pathname: '/user/transactions',
-            state: { user },
+            state: { user, latitude, longitude },
           }}
         />
       );
@@ -177,7 +177,9 @@ class Checkout extends React.Component {
   }
 
   render() {
-    const { subtotal, tax, fee, total, menuItems, event } = this.props;
+    const {
+      subtotal, tax, fee, total, menuItems, event
+    } = this.props;
     return (
       <div className="grid-wide">
         {this.renderRedirect()}
