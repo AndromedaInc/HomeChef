@@ -62,6 +62,30 @@ class UserHome extends React.Component {
     ));
   }
 
+  // renderChefList() {
+  //   const { user } = this.state;
+  //   const { chefs } = this.props;
+  //   return chefs.map(chef => (
+  //     <ul key={chef.id}>
+  //       <li>
+  //         <div>
+  //           {`Chef: ${chef.username}, Address: ${chef.streetAddress} ${chef.city}, ${
+  //             chef.stateName
+  //             }, ${chef.zip}, Description: ${chef.description}`}
+  //           <br />
+  //           <Link
+  //             to={{
+  //               pathname: '/user/chefdetails',
+  //               state: { user, chef },
+  //             }}
+  //           >
+  //             <button type="button">Select</button>
+  //           </Link>
+  //         </div>
+  //       </li>
+  //     </ul>
+  //   ));
+  // }
   render() {
     const { user } = this.state;
     const { chefs } = this.props;
@@ -75,7 +99,7 @@ class UserHome extends React.Component {
             state: { user },
           }}
           >
-            <button type="button">My Transactions</button>
+            <button type="button">My Orders</button>
           </Link>
           <h3>What's Cooking?</h3>
           {this.renderChefList()}

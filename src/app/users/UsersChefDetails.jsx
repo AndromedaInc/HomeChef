@@ -23,7 +23,9 @@ class UsersChefDetails extends React.Component {
           {`${chef.description}`}
         </div>
         <br />
-        <ViewChefSchedule user={user} chef={chef} />
+        <div className="grid-new-subcontainer">
+          <ViewChefSchedule user={user} chef={chef} />
+        </div>
       </div>
     );
   }

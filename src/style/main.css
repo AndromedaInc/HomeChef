@@ -1,7 +1,7 @@
 @import 'grid.css';
 
 /*
-COLORS: 
+COLORS:
 teal: 1AB297
 yellow: D0EA75
 peach: F6B056
@@ -108,7 +108,9 @@ table {
 tr th {
   background-color: #D0EA75;
 }
-
+/* tr td {
+  background-color: #3B3B3B;
+} */
 th, td {
   padding: 10px;
   border-bottom: 1px solid #ddd;
@@ -125,5 +127,7 @@ div.transactions {
 }
 
 ul {
+  /* list-style: inside; */
+  /* list-style: georgian inside url('http://icons.iconarchive.com/icons/sicons/basic-round-social/256/freshbump-icon.png'); */
   margin: 0px;
 }
