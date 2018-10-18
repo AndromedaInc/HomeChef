@@ -150,7 +150,7 @@ class MakeReservation extends React.Component {
     return (
       <div>
         {this.renderRedirect()}
-        
+
         <h1>{`${chef.name}`}</h1>
         <h2>
           {moment(event.date).format('ddd, MMM. DD, YYYY')}

@@ -11,7 +11,7 @@ class UsersChefDetails extends React.Component {
     const { chef, user } = this.props.location.state;
     return (
       <div>
-        <h3>{`Chef ${chef.name}`}</h3>
+        <h3>{chef.name}</h3>
         <div>
           {`${chef.streetAddress}`}
           {' '}
