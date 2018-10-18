@@ -33,6 +33,7 @@ class UserHome extends React.Component {
   renderChefList() {
     const { user } = this.state;
     const { chefs } = this.props;
+    const { latitude, longitude } = this.props.location.state;
     return chefs.map(chef => (
       <table>
         <tbody>
@@ -50,7 +51,9 @@ class UserHome extends React.Component {
               <Link
                 to={{
                   pathname: '/user/chefdetails',
-                  state: { user, chef },
+                  state: {
+                    user, chef, latitude, longitude,
+                  },
                 }}
               >
                 <button type="button">Select</button>
@@ -72,10 +75,10 @@ class UserHome extends React.Component {
           <h2>{`Welcome ${user.username}`}</h2>
           <Link to={{
             pathname: '/user/transactions',
-            state: { user },
+            state: { user, latitude, longitude },
           }}
           >
-            <button type="button">My Transactions</button>
+            <button type="button">My Orders</button>
           </Link>
           <h3>What's Cooking?</h3>
           {this.renderChefList()}

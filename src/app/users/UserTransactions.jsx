@@ -40,7 +40,7 @@ query transactions($userOrChefId: ID!, $userOrChef: String) {
 
 class UserTransactions extends React.Component {
   render() {
-    const { user } = this.props.location.state;
+    const { user, latitude, longitude } = this.props.location.state;
     return (
       <Query
         query={GET_TRANSACTIONS}
@@ -53,14 +53,6 @@ class UserTransactions extends React.Component {
 
           return (
             <div className="grid-wide">
-              <Link
-                to={{
-                  pathname: '/user',
-                  state: { username: user.username },
-                }}
-              >
-                <button type="button">Back</button>
-              </Link>
               <br />
               <UpcomingReservations user={user} />
               <h2>Payment History</h2>
@@ -75,30 +67,34 @@ class UserTransactions extends React.Component {
                     <th>Purchased From</th>
                     <th>Items</th>
                   </tr>
-                  {data.transactions.map((tran) => {
-                    return (
-                      <tr className="transactions" key={tran.id}>
-                        <td>{moment(tran.createdAt).format('MMM. DD, YYYY')}</td>
-                        <td>{tran.id}</td>
-                        <td>{`$${(+tran.total).toFixed(2)}`}</td>
-                        <td>{tran.status}</td>
-                        <td>{moment(tran.orders[0].itemEvent.event.date).format('MMM. DD, YYYY')}</td>
-                        <td>{tran.chef.name}</td>
-                        <td>
-                          {tran.orders.map((order) => {
-                            return (
-                              <span>
-                                {order.itemEvent.menuItem.name}
-                                <br />
-                              </span>
-                            );
-                          })}
-                        </td>
-                      </tr>
-                    );
-                  })}
+                  {data.transactions.map(tran => (
+                    <tr className="transactions" key={tran.id}>
+                      <td>{moment(tran.createdAt).format('MMM. DD, YYYY')}</td>
+                      <td>{tran.id}</td>
+                      <td>{`$${(+tran.total).toFixed(2)}`}</td>
+                      <td>{tran.status}</td>
+                      <td>{moment(tran.orders[0].itemEvent.event.date).format('MMM. DD, YYYY')}</td>
+                      <td>{tran.chef.name}</td>
+                      <td>
+                        {tran.orders.map((order) => (
+                            <span>
+                              {order.itemEvent.menuItem.name}
+                              <br />
+                            </span>
+                          ))}
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
+              <Link
+                to={{
+                  pathname: '/user',
+                  state: { username: user.username, latitude, longitude },
+                }}
+              >
+                <button type="button">Back</button>
+              </Link>
             </div>
           );
         }}

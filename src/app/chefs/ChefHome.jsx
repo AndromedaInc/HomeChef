@@ -63,18 +63,18 @@ class ChefHome extends Component {
           zip,
         },
       }) => (
-        this.setState({
-          description,
-          streetAddress,
-          city,
-          stateName,
-          zip,
-          imageUrl,
-          name,
-          password,
-          username,
-        })
-      ));
+          this.setState({
+            description,
+            streetAddress,
+            city,
+            stateName,
+            zip,
+            imageUrl,
+            name,
+            password,
+            username,
+          })
+        ));
   }
 
   handleSubmit(e) {
@@ -106,11 +106,14 @@ class ChefHome extends Component {
     }
     if (edit) {
       return (
-        <ChefAccountForm
-          state={this.state}
-          onChange={this.onChange}
-          handleSubmit={this.handleSubmit}
-        />
+        <div>
+          <ChefAccountForm
+            state={this.state}
+            onChange={this.onChange}
+            handleSubmit={this.handleSubmit}
+          />
+        </div>
+
       );
     }
     return (
@@ -131,15 +134,18 @@ class ChefHome extends Component {
     return (
       <div className="grid-subcontainer">
         <div className="grid-center">
-        <h1>What's Cooking?</h1>
-        <Link to={{
-          pathname: '/chef/transactions',
-          state: { chefId: id },
-        }}
-        ><button type="button">My Transactions</button></Link>
-        {this.renderView()}
-        <ChefSchedule chefId={id} />
-      </div>
+          <h1>What's Cooking?</h1>
+          <Link to={{
+            pathname: '/chef/transactions',
+            state: { chefId: id },
+          }}
+          >
+            <button type="button">My Transactions</button>
+
+          </Link>
+          {this.renderView()}
+          <ChefSchedule chefId={id} />
+        </div>
       </div>
     );
   }

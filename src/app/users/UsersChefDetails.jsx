@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import ViewChefSchedule from './ViewChefSchedule';
 
 class UsersChefDetails extends React.Component {
@@ -8,9 +9,11 @@ class UsersChefDetails extends React.Component {
   }
 
   render() {
-    const { chef, user } = this.props.location.state;
+    const {
+      chef, user, latitude, longitude,
+    } = this.props.location.state;
     return (
-      <div>
+      <div className="grid-container">
         <h3>{chef.name}</h3>
         <div>
           {`${chef.streetAddress}`}
@@ -23,7 +26,17 @@ class UsersChefDetails extends React.Component {
           {`${chef.description}`}
         </div>
         <br />
-        <ViewChefSchedule user={user} chef={chef} />
+        {/* <div className="grid-center"> */}
+        <ViewChefSchedule user={user} chef={chef} latitude={latitude} longitude={longitude} />
+        {/* </div> */}
+        <Link
+          to={{
+            pathname: '/user',
+            state: { username: user.username, latitude, longitude },
+          }}
+        >
+          <button type="button">Back</button>
+        </Link>
       </div>
     );
   }

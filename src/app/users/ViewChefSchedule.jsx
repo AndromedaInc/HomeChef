@@ -27,7 +27,9 @@ class ViewChefSchedule extends React.Component {
 
   render() {
     const { schedule } = this.state;
-    const { user, chef } = this.props;
+    const {
+      user, chef, latitude, longitude,
+    } = this.props;
     return (
       <table>
         <tbody>
@@ -68,7 +70,7 @@ class ViewChefSchedule extends React.Component {
                   to={{
                     pathname: '/user/chefschedule/reservation',
                     state: {
-                      event, user, chef, userId: user.id,
+                      event, user, chef, userId: user.id, latitude, longitude,
                     },
                   }}
                 >

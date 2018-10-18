@@ -25,18 +25,23 @@ class Stripe extends React.Component {
     const { menuItemsWithUserRSVP } = this.props.location.state;
     let subtotal = 0;
     menuItemsWithUserRSVP.forEach((item) => {
-      subtotal += (item.userRSVP * item.price );
+      subtotal += (item.userRSVP * item.price);
     });
     subtotal *= 10;
     const tax = +(subtotal * 0.0925).toFixed(0);
     const fee = +(subtotal * 0.05).toFixed(0);
     const total = subtotal + tax + fee;
-    this.setState({ subtotal, tax, fee, total });
+    this.setState({
+      subtotal, tax, fee, total,
+    });
   }
 
   render() {
-    const { stripe, subtotal, tax, fee, total } = this.state;
-    const { chef, user, event, menuItemsWithUserRSVP /*, transactionId*/ } = this.props.location.state;
+    const {
+      stripe, subtotal, tax, fee, total,
+    } = this.state;
+    const {
+      chef, user, event, menuItemsWithUserRSVP, latitude, longitude /* , transactionId */ } = this.props.location.state;
     return (
       <div className="grid-subcontainer">
         <StripeProvider stripe={stripe}>
@@ -51,6 +56,8 @@ class Stripe extends React.Component {
               tax={tax}
               fee={fee}
               total={total}
+              latitude={latitude}
+              longitude={longitude}
             />
           </Elements>
         </StripeProvider>
