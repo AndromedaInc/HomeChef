@@ -50,7 +50,7 @@ class UserTransactions extends React.Component {
           if (loading) return 'Loading...';
           if (error) return 'Oops! Try refreshing.';
           if (data) console.log('transactions:', data);
-          
+
           return (
             <div className="grid-wide">
               <Link
@@ -62,7 +62,7 @@ class UserTransactions extends React.Component {
                 <button type="button">Back</button>
               </Link>
               <br />
-              <UpcomingReservations data={data.transactions} />
+              <UpcomingReservations user={user} />
               <h2>Payment History</h2>
               <table>
                 <tbody>

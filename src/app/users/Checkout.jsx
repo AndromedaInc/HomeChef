@@ -89,8 +89,6 @@ class Checkout extends React.Component {
       canMakePayment: false,
       paymentRequest,
     };
-    console.log('in checkout state', this.state);
-    console.log('in checkout props', this.props);
   }
 
   handleSubmit() {
@@ -157,7 +155,6 @@ class Checkout extends React.Component {
           });
       })
       .then(() => {
-        console.log('setting redirect');
         this.setState({ redirect: true });
       })
       .catch(err => console.log(err));
