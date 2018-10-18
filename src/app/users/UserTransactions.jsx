@@ -50,7 +50,7 @@ class UserTransactions extends React.Component {
           if (loading) return 'Loading...';
           if (error) return 'Oops! Try refreshing.';
           if (data) console.log('transactions:', data);
-
+          
           return (
             <div className="grid-wide">
               <Link
@@ -107,4 +107,5 @@ class UserTransactions extends React.Component {
   }
 }
 
+export { GET_TRANSACTIONS };
 export default UserTransactions;

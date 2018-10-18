@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import gql from 'graphql-tag';
 import moment from 'moment';
 import client from '../../index';
+import { GET_TRANSACTIONS } from './UserTransactions';
 
 const CREATE_TRANSACTION = gql`
   mutation createTransaction(
@@ -137,6 +138,10 @@ class Checkout extends React.Component {
                       userId: user.id,
                       transactionId: transaction.id,
                     },
+                    refetchQueries: [{
+                      query: GET_TRANSACTIONS,
+                      variables: { userOrChefId: user.id, userOrChef: 'user' },
+                    }],
                   });
               }
               // 3) update itemEvent reservations
