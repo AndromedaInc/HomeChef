@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import gql from 'graphql-tag';
 import moment from 'moment';
 import client from '../../index';
+import { GET_TRANSACTIONS } from './UserTransactions';
 
 const CREATE_TRANSACTION = gql`
   mutation createTransaction(
@@ -88,8 +89,6 @@ class Checkout extends React.Component {
       canMakePayment: false,
       paymentRequest,
     };
-    console.log('in checkout state', this.state);
-    console.log('in checkout props', this.props);
   }
 
   handleSubmit() {
@@ -137,6 +136,10 @@ class Checkout extends React.Component {
                       userId: user.id,
                       transactionId: transaction.id,
                     },
+                    refetchQueries: [{
+                      query: GET_TRANSACTIONS,
+                      variables: { userOrChefId: user.id, userOrChef: 'user' },
+                    }],
                   });
               }
               // 3) update itemEvent reservations
@@ -152,7 +155,6 @@ class Checkout extends React.Component {
           });
       })
       .then(() => {
-        console.log('setting redirect');
         this.setState({ redirect: true });
       })
       .catch(err => console.log(err));

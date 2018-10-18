@@ -62,7 +62,7 @@ class UserTransactions extends React.Component {
                 <button type="button">Back</button>
               </Link>
               <br />
-              <UpcomingReservations data={data.transactions} />
+              <UpcomingReservations user={user} />
               <h2>Payment History</h2>
               <table>
                 <tbody>
@@ -107,4 +107,5 @@ class UserTransactions extends React.Component {
   }
 }
 
+export { GET_TRANSACTIONS };
 export default UserTransactions;

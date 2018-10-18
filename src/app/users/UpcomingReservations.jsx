@@ -1,5 +1,40 @@
 import React from 'react';
 import moment from 'moment';
+import gql from 'graphql-tag';
+import client from '../../index';
+
+const GET_TRANSACTIONS = gql`
+query transactions($userOrChefId: ID!, $userOrChef: String) {
+  transactions(userOrChefId: $userOrChefId , userOrChef: $userOrChef ) {
+    id
+    status
+    total
+    chefId
+    createdAt
+    chef {
+      name
+      streetAddress
+      city
+      stateName
+      zip
+    }
+    orders {
+      id
+      itemEvent {
+        id
+        menuItem {
+          name
+        }
+        event {
+          date
+          startTime
+          endTime
+        }
+      }
+    }
+  }
+}
+`;
 
 class UpcomingReservations extends React.Component {
   constructor(props) {
@@ -9,24 +44,36 @@ class UpcomingReservations extends React.Component {
     };
   }
 
-  componentWillMount() {
-    this.getUpcomingEvents();
+  componentDidMount() {
+    setTimeout(() => this.readQuery(), 400);
   }
 
   getUpcomingEvents() {
-    const data = this.props;
-    const transactions = data.data;
+    const { transactions } = this.state;
     const userEvents = [];
     for (let i = 0; i < transactions.length; i += 1) {
       const today = new Date();
       let eventDate = transactions[i].orders[0].itemEvent.event.date;
       eventDate = eventDate.split('-').join(',');
       const date = new Date(eventDate);
-      if (date > today) {
+      if (date >= today) {
         userEvents.push(transactions[i]);
       }
     }
     this.setState({ upcomingEvents: userEvents });
+  }
+
+  readQuery() {
+    const { user } = this.props;
+    const data = client.readQuery({
+      query: GET_TRANSACTIONS,
+      variables: {
+        userOrChefId: user.id,
+        userOrChef: 'user',
+      },
+    });
+    this.setState({ transactions: data.transactions },
+      () => this.getUpcomingEvents());
   }
 
   render() {
