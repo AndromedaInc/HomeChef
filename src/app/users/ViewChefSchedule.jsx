@@ -13,14 +13,20 @@ class ViewChefSchedule extends React.Component {
   }
 
   componentDidMount() {
-    this.getSchedule(this.props.chef);
+    const { chef } = this.props;
+    this.getSchedule(chef);
   }
 
   getSchedule(chef) {
     axios
       .get('/api/chef/schedule', { params: { id: chef.id } })
       .then((data) => {
-        this.setState({ schedule: data.data });
+        let sched = data.data.filter((event) => {
+          const date = new Date(event.date.split('-').join(','));
+          return date >= new Date();
+        });
+        sched = sched.sort((a, b) => new Date(a.date) - new Date(b.date));
+        this.setState({ schedule: sched });
       })
       .catch(err => console.log(err));
   }

@@ -76,12 +76,12 @@ class UserTransactions extends React.Component {
                       <td>{moment(tran.orders[0].itemEvent.event.date).format('MMM. DD, YYYY')}</td>
                       <td>{tran.chef.name}</td>
                       <td>
-                        {tran.orders.map((order) => (
-                            <span>
-                              {order.itemEvent.menuItem.name}
-                              <br />
-                            </span>
-                          ))}
+                        {tran.orders.map(order => (
+                          <span>
+                            {order.itemEvent.menuItem.name}
+                            <br />
+                          </span>
+                        ))}
                       </td>
                     </tr>
                   ))}

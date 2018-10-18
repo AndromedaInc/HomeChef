@@ -63,18 +63,18 @@ class ChefHome extends Component {
           zip,
         },
       }) => (
-          this.setState({
-            description,
-            streetAddress,
-            city,
-            stateName,
-            zip,
-            imageUrl,
-            name,
-            password,
-            username,
-          })
-        ));
+        this.setState({
+          description,
+          streetAddress,
+          city,
+          stateName,
+          zip,
+          imageUrl,
+          name,
+          password,
+          username,
+        })
+      ));
   }
 
   handleSubmit(e) {
@@ -100,7 +100,7 @@ class ChefHome extends Component {
 
   renderView() {
     const { edit, id } = this.state;
-    const editButton = edit ? 'Save' : 'Edit your account';
+    const editButton = edit ? 'Save' : 'Edit My account';
     if (!id) {
       return <Redirect to={{ pathname: '/chefauth' }} />;
     }

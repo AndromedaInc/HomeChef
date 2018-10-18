@@ -28,7 +28,6 @@ exports.organizeSchedule = (data) => {
   });
 
   // convert schedule back into an array
-
   return Object.values(schedule);
 };
 
