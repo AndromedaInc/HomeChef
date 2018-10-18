@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 class UpdateSchedule extends React.Component {
   constructor(props) {
@@ -177,6 +177,14 @@ class UpdateSchedule extends React.Component {
             );
           })}
           <button type="button" onClick={this.handleSubmit.bind(this)}>Save</button>
+          <Link
+            to={{
+              pathname: '/chef',
+              state: { chefId },
+            }}
+          >
+            <button type="button">Back</button>
+          </Link>
         </form>
 
       </div>
