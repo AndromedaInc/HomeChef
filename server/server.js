@@ -58,9 +58,8 @@ app.post('/api/user/login', auth.userLogin);
 app.post('/api/user/signup', auth.userSignup);
 
 /* **** API **** */
-// currently have a bug on chef-side when this is activated, so deactivating authentication for now:
-// app.use('/api', auth.checkIfAuthenticated, api);
-app.use('/api', api);
+app.use('/api', auth.checkIfAuthenticated, api);
+// app.use('/api', api);
 
 app.get('/api/user/map', (req, res) => {
   const chef = req.query;

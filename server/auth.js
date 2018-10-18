@@ -32,13 +32,14 @@ const userLogin = (req, res) => {
       username,
       password,
     })
-    .then((response) => {
-      const {
-        data: { authId },
-      } = response;
-      // console.log('authId is', authId);
+
+    .then(({ data: { authId, token } }) => {
+      console.log('received authId as', authId);
+      console.log('received token as', token);
+      res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
       return users.findUserByAuthId(authId);
     })
+
     .then((userRecord) => {
       // console.log('userRecord is', userRecord);
       const { dataValues: { id: userId } } = userRecord;
@@ -46,7 +47,7 @@ const userLogin = (req, res) => {
       return res.status(200).send({ userId });
     })
 
-    .catch(err => console.log(err));
+    .catch(err => console.log(err) || res.status(500).send(err));
 };
 
 const login = (req, res) => {
@@ -59,14 +60,14 @@ const login = (req, res) => {
       username,
       password,
     })
-    .then((response) => {
-      console.log('cookie is', response.headers['set-cookie'][0]);
-      const {
-        data: { authId },
-      } = response;
-      // console.log('authId is', authId);
+
+    .then(({ data: { authId, token } }) => {
+      console.log('received authId as', authId);
+      console.log('received token as', token);
+      res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
       return chefs.findChefByAuthId(authId);
     })
+
     .then((chefRecord) => {
       // console.log('chefRecord is', chefRecord);
       const { dataValues: { id: chefId } } = chefRecord;
@@ -74,7 +75,7 @@ const login = (req, res) => {
       return res.status(200).send({ chefId });
     })
 
-    .catch(err => console.log(err));
+    .catch(err => console.log(err) || res.status(500).send(err));
 };
 
 /* ********* ************************ ********* */
@@ -93,7 +94,12 @@ const userSignup = (req, res) => {
       email,
     })
 
-    .then(({ data: { authId } }) => console.log('received authId as', authId) || users.createUser(username, email, name, authId))
+    .then(({ data: { authId, token } }) => {
+      console.log('received authId as', authId);
+      console.log('received token as', token);
+      res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
+      return users.createUser(username, email, name, authId);
+    })
 
     .then(({ dataValues: { id: userId } }) => console.log('got userId as', userId) || res.send({ userId }))
 
@@ -113,7 +119,12 @@ const signup = (req, res) => {
       email,
     })
 
-    .then(({ data: { authId } }) => console.log('received authId as', authId) || chefs.createChef(username, email, name, authId))
+    .then(({ data: { authId, token } }) => {
+      console.log('received authId as', authId);
+      console.log('received token as', token);
+      res.cookie('SESSIONID', token, { httpOnly: false, secure: false });
+      return chefs.createChef(username, email, name, authId);
+    })
 
     .then(({ dataValues: { id: chefId } }) => console.log('got chefId as', chefId) || res.send({ chefId }))
 
