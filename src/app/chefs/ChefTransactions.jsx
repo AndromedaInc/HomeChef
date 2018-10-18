@@ -43,6 +43,7 @@ class ChefTransactions extends React.Component {
       <Query
         query={GET_TRANSACTIONS}
         variables={{ userOrChefId: chefId, userOrChef: 'chef' }}
+        pollInterval={60000}
       >
         {({ loading, error, data }) => {
           if (loading) return 'Loading...';
