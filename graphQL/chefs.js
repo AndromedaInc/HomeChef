@@ -1,5 +1,5 @@
 const graphql = require('graphql');
-const db = require('../../database/database');
+const db = require('../database/database');
 
 const {
   GraphQLObjectType,
