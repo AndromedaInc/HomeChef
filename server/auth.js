@@ -28,7 +28,7 @@ const userLogin = (req, res) => {
   console.log('inside login and about to axios.post with this username', username, 'and this password', password);
 
   axios
-    .post('https://andromeda-chef-auth-stephen.herokuapp.com/api/user/login', {
+    .post('https://andromeda-chef-authentication.herokuapp.com/api/user/login', {
       username,
       password,
     })
@@ -56,7 +56,7 @@ const login = (req, res) => {
   console.log('inside login and about to axios.post with this username', username, 'and this password', password);
 
   axios
-    .post('https://andromeda-chef-auth-stephen.herokuapp.com/api/chef/login', {
+    .post('https://andromeda-chef-authentication.herokuapp.com/api/chef/login', {
       username,
       password,
     })
@@ -87,7 +87,7 @@ const userSignup = (req, res) => {
     username, password, email, name,
   } = req.body;
   axios
-    .post('https://andromeda-chef-auth-stephen.herokuapp.com/api/user/signup', {
+    .post('https://andromeda-chef-authentication.herokuapp.com/api/user/signup', {
       username,
       password,
       name,
@@ -112,7 +112,7 @@ const signup = (req, res) => {
     username, password, email, name,
   } = req.body;
   axios
-    .post('https://andromeda-chef-auth-stephen.herokuapp.com/api/chef/signup', {
+    .post('https://andromeda-chef-authentication.herokuapp.com/api/chef/signup', {
       username,
       password,
       name,
