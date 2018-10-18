@@ -114,7 +114,7 @@ class UpdateItem extends React.Component {
           onChange={this.handleChange}
         />
         <br />
-        <button type="button" onClick={this.handleSave.bind(this)}>Save</button>
+        <button className="highlight" type="button" onClick={this.handleSave.bind(this)}>Save</button>
         <br />
         <br />
       </form>
