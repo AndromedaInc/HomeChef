@@ -34,23 +34,31 @@ class UserHome extends React.Component {
     const { user } = this.state;
     const { chefs } = this.props;
     return chefs.map(chef => (
-      <ul key={chef.id}>
-        <li>
-          <div>
-            {`Chef: ${chef.username}, Address: ${chef.streetAddress} ${chef.city}, ${
-              chef.stateName
-            }, ${chef.zip}, Description: ${chef.description}`}
-            <Link
-              to={{
-                pathname: '/user/chefdetails',
-                state: { user, chef },
-              }}
-            >
-              <button type="button">Select</button>
-            </Link>
-          </div>
-        </li>
-      </ul>
+      <table>
+        <tbody>
+          <tr key={chef.id}>
+            <td width="80%">
+              <div>
+                {chef.name}
+                <br />
+                {chef.description}
+                <br />
+                {`${chef.streetAddress}, ${chef.city}, ${chef.stateName} ${chef.zip}`}
+              </div>
+            </td>
+            <td width="20%">
+              <Link
+                to={{
+                  pathname: '/user/chefdetails',
+                  state: { user, chef },
+                }}
+              >
+                <button type="button">Select</button>
+              </Link>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     ));
   }
 

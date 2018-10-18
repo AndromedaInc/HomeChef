@@ -36,7 +36,7 @@ class Stripe extends React.Component {
 
   render() {
     const { stripe, subtotal, tax, fee, total } = this.state;
-    const { chef, user, event, menuItemsWithUserRSVP, transactionId } = this.props.location.state;
+    const { chef, user, event, menuItemsWithUserRSVP /*, transactionId*/ } = this.props.location.state;
     return (
       <div className="grid-subcontainer">
         <StripeProvider stripe={stripe}>
@@ -51,7 +51,6 @@ class Stripe extends React.Component {
               tax={tax}
               fee={fee}
               total={total}
-              transactionId={transactionId}
             />
           </Elements>
         </StripeProvider>

@@ -1,13 +1,7 @@
-// import  { ChefType } from './chef/chefSchema';
-// import  { chefQuery, chefsQuery } from './chef/chefQuery';
-import { ChefType, chefQuery, chefsQuery } from './chefs/chefs';
-import  { EventType, eventQuery, eventsQuery } from './events/events';
-import { UserType, userQuery, usersQuery } from './users/users';
-import { MenuItemType, menuItemQuery, menuItemsQuery } from './menuItems/menuItems';
-// import { itemEventQuery, itemEventsQuery, updateItemEventReservations } from './itemEvents/itemEvents';
-// import { orderQuery, ordersQuery, createOrder } from './orders/orders';
-// import { transactionQuery, transactionsQuery, createTransaction, updateTransaction } from './transactions/transactions';
-
+import { ChefType, chefQuery, chefsQuery } from './chefs';
+import { EventType, eventQuery, eventsQuery } from './events';
+import { UserType, userQuery, usersQuery } from './users';
+import { MenuItemType, menuItemQuery, menuItemsQuery } from './menuItems';
 
 const graphql = require('graphql');
 const db = require('../database/database');
@@ -70,10 +64,10 @@ const TransactionType = new GraphQLObjectType({
     userId: { type: GraphQLID },
     chefId: { type: GraphQLID },
     status: { type: GraphQLString },
-    total: { type: GraphQLString },
-    tax: { type: GraphQLString },
-    fee: { type: GraphQLString },
-    tip: { type: GraphQLString },
+    total: { type: GraphQLFloat },
+    tax: { type: GraphQLFloat },
+    fee: { type: GraphQLFloat },
+    tip: { type: GraphQLFloat },
     createdAt: { type: GraphQLString },
     chef: {
       type: ChefType,
@@ -109,12 +103,6 @@ const QueryType = new GraphQLObjectType({
     menuItems: menuItemsQuery,
     user: userQuery,
     users: usersQuery,
-    // itemEvent: itemEventQuery,
-    // itemEvents: itemEventsQuery,
-    // order: orderQuery,
-    // orders: ordersQuery,
-    // transaction: transactionQuery,
-    // transactions: transactionsQuery,
 
     itemEvent: {
       type: ItemEventType,
@@ -184,22 +172,24 @@ const QueryType = new GraphQLObjectType({
 const Mutation = new GraphQLObjectType({
   name: 'Mutation',
   fields: {
-    // updateItemEventReservations,
-    // createOrder,
-    // createTransaction,
-    // updateTransaction,
-
     createTransaction: {
       type: TransactionType,
       args: {
         userId: { type: GraphQLID },
         chefId: { type: GraphQLID },
+        total: { type: GraphQLFloat },
+        tax: { type: GraphQLFloat },
+        fee: { type: GraphQLFloat },
+        status: { type: GraphQLString },
       },
       resolve(parent, args) {
         return trans.Transaction.create({
-          status: 'pending',
           userId: args.userId,
           chefId: args.chefId,
+          total: args.total,
+          tax: args.tax,
+          fee: args.fee,
+          status: args.status,
         });
       },
     },

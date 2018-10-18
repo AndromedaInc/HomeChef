@@ -1,0 +1,15 @@
+INSERT INTO users (id, name, username, password, email, "createdAt", "updatedAt") 
+  VALUES (1, 'Francine Flemming', 'franny', '$2b$10$olzsotAY9ypJANTczUHoMed3B92BEqKTpazGsu0SdtGvkf7pC4UDC', 'franny@email.com', '2018-10-02 00:00:00', '2018-10-02 00:00:00');
+INSERT INTO users (id, name, username, password, email, "createdAt", "updatedAt") 
+  VALUES (2, 'Michael Mars', 'mike', '$2b$10$viEwyrfKiZYBtot8Du56TOPXA9S5M6AJYhL.TNlUzDTUdQV1iV.z6', 'mike@email.com', '2018-10-02 00:00:00', '2018-10-02 00:00:00');
+INSERT INTO users (id, name, username, password, email, "createdAt", "updatedAt") 
+  VALUES (3, 'Steve Samson', 'steve', '$2b$10$viEwyrfKiZYBtot8Du56TOXAFtnJkP.gggBY5AxGJs5w0wDhY1E8i', 'steve@email.com', '2018-10-02 00:00:00', '2018-10-02 00:00:00');
+INSERT INTO users (id, name, username, password, email, "createdAt", "updatedAt") 
+  VALUES (4, 'Jim Jameson', 'jim', '$2b$10$TUXkBeZwS2g8h3jsJ4nJy.tekjIapOsZEh9T4tOFUeBzqxK.Wvziq', 'jim@email.com', '2018-10-02 00:00:00', '2018-10-02 00:00:00');
+
+INSERT INTO chefs (id, name, username, password, email, "createdAt", "updatedAt") 
+  VALUES (1, 'Mr Chef', 'mrchef12', '$2b$10$dnFm3mDyObGaHvobWwgrT.y9lNSjI1XL8/6BiiYjYgnOZYvIMhS3i', 'mrchef@gmail.com', '2018-10-02 00:00:00', '2018-10-02 00:00:00');
+INSERT INTO chefs (id, name, username, password, email, "createdAt", "updatedAt") 
+  VALUES (2, 'Lucy Luau', 'lucy', '$2b$10$viEwyrfKiZYBtot8Du56TO9ddF10aimJP7vpruf3otdcJOVLUBkwu', 'lucyluau@email.com', '2018-10-02 00:00:00', '2018-10-02 00:00:00');
+INSERT INTO chefs (id, name, username, password, email, "createdAt", "updatedAt") 
+  VALUES (3, 'Robby Ribs', 'robby', '$2b$10$viEwyrfKiZYBtot8Du56TOT3mb/ySpqQsslvf/xepLiY.NZBvkvgW', 'robbyribs@email.com', '2018-10-02 00:00:00', '2018-10-02 00:00:00');

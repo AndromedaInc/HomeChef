@@ -1,11 +1,102 @@
-INSERT INTO chefs (name, username, password, email, streetAddress, city, stateName, zip, description, imageUrl) VALUES ('Mr Chef', 'mrchef12', '$2b$10$dnFm3mDyObGaHvobWwgrT.y9lNSjI1XL8/6BiiYjYgnOZYvIMhS3i', 'mrchef@gmail.com','123 Street', 'CoffeeTown', 'CA', 99999, 'Awesome Chef!', 'https://vignette.wikia.nocookie.net/bungostraydogs/images/1/1e/Profile-icon-9.png/revision/latest?cb=20171030104015');
-INSERT INTO users (name, username, password, imageUrl) VALUES ('Francine', 'franny', 'franny', 'https://vignette.wikia.nocookie.net/bungostraydogs/images/1/1e/Profile-icon-9.png/revision/latest?cb=20171030104015');
-INSERT INTO events (date, startTime, endTime, chefId) VALUES ('2018-10-30', '11:00', '14:00', 1);
-INSERT INTO events (date, startTime, endTime, chefId) VALUES ('2018-10-31', '17:00', '20:00', 1);
-INSERT INTO menuItems (name, description, price, imageUrl, chefId) VALUES ('Pad Thai', 'Tasty thai food!', 10.50, 'https://www.recipetineats.com/wp-content/uploads/2018/05/Chicken-Pad-Thai_9-landscape.jpg', 1);
-INSERT INTO menuItems (name, description, price, imageUrl, chefId) VALUES ('Pad See Ew', 'Fat noodles are good.', 10, 'https://thewoksoflife.com/wp-content/uploads/2017/02/pad-see-ew-9.jpg', 1);
-INSERT INTO itemEvents (quantity, reservations, eventId, menuItemId, chefId) VALUES (20, 5, 1, 1, 1);
-INSERT INTO events (date, startTime, endTime, chefId) VALUES ('2018-10-31', '17:00', '20:00', 1);
-INSERT INTO menuItems (name, description, price, imageUrl, chefId) VALUES ('Pad See Ew', 'Fat noodles are good.', 10, 'https://thewoksoflife.com/wp-content/uploads/2017/02/pad-see-ew-9.jpg', 1);
-INSERT INTO itemEvents (quantity, reservations, eventId, menuItemId, chefId) VALUES (20, 2, 1, 21, 1);
-INSERT INTO itemEvents (quantity, reservations, eventId, menuItemId, chefId) VALUES (15, 5, 21, 1, 1);
+INSERT INTO users (id, name, username, authId, imageUrl) 
+  VALUES (1, 'Francine Flemming', 'franny', 1, 'https://vignette.wikia.nocookie.net/bungostraydogs/images/1/1e/Profile-icon-9.png/revision/latest?cb=20171030104015');
+INSERT INTO users (id, name, username, authId) 
+  VALUES (2, 'Michael Mars', 'mike', 2);
+INSERT INTO users (id, name, username, authId) 
+  VALUES (3, 'Steve Samson', 'steve', 3);
+INSERT INTO users (id, name, username, authId) 
+  VALUES (4, 'Jim Jameson', 'jim', 4);
+
+
+
+INSERT INTO chefs (id, name, username, authId, email, streetAddress, city, stateName, zip, description, imageUrl) 
+  VALUES (1, 'Mr Chef', 'mrchef12', 1, 'mrchef@gmail.com','942 Mission St', 'San Francsico', 'CA', 94103, 'Offering tasty homecooked Thai.', 'https://vignette.wikia.nocookie.net/bungostraydogs/images/1/1e/Profile-icon-9.png/revision/latest?cb=20171030104015');
+
+INSERT INTO events (id, date, startTime, endTime, chefId) 
+  VALUES (1, '2018-10-11', '11:00', '14:00', 1);
+INSERT INTO events (id, date, startTime, endTime, chefId) 
+  VALUES (2, '2018-10-31', '17:00', '20:00', 1);
+
+INSERT INTO menuItems (id, name, description, price, imageUrl, chefId) 
+  VALUES (1, 'Pad Thai', 'Stir-fried rice noodles with eggs, chicken, red chilli pepper, lime wedges and peanuts', '10.50', 'https://www.recipetineats.com/wp-content/uploads/2018/05/Chicken-Pad-Thai_9-landscape.jpg', 1);
+INSERT INTO menuItems (id, name, description, price, imageUrl, chefId)
+  VALUES (2, 'Pad See Ew', 'Made with extra thick rice noodles in a sweet and savory sauce.', '8.00', 'https://thewoksoflife.com/wp-content/uploads/2017/02/pad-see-ew-12.jpg', 1);
+INSERT INTO menuItems (id, name, description, price, imageUrl, chefId)
+  VALUES (3, 'Thai Iced Tea', 'Delicious black tea with spices and sweetened condensed milk.', '3.50' , 'https://tastykitchen.com/recipes/wp-content/uploads/sites/2/2011/03/thaiicedtea1-410x402.jpg', 1);
+
+INSERT INTO itemEvents (id, chefId, quantity, reservations, eventId, menuItemId) 
+  VALUES (1, 1, 30, 2, 1, 1);
+INSERT INTO itemEvents (id, chefId, quantity, reservations, eventId, menuItemId) 
+  VALUES (2, 1, 30, 1, 1, 2);
+INSERT INTO itemEvents (id, chefId, quantity, reservations, eventId, menuItemId) 
+  VALUES (3, 1, 50, 2, 1, 3);
+INSERT INTO itemEvents (id, chefId, quantity, reservations, eventId, menuItemId) 
+  VALUES (4, 1, 20, 1, 2, 1);
+INSERT INTO itemEvents (id, chefId, quantity, reservations, eventId, menuItemId) 
+  VALUES (5, 1, 15, 3, 2, 2);
+  INSERT INTO itemEvents (id, chefId, quantity, reservations, eventId, menuItemId) 
+  VALUES (6, 1, 35, 1, 2, 3);
+
+
+
+INSERT INTO chefs (id, name, username, authId, email, streetAddress, city, stateName, zip, description) 
+  VALUES (2, 'Lucy Luau', 'lucy', 2, 'lucyluau@email.com','118 Taylor St', 'San Francisco', 'CA', 94102, 'Aloha! Delicious Hawaiian Flavors');
+
+INSERT INTO events (id, date, startTime, endTime, chefId) 
+  VALUES (3, '2018-11-02', '11:00', '14:00', 2);
+INSERT INTO events (id, date, startTime, endTime, chefId) 
+  VALUES (4, '2018-10-30', '11:00', '14:00', 2);
+INSERT INTO events (id, date, startTime, endTime, chefId) 
+  VALUES (5, '2018-10-10', '11:00', '14:00', 2);
+
+INSERT INTO menuItems (id, name, description, price, imageUrl, chefId) 
+  VALUES (4, 'Spam Musubi', 'Slice of grilled Spam on top of a block of rice, wrapped together with nori seaweed.', '3', 'https://www.kawalingpinoy.com/wp-content/uploads/2015/01/spam2.jpg', 2);
+INSERT INTO menuItems (id, name, description, price, imageUrl, chefId) 
+  VALUES (5, 'Chicken Katsu', 'Crispy chicken with tangy sauce.', '6', 'https://www.chicken.ca/assets/RecipePhotos/_resampled/FillWyIxNDQwIiwiNzAwIl0/Chicken-Katsu-20196A.jpg', 2);
+INSERT INTO menuItems (id, name, description, price, imageUrl, chefId) 
+  VALUES (6, 'Saimin', 'A soup dish of that consists of soft wheat egg noodles served in hot dashi garnished with green onions.', '5', 'https://i0.wp.com/www.tastyislandhawaii.com/images/okahara_saimin_bowl1.jpg?resize=500%2C475', 2);
+
+INSERT INTO itemEvents (id, chefId, quantity, reservations, eventId, menuItemId) 
+  VALUES (7, 2, 20, 3, 3, 4);
+INSERT INTO itemEvents (id, chefId, quantity, reservations, eventId, menuItemId) 
+  VALUES (8, 2, 25, 2, 3, 5);
+INSERT INTO itemEvents (id, chefId, quantity, reservations, eventId, menuItemId) 
+  VALUES (9, 2, 25, 1, 3, 6);
+INSERT INTO itemEvents (id, chefId, quantity, reservations, eventId, menuItemId) 
+  VALUES (10, 2, 15, 0, 4, 4);
+INSERT INTO itemEvents (id, chefId, quantity, reservations, eventId, menuItemId) 
+  VALUES (11, 2, 10, 1, 4, 6);
+INSERT INTO itemEvents (id, chefId, quantity, reservations, eventId, menuItemId) 
+  VALUES (12, 2, 30, 1, 5, 4);
+INSERT INTO itemEvents (id, chefId, quantity, reservations, eventId, menuItemId) 
+  VALUES (13, 2, 35, 2, 5, 5);
+
+
+
+INSERT INTO chefs (id, name, username, authId, email, streetAddress, city, stateName, zip, description) 
+  VALUES (3, 'Robby Ribs', 'robby', 3, 'robbyribs@email.com','20 6th St', 'San Francisco', 'CA', 94103, 'Let us eat BBQ for days!');
+
+INSERT INTO events (id, date, startTime, endTime, chefId) 
+  VALUES (6, '2018-10-23', '17:00', '20:00', 3);
+INSERT INTO events (id, date, startTime, endTime, chefId) 
+  VALUES (7, '2018-10-31', '17:00', '20:00', 3);
+
+INSERT INTO menuItems (id, name, description, price, imageUrl, chefId) 
+  VALUES (7, 'BBQ Ribs', 'Fall off the bone pork ribs that are full of flavor.', '12', 'https://assets.kraftfoods.com/recipe_images/opendeploy/133446_640x428.jpg', 3);
+INSERT INTO menuItems (id, name, description, price, imageUrl, chefId) 
+  VALUES (8, 'Pulled Pork Sandwich', 'Slow cooked, Texas-style pulled pork served on a soft bun', '9', 'https://cdn-image.myrecipes.com/sites/default/files/styles/medium_2x/public/image/recipes/ck/09/12/pulled-pork-ck-1941033-x.jpg?itok=4A0pgGsD', 3);
+INSERT INTO menuItems (id, name, description, price, imageUrl, chefId) 
+  VALUES (9, 'Coleslaw', 'Cabbage salad packed with fresh flavors.', '3', 'https://www.inspiredtaste.net/wp-content/uploads/2015/01/Coleslaw-Recipe-1-1200.jpg', 3);
+
+INSERT INTO itemEvents (id, chefId, quantity, reservations, eventId, menuItemId) 
+  VALUES (14, 3, 40, 1, 6, 7);
+INSERT INTO itemEvents (id, chefId, quantity, reservations, eventId, menuItemId) 
+  VALUES (15, 3, 15, 2, 6, 8);
+INSERT INTO itemEvents (id, chefId, quantity, reservations, eventId, menuItemId) 
+  VALUES (16, 3, 15, 2, 6, 9);
+INSERT INTO itemEvents (id, chefId, quantity, reservations, eventId, menuItemId) 
+  VALUES (17, 3, 30, 2, 7, 7);
+INSERT INTO itemEvents (id, chefId, quantity, reservations, eventId, menuItemId) 
+  VALUES (18, 3, 20, 2, 7, 8);
+INSERT INTO itemEvents (id, chefId, quantity, reservations, eventId, menuItemId) 
+  VALUES (19, 3, 20, 1, 7, 9);
