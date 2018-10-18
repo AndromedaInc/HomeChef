@@ -176,14 +176,14 @@ class UpdateSchedule extends React.Component {
               </span>
             );
           })}
-          <button type="button" onClick={this.handleSubmit.bind(this)}>Save</button>
+          <button className="highlight" type="button" onClick={this.handleSubmit.bind(this)}>Save</button>
           <Link
             to={{
               pathname: '/chef',
               state: { chefId },
             }}
           >
-            <button type="button">Back</button>
+            <button type="button">Cancel</button>
           </Link>
         </form>
 

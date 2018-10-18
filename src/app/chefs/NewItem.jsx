@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 
 class NewItem extends React.Component {
   constructor(props) {
@@ -57,42 +57,50 @@ class NewItem extends React.Component {
       );
     }
     return (
-      <form>
-        <h1>Add a New Menu Item</h1>
-        Image:
-        <input
-          name="imageUrl"
-          type="text"
-          onChange={this.handleChange}
-        />
-        <br />
-        Name:
-        <input
-          name="name"
-          type="text"
-          onChange={this.handleChange}
-        />
-        <br />
-        Price:
-        <input
-          name="price"
-          type="number"
-          step="0.01"
-          min="0"
-          onChange={this.handleChange}
-        />
-        <br />
-        Description:
-        <input
-          name="description"
-          type="text"
-          onChange={this.handleChange}
-        />
-        <br />
-        <button type="button" onClick={this.handleSave.bind(this)}>Save</button>
-        <br />
-        <br />
-      </form>
+      <div>
+        <form>
+          <h1>Add a New Menu Item</h1>
+          Image:
+          <input
+            name="imageUrl"
+            type="text"
+            onChange={this.handleChange}
+          />
+          <br />
+          Name:
+          <input
+            name="name"
+            type="text"
+            onChange={this.handleChange}
+          />
+          <br />
+          Price:
+          <input
+            name="price"
+            type="number"
+            step="0.01"
+            min="0"
+            onChange={this.handleChange}
+          />
+          <br />
+          Description:
+          <input
+            name="description"
+            type="text"
+            onChange={this.handleChange}
+          />
+          <br />
+          <button className="highlight" type="button" onClick={this.handleSave.bind(this)}>Save</button>
+          <Link
+            to={{
+              pathname: '/chef',
+              state: { chefId },
+            }}
+          >
+            <button type="button">Cancel</button>
+          </Link>
+        </form>
+      </div>
     );
   }
 }

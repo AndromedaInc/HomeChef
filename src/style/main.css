@@ -64,12 +64,12 @@ button {
   text-transform: uppercase;
 }
 
-button.highlight {
+button.highlight:hover {
   background-color: #D0EA75;
-  border: none;
-  padding: 7px;
-  margin: 2px;
-  border-radius: 4px;
+  border: 2px solid #1AB297;
+  padding: 9px;
+  margin: 3px;
+  border-radius: 5px;
   font-size: .8em;
 }
 
