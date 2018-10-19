@@ -115,18 +115,18 @@ class MapContainer extends React.Component {
         <Map
           google={this.props.google}
           onClick={this.onMapClicked}
-          zoom={14}
+          zoom={15}
           style={style}
           initialCenter={{
-            lat: latitude,
-            lng: longitude,
+            lat: 37.7836839,
+            lng: -122.4089861,
           }}
           className="map"
         >
           <Marker
             onClick={this.onMarkerClick}
             name="Current Location"
-            position={{ lat: latitude, lng: longitude }}
+            position={{ lat: 37.7836839, lng: -122.4089861 }}
             icon={{ url: 'http://www.robotwoods.com/dev/misc/bluecircle.png' }}
           />
           {this.mapMarkers()}
@@ -137,6 +137,8 @@ class MapContainer extends React.Component {
             <div>
               <h1>{this.state.selectedPlace.name}</h1>
               <p>{this.state.selectedPlace.description}</p>
+              <a href="">Get Directions </a>
+              <a href="">Get Chef Info</a>
             </div>
           </InfoWindow>
         </Map>
@@ -146,5 +148,5 @@ class MapContainer extends React.Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: (`${process.env.MAP_KEY}`),
+  apiKey: ('AIzaSyAbOFzym_XGb6UfEqv0DRb-mNNFziTBEHg'),
 })(MapContainer);
