@@ -89,27 +89,6 @@ class MapContainer extends React.Component {
       height: '50%',
     };
     const { latitude, longitude } = this.state;
-    // let icon;
-    // let curName;
-    // let zoom;
-    // let latitude;
-    // let longitude;
-    // if (this.state.latitude && this.state.longitude) {
-    //   icon = {
-    //     url: 'http://www.robotwoods.com/dev/misc/bluecircle.png',
-
-    //   };
-    //   curName = 'Current Location';
-    //   zoom = 14;
-    //   latitude = this.state.latitude;
-    //   longitude = this.state.longitude;
-    // } else {
-    //   icon = null;
-    //   curName = 'US';
-    //   zoom = 3;
-    //   latitude = 39.8283;
-    //   longitude = -98.5795;
-    // }
     return (
       <div>
         <Map
@@ -118,15 +97,15 @@ class MapContainer extends React.Component {
           zoom={15}
           style={style}
           initialCenter={{
-            lat: 37.7836839,
-            lng: -122.4089861,
+            lat: latitude,
+            lng: longitude,
           }}
           className="map"
         >
           <Marker
             onClick={this.onMarkerClick}
             name="Current Location"
-            position={{ lat: 37.7836839, lng: -122.4089861 }}
+            position={{ lat: latitude, lng: longitude }}
             icon={{ url: 'http://www.robotwoods.com/dev/misc/bluecircle.png' }}
           />
           {this.mapMarkers()}
@@ -148,5 +127,5 @@ class MapContainer extends React.Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: ('AIzaSyAbOFzym_XGb6UfEqv0DRb-mNNFziTBEHg'),
+  apiKey: (`${process.env.MAP_KEY}`),
 })(MapContainer);
