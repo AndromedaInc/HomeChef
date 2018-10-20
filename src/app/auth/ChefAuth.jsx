@@ -39,7 +39,6 @@ class ChefAuth extends React.Component {
         password,
       })
       .then((res) => {
-        console.log('response from login is', res);
         const {
           data: { chefId },
         } = res;
@@ -63,11 +62,9 @@ class ChefAuth extends React.Component {
         email,
       })
       .then((res) => {
-        console.log('response from signup is', res);
         const {
           data: { chefId },
         } = res;
-        console.log('chefId is', chefId);
         this.setState({
           redirect: true,
           chefId,
