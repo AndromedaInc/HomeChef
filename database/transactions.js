@@ -6,8 +6,6 @@ const user = process.env.NODE_ENV === 'test' ? `${process.env.DB_TEST_USER}` : `
 const pass = process.env.NODE_ENV === 'test' ? `${process.env.DB_TEST_PASS}` : `${process.env.DB_PASS_TRANS}`;
 const host = process.env.NODE_ENV === 'test' ? `${process.env.DB_TEST_HOST}` : `${process.env.DB_HOST_TRANS}`;
 
-console.log('process.env.NODE_ENV is', process.env.NODE_ENV);
-
 const orm = new Sequelize(
   db,
   user,
@@ -25,7 +23,6 @@ orm
   .catch(err => console.error('Unable to connect to the transaction database:', err));
 
 const Order = orm.define('order', {
-  // foreign keys: itemEventId, userId, transactionId
   itemEventId: { type: Sequelize.INTEGER, allowNull: false },
   userId: { type: Sequelize.INTEGER, allowNull: false },
   transactionId: { type: Sequelize.INTEGER },
@@ -34,7 +31,6 @@ const Order = orm.define('order', {
 });
 
 const Transaction = orm.define('transaction', {
-  // foreign keys: userId, chefId
   userId: { type: Sequelize.INTEGER, allowNull: false },
   chefId: { type: Sequelize.INTEGER, allowNull: false },
   status: Sequelize.STRING,
