@@ -39,8 +39,6 @@ class ChefHome extends Component {
     this.getAccountInfo();
   }
 
-  // ? Note: We may need a component willUnmountMethod that cancels asynchronous tasks if we decide to keep our current redirect approach if the component does not receive and chefId. As of now, we redirect successfully but receive the following error when attempting to navigate directly to the /chef address with a valid cookie (but since navigating directly, we do not pass in chefId in props) Received following error: "Warning: Can't call setState (or forceUpdate) on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in the componentWillUnmount method."
-
   onChange(e) {
     this.setState({
       [e.target.name]: e.target.value,
@@ -79,15 +77,12 @@ class ChefHome extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log('handling submit');
     this.handleUpsert(this.state);
     this.toggleEditAccount();
   }
 
   handleUpsert() {
-    console.log('sending upsert patch request with this state:', this.state);
     axios.patch('/api/chef/accountInfo', { data: this.state })
-      .then(() => console.log('upsert successful'))
       .then(() => this.getAccountInfo());
   }
 

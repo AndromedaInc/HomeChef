@@ -14,4 +14,4 @@ COPY . .
 EXPOSE 5678
 CMD [ "npm", "start" ]
 
-# NOTE: DELETE 'postinstall from package.json' before issuing Docker build command in terminal or will error out
+# NOTE: DELETE 'postinstall from package.json' before issuing Docker build command in terminal or will error out; will likely then want to ensure npm start also calls webpack --mode production

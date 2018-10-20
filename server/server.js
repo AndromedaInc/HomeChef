@@ -59,7 +59,6 @@ app.post('/api/user/signup', auth.userSignup);
 
 /* **** API **** */
 app.use('/api', auth.checkIfAuthenticated, api);
-// app.use('/api', api);
 
 app.get('/api/user/map', (req, res) => {
   const chef = req.query;
@@ -88,7 +87,6 @@ app.get('/api/user/map', (req, res) => {
 
 app.get(
   '/api/user/accountInfo',
-  (req, res, next) => console.log('get request to user/accountInfo') || next(),
   (req, res) => {
     const { username } = req.query;
     db.User.findOne({ where: { username } })
@@ -205,7 +203,6 @@ app.post('/api/chef/event/create', (req, res) => {
 });
 
 app.post('/api/chef/event/update', (req, res) => {
-  // {eventId, date, startTime, endTime, chefId, menuItems:[{id, quantity}] }
   const event = req.body;
   db.Event.update(
     {
@@ -252,9 +249,7 @@ app.post('/api/user/reservation', (req, res) => {
 });
 
 // STRIPE CHARGE
-// TODO: update this post
 app.post('/charge', async (req, res) => {
-  console.log('in server charge REQ.BODY:', req.body);
   try {
     const { status } = await stripe.charges.create({
       amount: req.body.total.amount,
@@ -263,7 +258,6 @@ app.post('/charge', async (req, res) => {
       source: req.body,
     });
     res.json({ status });
-    console.log('in charge RES:', res);
   } catch (err) {
     res.status(500).end();
   }
@@ -271,14 +265,12 @@ app.post('/charge', async (req, res) => {
 
 /* **** Catch All - all server requests above here **** */
 app.use(auth.checkIfAuthenticated, (req, res) => {
-  console.log(req.url);
   const context = {};
   const body = ReactDOMServer.renderToString(
     // eslint-disable max-len
     React.createElement(StaticRouter, { location: req.url, context }, React.createElement(App)),
   );
 
-  // TODO: read up on context.url and redirection (e.g. Brian Holt frontend masters)
   if (context.url) {
     res.redirect(301, context.url);
   }

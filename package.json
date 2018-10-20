@@ -10,10 +10,9 @@
   "scripts": {
     "dev-build": "webpack --mode development --watch",
     "dev-server": "nodemon --inspect --exec babel-node --presets env server/index.js",
-    "launch": "NODE_ENV=production node server/index.js",
     "lint": "eslint 'src/*.jsx' database server",
     "postinstall": "webpack --mode production",
-    "start": "node server/index.js",
+    "start": "NODE_ENV=production node server/index.js",
     "test": "npm run lint",
     "jest": "jest"
   },
@@ -72,7 +71,6 @@
     "moment": "^2.22.2",
     "morgan": "^1.9.1",
     "mysql2": "^1.6.1",
-    "nodemon": "^1.18.4",
     "react": "^16.5.2",
     "react-apollo": "^2.2.3",
     "react-dom": "^16.5.2",
@@ -98,6 +96,7 @@
     "eslint-config-airbnb": "^17.1.0",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.1",
-    "eslint-plugin-react": "^7.11.1"
+    "eslint-plugin-react": "^7.11.1",
+    "nodemon": "^1.18.4"
   }
 }
