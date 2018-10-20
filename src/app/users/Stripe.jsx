@@ -15,7 +15,7 @@ class Stripe extends React.Component {
   }
 
   componentWillMount() {
-    // publishable stripe key
+    // this is stripe key is publishable
     this.setState({ stripe: window.Stripe('pk_test_UL6LDXRUR7wsokZY49L6ccmb') });
     this.getTotals();
   }

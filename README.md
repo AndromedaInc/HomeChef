@@ -1,4 +1,7 @@
-# HomeChef
+# Andromeda's HomeChef
+Duke Goulden, Sarah Silva, Stephen Zerfas
+
+An app to buy and sell home cooked meals directly from a local chef.
 
 # Architecture
 HomeChef is built using a microservice architecture laid out according to the HomeChef_Architecture.png diagram.
@@ -13,12 +16,21 @@ HomeChef is built using a microservice architecture laid out according to the Ho
 - Authentication microservice: https://andromeda-chef-authentication.herokuapp.com/ (github repo: https://github.com/AndromedaInc/HomeChefAuthentication)
 - Map microservice: https://andromedachef-map.herokuapp.com/ (github repo: https://github.com/AndromedaInc/HomeChefMap)
 
-# GraphQL
- - GraphQL is layered on top of REST API
- - You can play with GraphQL queries in the browser at localhost:5678/graphql
- - Data flow: Front End > Server > GraphQL Resolvers/Schema > Database
+## Transaction Database
+- The transaction database holds the Transactions and Orders tables
+- Uses a ClearDB MySQL datbases
+- Foreign key IDs link users, chefs, and other information from the main database
 
- # CSS
+## GraphQL
+ - GraphQL is used along with REST API
+ - You can play with GraphQL queries in the browser at localhost:5678/graphql
+ - Data flow: Front End > GraphQL Resolvers/Schema > Database
+
+## Stripe Payment
+ - Credit card payment is via Stripe
+ - All URLs (including deployment and image urls) must be https to fully function.
+
+## CSS
  - Andromeda HomeChef is using CSS grids
  - index.jsx has the main grid container around the header and the app
  - "grid-subcontainer" can be used for the outer div in components

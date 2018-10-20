@@ -35,8 +35,8 @@ class UpdateItem extends React.Component {
       description,
     } = this.state;
     const params = { id: item.id };
-    // params -> send only changed values to DB
-    // item -> update changed values for rendering item
+    // params: send only changed values to DB
+    // item: update changed values for rendering item
     if (imageUrl) {
       params.imageUrl = imageUrl;
       item.imageUrl = imageUrl;
